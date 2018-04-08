@@ -1,9 +1,12 @@
 <resources>
-    <string name="app_name">NongLamAnnouncement</string>
+    <!--Cac dong string su dung trong chuong trinh-->
+    <!--Toi uu viec chinh sua va ho tro da ngon ngu-->
+    <string name="app_name">Thông Báo NL</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
-    <string name="nav_header_desc">Navigation header</string>
-    <string name="action_settings">Settings</string>
+    <string name="nav_header_title">Banner Trường</string>
+    <string name="nav_header_desc">Trường Đại Học Nông Lâm</string>
+    <string name="nav_feature"></string>
+    <string name="nav_home">Trang chủ</string>
+    <string name="action_settings">Cài đặt</string>
 </resources>
