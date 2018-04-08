@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?><!--Tuy bien hien thi cho item trong list view--><!--Tuy bien item trong listview de trinh bay noi dung cua thong bao-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <!--Tieu de cua thong bao-->
+    <TextView
+        android:id="@+id/tv_announce_header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hear" />
+
+    <!--Nguoi dang thong bao-->
+    <TextView
+        android:id="@+id/tv_announce_author"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <!--Noi dung cua thong bao-->
+    <TextView
+        android:id="@+id/tv_announce_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+
+</LinearLayout>

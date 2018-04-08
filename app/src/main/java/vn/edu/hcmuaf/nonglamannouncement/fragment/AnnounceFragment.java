@@ -1,4 +1,4 @@
-package vn.edu.hcmuaf.nonglamannouncement;
+package vn.edu.hcmuaf.nonglamannouncement.fragment;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -11,6 +11,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+
+import vn.edu.hcmuaf.nonglamannouncement.R;
 
 /*
 Xu ly hien thi cho trang thong bao
@@ -56,7 +58,7 @@ public class AnnounceFragment extends Fragment {
         array.add("Item 3");
 
 
-        adapter = new ArrayAdapter(mainActivity, R.layout.item_custom, array);
+        adapter = new ArrayAdapter(mainActivity, R.layout.announce_row, array);
 
         listView.setAdapter(adapter);
 
