@@ -9,6 +9,7 @@
     <string name="nav_feature"></string>
     <string name="nav_home">Trang chủ</string>
     <string name="action_settings">Cài đặt</string>
+    <string name="action_info">Thông tin</string>
     <string name="announce_more">Xem thêm</string>
     <string name="announce_tabs_all">Tất cả</string>
     <string name="announce_tabs_important">Quan trọng</string>

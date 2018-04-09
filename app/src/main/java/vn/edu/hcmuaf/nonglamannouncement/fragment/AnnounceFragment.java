@@ -32,48 +32,35 @@ public class AnnounceFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        //Lay activity
+//        Lay activity
         mainActivity = getActivity();
 
-        //Khoi tao view
+//        Khoi tao view
         announceView = inflater.inflate(R.layout.announcement_layout, container, false);
 
-        //Lay list view
+//        Lay list view
         listView = announceView.findViewById(R.id.list_view);
 
-        //Tao tab view
-        tabLayout = announceView.findViewById(R.id.announce_tablayout);
-
-        //Tab tat ca thong bao
-        TabLayout.Tab tabAll = tabLayout.newTab();
-        TextView tabCustom1 = (TextView) LayoutInflater.from(mainActivity).inflate(R.layout.custom_tab, null);
-        tabCustom1.setText(R.string.announce_tabs_all);
-        //Them hinh cho tab (neu co)
-//        tab1.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_home, 0, 0);
-        tabAll.setCustomView(tabCustom1);
-
-        //Tab thong bao quan trong
-        TabLayout.Tab tabImportant = tabLayout.newTab();
-        TextView tabCustom2 = (TextView) LayoutInflater.from(mainActivity).inflate(R.layout.custom_tab, null);
-        tabCustom2.setText(R.string.announce_tabs_important);
-        tabImportant.setCustomView(tabCustom2);
-
-        //Tab thong bao moi
-        TabLayout.Tab tabRecent = tabLayout.newTab();
-        TextView tabCustom3 = (TextView) LayoutInflater.from(mainActivity).inflate(R.layout.custom_tab, null);
-        tabCustom3.setText(R.string.announce_tabs_recent);
-        tabRecent.setCustomView(tabCustom3);
-
-        //Them cac tab vao tablayout
-        tabLayout.addTab(tabAll);
-        tabLayout.addTab(tabImportant);
-        tabLayout.addTab(tabRecent);
-
-        //Xu ly hien thi thong bao
+//        Xu ly hien thi tab
+        //TODO
+        String[] tabsList = {getString(R.string.announce_tabs_all), getString(R.string.announce_tabs_important), getString(R.string.announce_tabs_recent)};
+        tabLayoutHandler(tabsList);
+//        Xu ly hien thi thong bao
         listViewHandler();
 
-        //Tra view cho activity hien thi
+//        Tra view cho activity hien thi
         return announceView;
+    }
+
+    private void tabLayoutHandler(String[] tabsList) {
+//        Tao tab view
+        tabLayout = announceView.findViewById(R.id.announce_tablayout);
+//        Dong lap gan cac tab trong tablist vao tablayout
+        for (int i = 0; i < tabsList.length; i++) {
+            TextView tabCustom = (TextView) LayoutInflater.from(mainActivity).inflate(R.layout.custom_tab, null);
+            tabCustom.setText(tabsList[i]);
+            tabLayout.addTab(tabLayout.newTab().setCustomView(tabCustom));
+        }
     }
 
     /*
@@ -81,7 +68,7 @@ public class AnnounceFragment extends Fragment {
      */
     private void listViewHandler() {
 
-        //Danh sach cac thong bao can hien thi (Demo)
+//        Danh sach cac thong bao can hien thi (Demo)
         ArrayList<Announce> listAnnouces = new ArrayList<>();
         Announce announce1 = new Announce("Thong bao 1", "admin", "Hello", null);
         Announce announce2 = new Announce("Thong bao 2", "admin", "Hello", null);
@@ -92,13 +79,13 @@ public class AnnounceFragment extends Fragment {
         listAnnouces.add(announce3);
         listAnnouces.add(announce4);
 
-        //Tao adapter nhan vao danh sach thong bao
+//        Tao adapter nhan vao danh sach thong bao
         adapter = new AnnounceAdapter(mainActivity, R.layout.announce_row, listAnnouces);
 
-        //Truyen adapter vao listview
+//        Truyen adapter vao listview
         listView.setAdapter(adapter);
 
-        //Set su kien khi bam vao 1 thong bao trong listview
+//        Set su kien khi bam vao 1 thong bao trong listview
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -107,4 +94,6 @@ public class AnnounceFragment extends Fragment {
         });
 
     }
+
+
 }
