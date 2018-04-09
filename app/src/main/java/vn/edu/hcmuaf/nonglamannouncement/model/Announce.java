@@ -15,6 +15,14 @@ public class Announce implements Serializable {
     private String content;
     private Image img;
 
+
+    public Announce(String header, String author, String content, Image img) {
+        this.header = header;
+        this.author = author;
+        this.content = content;
+        this.img = img;
+    }
+
     public String getHeader() {
         return header;
     }

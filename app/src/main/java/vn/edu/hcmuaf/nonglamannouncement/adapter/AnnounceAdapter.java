@@ -16,9 +16,10 @@ import vn.edu.hcmuaf.nonglamannouncement.model.Announce;
 public class AnnounceAdapter extends BaseAdapter {
 
     private ArrayList<Announce> listAnnounces;
+    private Announce announce;
     private LayoutInflater inflater;
     private Context context;
-
+    private TextView tvHeader, tvAuthor, tvMore;
     public AnnounceAdapter(Context context, int resource, List<Announce> listAnnounce) {
         this.context = context;
         this.listAnnounces = (ArrayList) listAnnounce;
@@ -43,11 +44,16 @@ public class AnnounceAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View vi = convertView;
-        if (vi == null)
-            vi = inflater.inflate(R.layout.announce_row, null);
-        TextView text = vi.findViewById(R.id.text);
-        text.setText(listAnnounces.get(position).getContent());
-        return vi;
+        View view = convertView;
+        if (view == null)
+            view = inflater.inflate(R.layout.announce_row, null);
+        tvHeader = view.findViewById(R.id.announce_tv_header);
+        tvAuthor = view.findViewById(R.id.announce_tv_author);
+        announce = listAnnounces.get(position);
+
+
+        tvHeader.setText(announce.getHeader());
+        tvAuthor.setText(announce.getAuthor());
+        return view;
     }
 }
