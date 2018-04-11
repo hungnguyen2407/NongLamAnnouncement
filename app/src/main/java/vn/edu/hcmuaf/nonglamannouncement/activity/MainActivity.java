@@ -1,10 +1,12 @@
 package vn.edu.hcmuaf.nonglamannouncement.activity;
 
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -20,24 +22,14 @@ import vn.edu.hcmuaf.nonglamannouncement.fragment.AnnounceFragment;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    /*
-     check login status
-     */ {
-        boolean login = true;
-        if (!login) {
-//            startActivity(new Intent(MainActivity.this, LoginActivity.class));
-        }
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        //Nut noi goc ben duoi
         FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimaryDark)));
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
