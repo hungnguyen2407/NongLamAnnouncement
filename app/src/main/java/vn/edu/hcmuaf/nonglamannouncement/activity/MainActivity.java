@@ -23,19 +23,12 @@ import vn.edu.hcmuaf.nonglamannouncement.fragment.AnnounceFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    String[] itemMenu = {"Hinh anh","Phim"};
-    ListView itemMenuRaver;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        itemMenuRaver = (ListView) findViewById(R.id.menuDraver);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, itemMenu);
-        itemMenuRaver.setAdapter(adapter);
-
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimaryDark)));
         fab.setOnClickListener(new View.OnClickListener() {
