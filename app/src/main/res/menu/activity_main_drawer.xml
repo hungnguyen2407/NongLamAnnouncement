@@ -5,35 +5,30 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_home"
+            android:id="@+id/nav_TrangChu"
             android:icon="@drawable/ic_home"
             android:checked="true"
             android:title="@string/nav_home" />
         <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="Gallery" />
+            android:id="@+id/nav_Nhom"
+            android:icon="@drawable/ic_people"
+            android:title="Nhóm" />
         <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Slideshow" />
+            android:id="@+id/nav_DangKyTheoDoi"
+            android:icon="@drawable/ic_dang_ky"
+            android:title="Đăng ký theo dõi" />
         <item
-            android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
+            android:id="@+id/nav_CaiDat"
+            android:icon="@drawable/ic_cai_dat"
+            android:title="Cài đặt" />
+        <item
+            android:id="@+id/nav_HoTro"
+            android:icon="@drawable/ic_ho_tro"
+            android:title="Hỗ trợ" />
+        <item
+            android:id="@+id/nav_DangXuat"
+            android:icon="@drawable/ic_dang_xuat"
+            android:title="Đăng xuất" />
+
     </group>
-
-    <item android:title="Communicate">
-        <menu>
-            <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
-            <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Send" />
-        </menu>
-    </item>
-
 </menu>

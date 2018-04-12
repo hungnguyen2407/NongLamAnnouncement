@@ -9,7 +9,8 @@
     <string name="nav_feature"></string>
     <string name="nav_home">Trang chủ</string>
     <string name="action_settings">Cài đặt</string>
-    <string name="title_activity_login">Sign in</string>
+    <string name="title_activity_login">Đăng nhập</string>
+    <string name="action_info">aaa</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
@@ -23,4 +24,10 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="title_activity_quen_mat_khau">Quên mật khẩu</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+
+    <string name="announce_tabs_all">Tất Cả</string>
+    <string name="announce_tabs_important">Quan Trọng</string>
+    <string name="announce_tabs_recent">Mới Nhất</string>
 </resources>

@@ -11,12 +11,11 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:background="@color/colorGreen"
-    tools:context=".activity.LoginActivity">
+    tools:context=".activity.QuenMatKhau">
 
     <!-- Login progress -->
-
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/imageView3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/logononglam" />
@@ -33,7 +32,7 @@
         android:id="@+id/login_form"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="15dp">
+        android:layout_marginTop="15dp">>
 
         <LinearLayout
             android:id="@+id/email_login_form"
@@ -60,51 +59,21 @@
 
             </android.support.design.widget.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <EditText
-                    android:id="@+id/password"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Mật khẩu"
-                    android:imeActionLabel="@string/action_sign_in_short"
-                    android:imeOptions="actionUnspecified"
-                    android:inputType="textPassword"
-                    android:maxLines="1"
-                    android:textColor="@color/textColor"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:singleLine="true" />
-
-            </android.support.design.widget.TextInputLayout>
-
             <Button
                 android:id="@+id/email_sign_in_button"
-                style="?android:textAppearanceSmall"
                 android:layout_gravity="center"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:background="@drawable/my_button_bg"
-                android:text="Đăng nhập"
-                android:textStyle="bold"
-                android:textColor="@color/textColor" />
+                android:text="Gửi mật khẩu"
+                android:textStyle="bold" />
 
-            <Button
-                android:id="@+id/quen_mat_khau"
-                style="?android:textAppearanceSmall"
-                android:layout_gravity="center"
-                android:layout_width="200dp"
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="0dp"
-                android:text="Quên mật khẩu?"
-                android:textColor="@color/blue"
-                android:textSize="12dp"
-                android:background="@color/colorBackground"
-                android:textStyle="bold"
-                />
+                android:text="" />
 
         </LinearLayout>
     </ScrollView>
