@@ -1,7 +1,7 @@
 <resources>
     <!--Cac dong string su dung trong chuong trinh-->
     <!--Toi uu viec chinh sua va ho tro da ngon ngu-->
-    <string name="app_name">Thông Báo NL</string>
+    <string name="app_name">Thông Báo Nông Lâm</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Banner Trường</string>
