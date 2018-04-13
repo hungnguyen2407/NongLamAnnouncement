@@ -29,9 +29,7 @@ public class AnnounceFragment extends Fragment {
 
     private View announceView;
     private Activity mainActivity;
-    private AnnounceAdapter adapter;
     private ListView listView;
-    private TabLayout tabLayout;
 
     @Nullable
     @Override
@@ -46,9 +44,7 @@ public class AnnounceFragment extends Fragment {
         listView = announceView.findViewById(R.id.list_view);
 
 //        Xu ly hien thi tab
-        //TODO
-        String[] tabsList = {getString(R.string.announce_tabs_all), getString(R.string.announce_tabs_important), getString(R.string.announce_tabs_recent)};
-        tabLayoutHandler(tabsList);
+        tabLayoutHandler();
 //        Xu ly hien thi thong bao
         listViewHandler();
 
@@ -56,9 +52,11 @@ public class AnnounceFragment extends Fragment {
         return announceView;
     }
 
-    private void tabLayoutHandler(String[] tabsList) {
+    private void tabLayoutHandler() {
 //        Tao tab view
-        tabLayout = announceView.findViewById(R.id.announce_tablayout);
+        String[] tabsList = {getString(R.string.announce_tabs_all), getString(R.string.announce_tabs_important), getString(R.string.announce_tabs_recent), getString(R.string.announce_tabs_faculty), getString(R.string.announce_tabs_subject), getString(R.string.announce_tabs_group)};
+
+        TabLayout tabLayout = announceView.findViewById(R.id.announce_tablayout);
 //        Dong lap gan cac tab trong tablist vao tablayout
         for (int i = 0; i < tabsList.length; i++) {
             TextView tabCustom = (TextView) LayoutInflater.from(mainActivity).inflate(R.layout.custom_tab, null);
@@ -84,7 +82,7 @@ public class AnnounceFragment extends Fragment {
         listAnnouces.add(announce4);
 
 //        Tao adapter nhan vao danh sach thong bao
-        adapter = new AnnounceAdapter(mainActivity, R.layout.announce_row, listAnnouces);
+        AnnounceAdapter adapter = new AnnounceAdapter(mainActivity, R.layout.announce_row, listAnnouces);
 
 //        Truyen adapter vao listview
         listView.setAdapter(adapter);
@@ -99,7 +97,7 @@ public class AnnounceFragment extends Fragment {
                 editor.putString("header", announce.getHeader());
                 editor.putString("content", announce.getContent());
                 editor.putString("date", announce.getDate());
-
+                editor.apply();
                 startActivity(new Intent(mainActivity, AnnounceDetailActivity.class));
             }
         });

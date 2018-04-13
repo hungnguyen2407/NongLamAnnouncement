@@ -30,6 +30,10 @@
     <string name="announce_tabs_all">Tất Cả</string>
     <string name="announce_tabs_important">Quan Trọng</string>
     <string name="announce_tabs_recent">Mới Nhất</string>
+    <string name="announce_tabs_faculty">Khoa</string>
+    <string name="announce_tabs_group">Nhóm</string>
+    <string name="announce_tabs_subject">Bộ Môn</string>
+
     <string name="title_activity_announce_detail">AnnounceDetailActivity</string>
     <string name="img_des">  </string>
 </resources>
