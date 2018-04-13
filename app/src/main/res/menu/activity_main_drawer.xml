@@ -15,19 +15,19 @@
             android:title="Nhóm" />
         <item
             android:id="@+id/nav_DangKyTheoDoi"
-            android:icon="@drawable/ic_dang_ky"
+            android:icon="@drawable/ic_register"
             android:title="Đăng ký theo dõi" />
         <item
             android:id="@+id/nav_CaiDat"
-            android:icon="@drawable/ic_cai_dat"
+            android:icon="@drawable/ic_setting"
             android:title="Cài đặt" />
         <item
             android:id="@+id/nav_HoTro"
-            android:icon="@drawable/ic_ho_tro"
+            android:icon="@drawable/ic_help"
             android:title="Hỗ trợ" />
         <item
             android:id="@+id/nav_DangXuat"
-            android:icon="@drawable/ic_dang_xuat"
+            android:icon="@drawable/ic_logout"
             android:title="Đăng xuất" />
 
     </group>

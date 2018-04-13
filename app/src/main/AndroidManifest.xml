@@ -27,7 +27,7 @@
             android:name=".activity.LoginActivity"
             android:label="@string/title_activity_login" />
         <activity
-            android:name=".activity.QuenMatKhau"
+            android:name=".activity.ForgetPassActivity"
             android:label="@string/title_activity_quen_mat_khau" />
     </application>
 
