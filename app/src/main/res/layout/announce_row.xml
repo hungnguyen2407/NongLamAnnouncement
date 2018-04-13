@@ -28,7 +28,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="12dp"
-        android:background="@drawable/logo"
+        android:background="@drawable/logo_large"
         android:contentDescription="Img"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
