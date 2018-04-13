@@ -16,12 +16,9 @@ import vn.edu.hcmuaf.nonglamannouncement.model.Announce;
 public class AnnounceAdapter extends BaseAdapter {
 
     private ArrayList<Announce> listAnnounces;
-    private Announce announce;
     private LayoutInflater inflater;
-    private Context context;
-    private TextView tvHeader, tvAuthor, tvMore;
     public AnnounceAdapter(Context context, int resource, List<Announce> listAnnounce) {
-        this.context = context;
+        Context context1 = context;
         this.listAnnounces = (ArrayList) listAnnounce;
         inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -47,13 +44,15 @@ public class AnnounceAdapter extends BaseAdapter {
         View view = convertView;
         if (view == null)
             view = inflater.inflate(R.layout.announce_row, null);
-        tvHeader = view.findViewById(R.id.announce_tv_header);
-        tvAuthor = view.findViewById(R.id.announce_tv_author);
-        announce = listAnnounces.get(position);
+        TextView tvHeader = view.findViewById(R.id.announce_tv_header);
+        TextView tvAuthor = view.findViewById(R.id.announce_tv_author);
+        TextView tvDate = view.findViewById(R.id.announce_tv_date);
+        Announce announce = listAnnounces.get(position);
 
 
         tvHeader.setText(announce.getHeader());
         tvAuthor.setText(announce.getAuthor());
+        tvDate.setText(announce.getDate());
         return view;
     }
 }

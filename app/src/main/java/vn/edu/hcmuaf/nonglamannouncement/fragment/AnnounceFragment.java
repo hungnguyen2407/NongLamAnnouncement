@@ -1,5 +1,6 @@
 package vn.edu.hcmuaf.nonglamannouncement.fragment;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -52,11 +53,13 @@ public class AnnounceFragment extends Fragment {
         return announceView;
     }
 
+    @SuppressLint("NewApi")
     private void tabLayoutHandler() {
 //        Tao tab view
         String[] tabsList = {getString(R.string.announce_tabs_all), getString(R.string.announce_tabs_important), getString(R.string.announce_tabs_recent), getString(R.string.announce_tabs_faculty), getString(R.string.announce_tabs_subject), getString(R.string.announce_tabs_group)};
 
         TabLayout tabLayout = announceView.findViewById(R.id.announce_tablayout);
+        tabLayout.setSelectedTabIndicatorColor(mainActivity.getColor(R.color.colorSecondary));
 //        Dong lap gan cac tab trong tablist vao tablayout
         for (int i = 0; i < tabsList.length; i++) {
             TextView tabCustom = (TextView) LayoutInflater.from(mainActivity).inflate(R.layout.custom_tab, null);
