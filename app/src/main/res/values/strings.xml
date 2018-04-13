@@ -30,4 +30,5 @@
     <string name="announce_tabs_all">Tất Cả</string>
     <string name="announce_tabs_important">Quan Trọng</string>
     <string name="announce_tabs_recent">Mới Nhất</string>
+    <string name="title_activity_announce_detail">AnnounceDetailActivity</string>
 </resources>
