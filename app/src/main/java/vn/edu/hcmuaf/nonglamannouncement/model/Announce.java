@@ -3,6 +3,7 @@ package vn.edu.hcmuaf.nonglamannouncement.model;
 import android.media.Image;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * @author Nguyen Hung
@@ -14,13 +15,14 @@ public class Announce implements Serializable {
     private String author;
     private String content;
     private Image img;
-
+    private Date date;
 
     public Announce(String header, String author, String content, Image img) {
         this.header = header;
         this.author = author;
         this.content = content;
         this.img = img;
+        this.date = new Date(System.currentTimeMillis());
     }
 
     public String getHeader() {
@@ -53,5 +55,13 @@ public class Announce implements Serializable {
 
     public void setImg(Image img) {
         this.img = img;
+    }
+
+    public String getDate() {
+        return date.getHours()+":"+date.getMinutes()+"\t"+date.getDay()+"/"+date.getMonth()+"/"+(date.getYear()+1900);
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 }

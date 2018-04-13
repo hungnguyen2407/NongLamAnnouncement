@@ -1,6 +1,9 @@
 package vn.edu.hcmuaf.nonglamannouncement.fragment;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -15,6 +18,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import vn.edu.hcmuaf.nonglamannouncement.R;
+import vn.edu.hcmuaf.nonglamannouncement.activity.AnnounceDetailActivity;
 import vn.edu.hcmuaf.nonglamannouncement.adapter.AnnounceAdapter;
 import vn.edu.hcmuaf.nonglamannouncement.model.Announce;
 
@@ -69,11 +73,11 @@ public class AnnounceFragment extends Fragment {
     private void listViewHandler() {
 
 //        Danh sach cac thong bao can hien thi (Demo)
-        ArrayList<Announce> listAnnouces = new ArrayList<>();
-        Announce announce1 = new Announce("Thong bao 1", "admin", "Hello", null);
-        Announce announce2 = new Announce("Thong bao 2", "admin", "Hello", null);
-        Announce announce3 = new Announce("Thong bao 3", "admin", "Hello", null);
-        Announce announce4 = new Announce("Thong bao 4", "admin", "Hello", null);
+        final ArrayList<Announce> listAnnouces = new ArrayList<>();
+        final Announce announce1 = new Announce("Thong bao 1", "admin", "Noi dung thong bao 1", null);
+        Announce announce2 = new Announce("Thong bao 2", "super mod", "Noi dung thong bao 2", null);
+        Announce announce3 = new Announce("Thong bao 3", "mod", "Noi dung thong bao 3", null);
+        Announce announce4 = new Announce("Thong bao 4", "mod", "Noi dung thong bao 4", null);
         listAnnouces.add(announce1);
         listAnnouces.add(announce2);
         listAnnouces.add(announce3);
@@ -89,7 +93,14 @@ public class AnnounceFragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Announce announce = listAnnouces.get(position);
+                SharedPreferences sp = mainActivity.getSharedPreferences("announce_data", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sp.edit();
+                editor.putString("header", announce.getHeader());
+                editor.putString("content", announce.getContent());
+                editor.putString("date", announce.getDate());
 
+                startActivity(new Intent(mainActivity, AnnounceDetailActivity.class));
             }
         });
 

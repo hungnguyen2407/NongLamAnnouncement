@@ -30,7 +30,7 @@
             android:name=".activity.ForgetPassActivity"
             android:label="@string/title_activity_quen_mat_khau" />
         <activity
-            android:name=".AnnounceDetailActivity"
+            android:name=".activity.AnnounceDetailActivity"
             android:label="@string/title_activity_announce_detail"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
