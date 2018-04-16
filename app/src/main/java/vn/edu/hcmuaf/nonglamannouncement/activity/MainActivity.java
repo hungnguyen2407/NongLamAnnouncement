@@ -1,6 +1,5 @@
 package vn.edu.hcmuaf.nonglamannouncement.activity;
 
-import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -25,7 +24,6 @@ import vn.edu.hcmuaf.nonglamannouncement.fragment.AnnounceFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    public static String id="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,12 +44,6 @@ public class MainActivity extends AppCompatActivity
         tvHeader.setText(R.string.nav_home);
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.contentFrame, new AnnounceFragment()).commit();
-
-        Bundle bundle = getIntent().getExtras();
-        if(bundle!=null){
-            id = bundle.getString("id");
-        }
-        checkLogin();
     }
 
 
@@ -113,11 +105,5 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
-    }
-    private void checkLogin(){
-        if(id==""){
-            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-            startActivity(intent);
-        }
     }
 }

@@ -9,12 +9,24 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -31,6 +43,8 @@ public class AnnounceFragment extends Fragment {
     private View announceView;
     private Activity mainActivity;
     private ListView listView;
+    private AnnounceAdapter adapter;
+    private ArrayList<Announce> listAnnouces;
 
     @Nullable
     @Override
@@ -47,7 +61,7 @@ public class AnnounceFragment extends Fragment {
 //        Xu ly hien thi tab
         tabLayoutHandler();
 //        Xu ly hien thi thong bao
-        listViewHandler();
+        announceListHandler();
 
 //        Tra view cho activity hien thi
         return announceView;
@@ -71,41 +85,64 @@ public class AnnounceFragment extends Fragment {
     /*
     Gan danh sach cac item vao list view
      */
-    private void listViewHandler() {
+    private void announceListHandler() {
+        try {
+            makeConnect();
 
-//        Danh sach cac thong bao can hien thi (Demo)
-        final ArrayList<Announce> listAnnouces = new ArrayList<>();
-        final Announce announce1 = new Announce("Thong bao 1", "admin", "Noi dung thong bao 1", null);
-        Announce announce2 = new Announce("Thong bao 2", "super mod", "Noi dung thong bao 2", null);
-        Announce announce3 = new Announce("Thong bao 3", "mod", "Noi dung thong bao 3", null);
-        Announce announce4 = new Announce("Thong bao 4", "mod", "Noi dung thong bao 4", null);
-        listAnnouces.add(announce1);
-        listAnnouces.add(announce2);
-        listAnnouces.add(announce3);
-        listAnnouces.add(announce4);
-
+            SharedPreferences sp = mainActivity.getSharedPreferences("announce_data", Context.MODE_PRIVATE);
+            String data = sp.getString("post1", "Post1");
+            JSONObject post = new JSONObject(data);
+            Announce announce = new Announce(post.getString("title"), "admin", post.getString("content"), null);
+            listAnnouces = new ArrayList<>();
+            listAnnouces.add(announce);
 //        Tao adapter nhan vao danh sach thong bao
-        AnnounceAdapter adapter = new AnnounceAdapter(mainActivity, R.layout.announce_row, listAnnouces);
+            adapter = new AnnounceAdapter(mainActivity, R.layout.announce_row, listAnnouces);
 
 //        Truyen adapter vao listview
-        listView.setAdapter(adapter);
+            listView.setAdapter(adapter);
 
 //        Set su kien khi bam vao 1 thong bao trong listview
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Announce announce = listAnnouces.get(position);
-                SharedPreferences sp = mainActivity.getSharedPreferences("announce_data", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sp.edit();
-                editor.putString("header", announce.getHeader());
-                editor.putString("content", announce.getContent());
-                editor.putString("date", announce.getDate());
-                editor.apply();
-                startActivity(new Intent(mainActivity, AnnounceDetailActivity.class));
-            }
-        });
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Announce announce = listAnnouces.get(position);
+                    SharedPreferences sp = mainActivity.getSharedPreferences("announce_data", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sp.edit();
+                    editor.putString("header", announce.getHeader());
+                    editor.putString("content", announce.getContent());
+                    editor.putString("date", announce.getDate());
+                    editor.apply();
+                    startActivity(new Intent(mainActivity, AnnounceDetailActivity.class));
+                }
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
     }
 
+    public void makeConnect() {
+        RequestQueue queue = Volley.newRequestQueue(mainActivity.getApplicationContext());
+        String url = "http://localhost:8080/NongLamAnnounceService/webresources/post";
 
+// Request a string response from the provided URL.
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        SharedPreferences sp = mainActivity.getSharedPreferences("announce_data", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sp.edit();
+                        editor.putString("post1", response);
+                        editor.apply();
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(mainActivity.getApplicationContext(), getText(R.string.error_connection), Toast.LENGTH_LONG);
+            }
+        });
+
+// Add the request to the RequestQueue.
+        queue.add(stringRequest);
+    }
 }

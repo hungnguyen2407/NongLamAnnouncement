@@ -36,4 +36,5 @@
 
     <string name="title_activity_announce_detail">AnnounceDetailActivity</string>
     <string name="img_des">  </string>
+    <string name="error_connection">Đã xảy ra lỗi trong quá trình kết nối</string>
 </resources>
