@@ -3,9 +3,7 @@ package vn.edu.hcmuaf.nonglamannouncement.activity;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.app.Activity;
-import android.content.Context;
-import android.content.SharedPreferences;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -37,7 +35,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import vn.edu.hcmuaf.nonglamannouncement.R;
-import vn.edu.hcmuaf.nonglamannouncement.dao.CustomConnection;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -45,7 +42,8 @@ import static android.Manifest.permission.READ_CONTACTS;
  * A login screen that offers login via email/password.
  */
 public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
-
+    private String id="";
+    private EditText editUser, editPass;
     /**
      * Id to identity READ_CONTACTS permission request.
      */
@@ -68,7 +66,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
-    private Activity loginActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +74,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
-        loginActivity = this;
+
         mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -100,6 +97,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+
     }
 
     private void populateAutoComplete() {
@@ -196,6 +194,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             mAuthTask = new UserLoginTask(email, password);
             mAuthTask.execute((Void) null);
         }
+
     }
 
     private boolean isEmailValid(String email) {
@@ -275,7 +274,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     @Override
     public void onLoaderReset(Loader<Cursor> cursorLoader) {
-
     }
 
     private void addEmailsToAutoComplete(List<String> emailAddressCollection) {
@@ -314,27 +312,45 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            String nameOfResult = "user_data";
-            CustomConnection.makeGETConnection(loginActivity, CustomConnection.URLPostfix.LOGIN, nameOfResult);
-            SharedPreferences sp = loginActivity.getSharedPreferences("temp_data", Context.MODE_PRIVATE);
-            if (null == sp.getString(nameOfResult, null)) {
-                Toast.makeText(loginActivity.getApplicationContext(), getString(R.string.error_login), Toast.LENGTH_LONG);
+            // TODO: attempt authentication against a network service.
+
+            try {
+                // Simulate network access.
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
                 return false;
-            } else
-                return true;
+            }
+
+            for (String credential : DUMMY_CREDENTIALS) {
+                String[] pieces = credential.split(":");
+                if (pieces[0].equals(mEmail)) {
+                    // Account exists, return true if the password matches.
+                    return pieces[1].equals(mPassword);
+                }
+            }
+
+            // TODO: register the new account here.
+            return true;
         }
 
         @Override
         protected void onPostExecute(final Boolean success) {
             mAuthTask = null;
             showProgress(false);
-
-            if (success) {
-                finish();
-            } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
+            if(mEmail.equals("1234@gmail")&&mPassword.equals("12345678")){
+                Toast.makeText(LoginActivity.this, "Đăng nhập thành công",Toast.LENGTH_SHORT).show();
+                id = mEmail;
+                returnActivityMain(mEmail);
+            }else{
+                Toast.makeText(LoginActivity.this,"Sai thông tin đăng nhập",Toast.LENGTH_SHORT).show();
             }
+
+//            if (success) {
+//                finish();
+//            } else {
+//                mPasswordView.setError(getString(R.string.error_incorrect_password));
+//                mPasswordView.requestFocus();
+//            }
         }
 
         @Override
@@ -343,10 +359,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(false);
         }
     }
-
-    @Override
-    public void onBackPressed() {
-
+    public void returnActivityMain(String email){
+        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        intent.putExtra("id",email);
+        startActivity(intent);
     }
 }
 
