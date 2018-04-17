@@ -3,7 +3,9 @@ package vn.edu.hcmuaf.nonglamannouncement.activity;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -42,7 +44,7 @@ import static android.Manifest.permission.READ_CONTACTS;
  * A login screen that offers login via email/password.
  */
 public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
-    private String id="";
+    private String id = "";
     private EditText editUser, editPass;
     /**
      * Id to identity READ_CONTACTS permission request.
@@ -302,34 +304,17 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      */
     public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 
-        private final String mEmail;
-        private final String mPassword;
+        private final String id;
+        private final String password;
 
-        UserLoginTask(String email, String password) {
-            mEmail = email;
-            mPassword = password;
+        UserLoginTask(String id, String password) {
+            this.id = id;
+            this.password = password;
         }
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
 
-            try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                return false;
-            }
-
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
-                }
-            }
-
-            // TODO: register the new account here.
             return true;
         }
 
@@ -337,20 +322,20 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         protected void onPostExecute(final Boolean success) {
             mAuthTask = null;
             showProgress(false);
-            if(mEmail.equals("1234@gmail")&&mPassword.equals("12345678")){
-                Toast.makeText(LoginActivity.this, "Đăng nhập thành công",Toast.LENGTH_SHORT).show();
-                id = mEmail;
-                returnActivityMain(mEmail);
-            }else{
-                Toast.makeText(LoginActivity.this,"Sai thông tin đăng nhập",Toast.LENGTH_SHORT).show();
+            if (id.equals("1234@gmail") && password.equals("12345678")) {
+                Toast.makeText(LoginActivity.this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
+                LoginActivity.this.id = id;
+                returnActivityMain(id);
+            } else {
+                Toast.makeText(LoginActivity.this, "Sai thông tin đăng nhập", Toast.LENGTH_SHORT).show();
             }
 
-//            if (success) {
-//                finish();
-//            } else {
-//                mPasswordView.setError(getString(R.string.error_incorrect_password));
-//                mPasswordView.requestFocus();
-//            }
+            if (success) {
+                finish();
+            } else {
+                mPasswordView.setError(getString(R.string.error_incorrect_password));
+                mPasswordView.requestFocus();
+            }
         }
 
         @Override
@@ -359,10 +344,24 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(false);
         }
     }
-    public void returnActivityMain(String email){
+
+    public void returnActivityMain(String id) {
         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-        intent.putExtra("id",email);
+
+        //Luu du lieu xuong file data_login.xml khi dang nhap thanh cong
+        SharedPreferences sp = getSharedPreferences("data_login", Context.MODE_PRIVATE);
+
+        SharedPreferences.Editor edit = sp.edit();
+        edit.putString("id", id);
+        edit.putBoolean("loginSuccess", true);
+        edit.apply();
+
         startActivity(intent);
+    }
+
+    @Override
+    public void onBackPressed() {
+
     }
 }
 
