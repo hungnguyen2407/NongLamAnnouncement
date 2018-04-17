@@ -1,5 +1,8 @@
 package vn.edu.hcmuaf.nonglamannouncement.activity;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -18,12 +21,14 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import vn.edu.hcmuaf.nonglamannouncement.R;
 import vn.edu.hcmuaf.nonglamannouncement.fragment.AnnounceFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    private SharedPreferences pre;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +49,18 @@ public class MainActivity extends AppCompatActivity
         tvHeader.setText(R.string.nav_home);
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.contentFrame, new AnnounceFragment()).commit();
+
+        //Luu du lieu xuong file data_login.xml khi dang nhap thanh cong
+        pre = this.getSharedPreferences("data_login", Context.MODE_PRIVATE);
+        Bundle bundle = getIntent().getExtras();
+        if(bundle!=null){
+            SharedPreferences.Editor edit=pre.edit();
+            edit.clear();
+            edit.putString("email",bundle.getString("id"));
+            edit.commit();
+        }
+        //kiem tra dang nhap neu chua dang nhap quay ve man hinh login
+        checkLogin();
     }
 
 
@@ -99,11 +116,22 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_help) {
 
         } else if (id == R.id.nav_logout) {
-
+            // xoa du lieu o file data_login sau khi da dang xuat
+            SharedPreferences.Editor edit=pre.edit();
+            edit.remove("email");
+            edit.commit();
+            checkLogin();
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+    public void checkLogin(){
+        pre = this.getSharedPreferences("data_login", Context.MODE_PRIVATE);
+        if(pre.getString("email","").equals("")){
+            Intent intent = new Intent(MainActivity.this,LoginActivity.class);
+            startActivity(intent);
+        }
     }
 }
