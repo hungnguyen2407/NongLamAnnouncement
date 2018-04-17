@@ -25,6 +25,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -33,6 +34,7 @@ import java.util.ArrayList;
 import vn.edu.hcmuaf.nonglamannouncement.R;
 import vn.edu.hcmuaf.nonglamannouncement.activity.AnnounceDetailActivity;
 import vn.edu.hcmuaf.nonglamannouncement.adapter.AnnounceAdapter;
+import vn.edu.hcmuaf.nonglamannouncement.dao.CustomConnection;
 import vn.edu.hcmuaf.nonglamannouncement.model.Announce;
 
 /*
@@ -70,8 +72,8 @@ public class AnnounceFragment extends Fragment {
     @SuppressLint("NewApi")
     private void tabLayoutHandler() {
 //        Tao tab view
-        String[] tabsList = {getString(R.string.announce_tabs_all), getString(R.string.announce_tabs_important), getString(R.string.announce_tabs_recent), getString(R.string.announce_tabs_faculty), getString(R.string.announce_tabs_subject), getString(R.string.announce_tabs_group)};
-
+//        String[] tabsList = {getString(R.string.announce_tabs_all), getString(R.string.announce_tabs_important), getString(R.string.announce_tabs_recent), getString(R.string.announce_tabs_faculty), getString(R.string.announce_tabs_subject), getString(R.string.announce_tabs_group)};
+        String[] tabsList = {getString(R.string.announce_tabs_all)};
         TabLayout tabLayout = announceView.findViewById(R.id.announce_tablayout);
         tabLayout.setSelectedTabIndicatorColor(mainActivity.getColor(R.color.colorSecondary));
 //        Dong lap gan cac tab trong tablist vao tablayout
@@ -87,14 +89,15 @@ public class AnnounceFragment extends Fragment {
      */
     private void announceListHandler() {
         try {
-            makeConnect();
-
-            SharedPreferences sp = mainActivity.getSharedPreferences("announce_data", Context.MODE_PRIVATE);
-            String data = sp.getString("post1", "Post1");
-            JSONObject post = new JSONObject(data);
-            Announce announce = new Announce(post.getString("title"), "admin", post.getString("content"), null);
             listAnnouces = new ArrayList<>();
-            listAnnouces.add(announce);
+            String nameOfResult = "announce_list";
+            CustomConnection.makeGETConnection(mainActivity, CustomConnection.URLPostfix.ANNOUNCE_ALL, nameOfResult);
+            SharedPreferences sp = mainActivity.getSharedPreferences("temp_data", Context.MODE_PRIVATE);
+            String data = sp.getString(nameOfResult, "");
+            JSONArray jsonArray = new JSONObject(data).getJSONArray("announce");
+            for (int i = 0; i < jsonArray.length(); i++) {
+                listAnnouces.add(new Announce(jsonArray.getJSONObject(i)));
+            }
 //        Tao adapter nhan vao danh sach thong bao
             adapter = new AnnounceAdapter(mainActivity, R.layout.announce_row, listAnnouces);
 
@@ -121,28 +124,4 @@ public class AnnounceFragment extends Fragment {
 
     }
 
-    public void makeConnect() {
-        RequestQueue queue = Volley.newRequestQueue(mainActivity.getApplicationContext());
-        String url = "http://localhost:8080/NongLamAnnounceService/webresources/post";
-
-// Request a string response from the provided URL.
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        SharedPreferences sp = mainActivity.getSharedPreferences("announce_data", Context.MODE_PRIVATE);
-                        SharedPreferences.Editor editor = sp.edit();
-                        editor.putString("post1", response);
-                        editor.apply();
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(mainActivity.getApplicationContext(), getText(R.string.error_connection), Toast.LENGTH_LONG);
-            }
-        });
-
-// Add the request to the RequestQueue.
-        queue.add(stringRequest);
-    }
 }

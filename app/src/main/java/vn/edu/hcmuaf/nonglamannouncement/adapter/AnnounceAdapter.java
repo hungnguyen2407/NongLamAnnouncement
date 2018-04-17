@@ -18,7 +18,6 @@ public class AnnounceAdapter extends BaseAdapter {
     private ArrayList<Announce> listAnnounces;
     private LayoutInflater inflater;
     public AnnounceAdapter(Context context, int resource, List<Announce> listAnnounce) {
-        Context context1 = context;
         this.listAnnounces = (ArrayList) listAnnounce;
         inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -45,13 +44,13 @@ public class AnnounceAdapter extends BaseAdapter {
         if (view == null)
             view = inflater.inflate(R.layout.announce_row, null);
         TextView tvHeader = view.findViewById(R.id.announce_tv_header);
-        TextView tvAuthor = view.findViewById(R.id.announce_tv_author);
+        TextView tvGroup = view.findViewById(R.id.announce_tv_group);
         TextView tvDate = view.findViewById(R.id.announce_tv_date);
         Announce announce = listAnnounces.get(position);
 
 
         tvHeader.setText(announce.getHeader());
-        tvAuthor.setText(announce.getAuthor());
+        tvGroup.setText(announce.getGroup());
         tvDate.setText(announce.getDate());
         return view;
     }

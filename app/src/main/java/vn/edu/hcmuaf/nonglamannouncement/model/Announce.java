@@ -1,9 +1,12 @@
 package vn.edu.hcmuaf.nonglamannouncement.model;
 
-import android.media.Image;
+import android.util.Log;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.sql.Date;
 
 /**
  * @author Nguyen Hung
@@ -12,17 +15,31 @@ import java.util.Date;
  */
 public class Announce implements Serializable {
     private String header;
-    private String author;
+    private String group;
     private String content;
-    private Image img;
-    private Date date;
+    private String img;
+    private String date;
 
-    public Announce(String header, String author, String content, Image img) {
-        this.header = header;
-        this.author = author;
-        this.content = content;
-        this.img = img;
-        this.date = new Date(System.currentTimeMillis());
+//    public Announce(String header, String group, String content, String img) {
+//        this.header = header;
+//        this.group = group;
+//        this.content = content;
+//        this.img = img;
+//        this.date = new Date(System.currentTimeMillis()).toString();
+//    }
+
+    public Announce(JSONObject announceJSON)
+    {
+        try {
+            header = announceJSON.getString("title");
+            group = announceJSON.getString("classId");
+            content = announceJSON.getString("content");
+            date = announceJSON.getString("date");
+            img = announceJSON.getString("img");
+        }catch (JSONException e)
+        {
+            e.printStackTrace();
+        }
     }
 
     public String getHeader() {
@@ -33,12 +50,12 @@ public class Announce implements Serializable {
         this.header = header;
     }
 
-    public String getAuthor() {
-        return author;
+    public String getGroup() {
+        return group;
     }
 
-    public void setAuthor(String author) {
-        this.author = author;
+    public void setGroup(String group) {
+        this.group = group;
     }
 
     public String getContent() {
@@ -49,19 +66,19 @@ public class Announce implements Serializable {
         this.content = content;
     }
 
-    public Image getImg() {
+    public String getImg() {
         return img;
     }
 
-    public void setImg(Image img) {
+    public void setImg(String img) {
         this.img = img;
     }
 
     public String getDate() {
-        return date.getHours()+":"+date.getMinutes()+"\t"+date.getDay()+"/"+date.getMonth()+"/"+(date.getYear()+1900);
+        return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 }

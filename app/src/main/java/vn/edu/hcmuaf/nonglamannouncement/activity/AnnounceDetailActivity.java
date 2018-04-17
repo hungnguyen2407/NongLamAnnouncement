@@ -39,4 +39,8 @@ public class AnnounceDetailActivity extends AppCompatActivity {
         tvDate.setText(sp.getString("date", "Date"));
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
 }

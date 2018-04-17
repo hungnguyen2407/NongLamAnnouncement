@@ -50,7 +50,7 @@
                     android:id="@+id/email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Gmail"
+                    android:hint="@string/login_user_id"
                     android:inputType="textEmailAddress"
                     android:maxLines="1"
                     android:textColor="@color/textColor"

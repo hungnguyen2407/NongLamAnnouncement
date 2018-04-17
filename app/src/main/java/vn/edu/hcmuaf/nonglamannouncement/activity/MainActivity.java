@@ -1,5 +1,6 @@
 package vn.edu.hcmuaf.nonglamannouncement.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
@@ -31,12 +32,16 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
-        //Tao fragment va hien thi trang thong bao
-        TextView tvHeader = findViewById(R.id.toolbar_header);
-        tvHeader.setText(R.string.nav_home);
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.contentFrame, new AnnounceFragment()).commit();
+        boolean loginSuccess = true;
+        if(loginSuccess) {
+            //Tao fragment va hien thi trang thong bao
+            TextView tvHeader = findViewById(R.id.toolbar_header);
+            tvHeader.setText(R.string.nav_home);
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.contentFrame, new AnnounceFragment()).commit();
+        }else {
+            startActivity(new Intent(this, LoginActivity.class));
+        }
     }
 
 
@@ -45,8 +50,6 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
         }
     }
 
