@@ -35,7 +35,7 @@ public class Announce implements Serializable {
             group = announceJSON.getString("classId");
             content = announceJSON.getString("content");
             date = announceJSON.getString("date");
-            img = announceJSON.getString("img");
+//            img = announceJSON.getString("img");
         }catch (JSONException e)
         {
             e.printStackTrace();

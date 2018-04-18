@@ -93,7 +93,7 @@
                 android:textColor="@color/textColor" />
 
             <Button
-                android:id="@+id/quen_mat_khau"
+                android:id="@+id/tv_forget_pass"
                 style="?android:textAppearanceSmall"
                 android:layout_gravity="center"
                 android:layout_width="200dp"

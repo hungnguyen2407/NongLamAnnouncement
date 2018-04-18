@@ -36,6 +36,7 @@ import vn.edu.hcmuaf.nonglamannouncement.activity.AnnounceDetailActivity;
 import vn.edu.hcmuaf.nonglamannouncement.adapter.AnnounceAdapter;
 import vn.edu.hcmuaf.nonglamannouncement.dao.CustomConnection;
 import vn.edu.hcmuaf.nonglamannouncement.model.Announce;
+import vn.edu.hcmuaf.nonglamannouncement.model.MemoryName;
 
 /*
 Xu ly hien thi cho trang thong bao
@@ -92,7 +93,7 @@ public class AnnounceFragment extends Fragment {
             listAnnouces = new ArrayList<>();
             String nameOfResult = "announce_list";
             CustomConnection.makeGETConnection(mainActivity, CustomConnection.URLPostfix.ANNOUNCE_ALL, nameOfResult);
-            SharedPreferences sp = mainActivity.getSharedPreferences("temp_data", Context.MODE_PRIVATE);
+            SharedPreferences sp = mainActivity.getSharedPreferences(MemoryName.TEMP_DATA.toString(), Context.MODE_PRIVATE);
             String data = sp.getString(nameOfResult, "");
             JSONArray jsonArray = new JSONObject(data).getJSONArray("announce");
             for (int i = 0; i < jsonArray.length(); i++) {
@@ -109,7 +110,7 @@ public class AnnounceFragment extends Fragment {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Announce announce = listAnnouces.get(position);
-                    SharedPreferences sp = mainActivity.getSharedPreferences("announce_data", Context.MODE_PRIVATE);
+                    SharedPreferences sp = mainActivity.getSharedPreferences(MemoryName.TEMP_DATA.toString(), Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = sp.edit();
                     editor.putString("header", announce.getHeader());
                     editor.putString("content", announce.getContent());
