@@ -14,7 +14,7 @@
             android:icon="@drawable/ic_people"
             android:title="Nhóm" />
         <item
-            android:id="@+id/nav_register"
+            android:id="@+id/nav_register_group"
             android:icon="@drawable/ic_register"
             android:title="Đăng ký theo dõi" />
         <item
