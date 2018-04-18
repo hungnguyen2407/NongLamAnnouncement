@@ -67,19 +67,19 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void navHeaderHandler() {
-        String id = sp.getString(NameOfResult.USER_ID.toString(), "");
+        String id = sp.getString(NameOfResult.USER_ID.toString(), "14130047");
         CustomConnection.makeGETConnectionWithParameter(this, CustomConnection.URLPostfix.FIND_NAME_BY_ID, NameOfResult.USER_NAME.toString(), ObjectTypes.USER.toString(), id);
         String userName = getSharedPreferences(MemoryName.TEMP_DATA.toString(), Context.MODE_PRIVATE).getString(NameOfResult.USER_NAME.toString(), "");
         TextView tvUserName = navigationView.getHeaderView(0).findViewById(R.id.nav_user_tv_name);
         tvUserName.setText(userName);
 
-        String className = sp.getString(NameOfResult.USER_CLASS_ID.toString(), "");
+        String className = sp.getString(NameOfResult.USER_CLASS_ID.toString(), "DH14DTA");
         CustomConnection.makeGETConnectionWithParameter(this, CustomConnection.URLPostfix.FIND_NAME_BY_ID, NameOfResult.USER_CLASS_NAME.toString(), ObjectTypes.GROUP.toString(), className);
         String userClass = getSharedPreferences(MemoryName.TEMP_DATA.toString(), Context.MODE_PRIVATE).getString(NameOfResult.USER_CLASS_NAME.toString(), "");
         TextView tvUserClass = navigationView.getHeaderView(0).findViewById(R.id.nav_user_tv_class);
         tvUserClass.setText(userClass);
 
-        String faculty = sp.getString(NameOfResult.USER_FACULTY_ID.toString(), "");
+        String faculty = sp.getString(NameOfResult.USER_FACULTY_ID.toString(), "CNTT");
         CustomConnection.makeGETConnectionWithParameter(this, CustomConnection.URLPostfix.FIND_NAME_BY_ID, NameOfResult.USER_FACULTY_NAME.toString(), ObjectTypes.FACULTY.toString(), faculty);
         String userFaculty = getSharedPreferences(MemoryName.TEMP_DATA.toString(), Context.MODE_PRIVATE).getString(NameOfResult.USER_FACULTY_NAME.toString(), "");
         TextView tvUserFaculty = navigationView.getHeaderView(0).findViewById(R.id.nav_user_tv_faculty);

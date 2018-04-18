@@ -9,21 +9,12 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -59,7 +50,7 @@ public class AnnounceFragment extends Fragment {
         announceView = inflater.inflate(R.layout.announcement_layout, container, false);
 
 //        Lay list view
-        listView = announceView.findViewById(R.id.list_view);
+        listView = announceView.findViewById(R.id.announce_list_view);
 
 //        Xu ly hien thi tab
         tabLayoutHandler();

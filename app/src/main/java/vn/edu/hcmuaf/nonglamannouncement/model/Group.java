@@ -4,11 +4,13 @@ public class Group {
     private String groupId;
     private String groupName;
     private String facultyId;
+    private int memNum;
 
-    public Group(String groupId, String groupName, String facultyId) {
+    public Group(String groupId, String groupName, String facultyId, int memNum) {
         this.groupId = groupId;
         this.groupName = groupName;
         this.facultyId = facultyId;
+        this.memNum = memNum;
     }
 
     public String getGroupId() {
@@ -33,5 +35,13 @@ public class Group {
 
     public void setFacultyId(String facultyId) {
         this.facultyId = facultyId;
+    }
+
+    public int getMemNum() {
+        return memNum;
+    }
+
+    public void setMemNum(int memNum) {
+        this.memNum = memNum;
     }
 }
