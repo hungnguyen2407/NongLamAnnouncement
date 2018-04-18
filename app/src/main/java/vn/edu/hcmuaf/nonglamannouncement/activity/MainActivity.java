@@ -1,6 +1,5 @@
 package vn.edu.hcmuaf.nonglamannouncement.activity;
 
-import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,7 +11,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -22,11 +20,13 @@ import vn.edu.hcmuaf.nonglamannouncement.dao.CustomConnection;
 import vn.edu.hcmuaf.nonglamannouncement.fragment.AnnounceFragment;
 import vn.edu.hcmuaf.nonglamannouncement.model.MemoryName;
 import vn.edu.hcmuaf.nonglamannouncement.model.NameOfResult;
+import vn.edu.hcmuaf.nonglamannouncement.model.ObjectTypes;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private boolean loginSuccess;
-
+    private SharedPreferences sp;
+    private NavigationView navigationView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,16 +39,14 @@ public class MainActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        SharedPreferences sp = getSharedPreferences(MemoryName.LOGIN_DATA.toString(), Context.MODE_PRIVATE);
-        loginSuccess = sp.getBoolean("loginSuccess", true);
+        sp = getSharedPreferences(MemoryName.TEMP_DATA.toString(), Context.MODE_PRIVATE);
+        loginSuccess = sp.getBoolean(NameOfResult.LOGIN_SUCCESS.toString(), true);
 
         if (loginSuccess) {
-//            String id = sp.getString("id", "");
-            String id = "14130047";
-            CustomConnection.makeGETConnectionWithParameter(this, CustomConnection.URLPostfix.FIND_NAME_BY_ID, NameOfResult.USER_NAME.toString(), "id", id);
+            navHeaderHandler();
 
             //Tao fragment va hien thi trang thong bao
             TextView tvHeader = findViewById(R.id.toolbar_header);
@@ -61,6 +59,26 @@ public class MainActivity extends AppCompatActivity
             //kiem tra dang nhap neu chua dang nhap quay ve man hinh login
             login();
         }
+    }
+
+    private void navHeaderHandler() {
+        String id = sp.getString(NameOfResult.USER_ID.toString(), "");
+        CustomConnection.makeGETConnectionWithParameter(this, CustomConnection.URLPostfix.FIND_NAME_BY_ID, NameOfResult.USER_NAME.toString(), ObjectTypes.USER.toString(), id);
+        String userName = getSharedPreferences(MemoryName.TEMP_DATA.toString(), Context.MODE_PRIVATE).getString(NameOfResult.USER_NAME.toString(), "");
+        TextView tvUserName = navigationView.getHeaderView(0).findViewById(R.id.nav_user_tv_name);
+        tvUserName.setText(userName);
+
+        String className = sp.getString(NameOfResult.USER_CLASS_ID.toString(), "");
+        CustomConnection.makeGETConnectionWithParameter(this, CustomConnection.URLPostfix.FIND_NAME_BY_ID, NameOfResult.USER_CLASS_NAME.toString(), ObjectTypes.GROUP.toString(), className);
+        String userClass = getSharedPreferences(MemoryName.TEMP_DATA.toString(), Context.MODE_PRIVATE).getString(NameOfResult.USER_CLASS_NAME.toString(), "");
+        TextView tvUserClass = navigationView.getHeaderView(0).findViewById(R.id.nav_user_tv_class);
+        tvUserClass.setText(userClass);
+
+        String faculty = sp.getString(NameOfResult.USER_FACULTY_ID.toString(), "");
+        CustomConnection.makeGETConnectionWithParameter(this, CustomConnection.URLPostfix.FIND_NAME_BY_ID, NameOfResult.USER_FACULTY_NAME.toString(), ObjectTypes.FACULTY.toString(), faculty);
+        String userFaculty = getSharedPreferences(MemoryName.TEMP_DATA.toString(), Context.MODE_PRIVATE).getString(NameOfResult.USER_FACULTY_NAME.toString(), "");
+        TextView tvUserFaculty = navigationView.getHeaderView(0).findViewById(R.id.nav_user_tv_faculty);
+        tvUserFaculty.setText(userFaculty);
     }
 
 
@@ -111,7 +129,7 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_logout) {
             // xoa du lieu o file data_login sau khi da dang xuat
-            getSharedPreferences(MemoryName.LOGIN_DATA.toString(), Context.MODE_PRIVATE).edit().clear();
+            getSharedPreferences(MemoryName.TEMP_DATA.toString(), Context.MODE_PRIVATE).edit().clear();
             login();
         }
 
@@ -126,11 +144,4 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    @Override
-    public void onCreateNavigateUpTaskStack(TaskStackBuilder builder) {
-        super.onCreateNavigateUpTaskStack(builder);
-        String userName = getSharedPreferences(MemoryName.TEMP_DATA.toString(), Context.MODE_PRIVATE).getString(NameOfResult.USER_NAME.toString(), "");
-        TextView tvUserName = findViewById(R.id.nav_user_tv_name);
-        tvUserName.setText(userName);
-    }
 }

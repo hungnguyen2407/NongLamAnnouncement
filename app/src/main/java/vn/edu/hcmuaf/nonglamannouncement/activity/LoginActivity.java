@@ -4,24 +4,22 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.LoaderManager.LoaderCallbacks;
 import android.content.Context;
+import android.content.CursorLoader;
 import android.content.Intent;
+import android.content.Loader;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.app.LoaderManager.LoaderCallbacks;
-
-import android.content.CursorLoader;
-import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
-
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -38,6 +36,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import vn.edu.hcmuaf.nonglamannouncement.R;
+import vn.edu.hcmuaf.nonglamannouncement.model.MemoryName;
+import vn.edu.hcmuaf.nonglamannouncement.model.NameOfResult;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -76,10 +76,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         loginActivity = this;
         setContentView(R.layout.activity_login);
         // Set up the login form.
-        mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
+        mEmailView = findViewById(R.id.email);
         populateAutoComplete();
 
-        mPasswordView = (EditText) findViewById(R.id.password);
+        mPasswordView = findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
@@ -91,7 +91,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
 
-        Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
+        Button mEmailSignInButton = findViewById(R.id.email_sign_in_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -358,11 +358,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
 
         //Luu du lieu xuong file data_login.xml khi dang nhap thanh cong
-        SharedPreferences sp = getSharedPreferences("data_login", Context.MODE_PRIVATE);
+        SharedPreferences sp = getSharedPreferences(MemoryName.TEMP_DATA.toString(), Context.MODE_PRIVATE);
 
         SharedPreferences.Editor edit = sp.edit();
-        edit.putString("id", id);
-        edit.putBoolean("loginSuccess", true);
+        edit.putString(NameOfResult.USER_ID.toString(), id);
+        edit.putBoolean(NameOfResult.LOGIN_SUCCESS.toString(), true);
         edit.apply();
 
         startActivity(intent);
