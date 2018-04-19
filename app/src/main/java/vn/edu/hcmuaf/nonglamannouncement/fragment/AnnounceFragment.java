@@ -27,7 +27,10 @@ import vn.edu.hcmuaf.nonglamannouncement.activity.AnnounceDetailActivity;
 import vn.edu.hcmuaf.nonglamannouncement.adapter.AnnounceAdapter;
 import vn.edu.hcmuaf.nonglamannouncement.dao.CustomConnection;
 import vn.edu.hcmuaf.nonglamannouncement.model.Announce;
+import vn.edu.hcmuaf.nonglamannouncement.model.AnnounceData;
+import vn.edu.hcmuaf.nonglamannouncement.model.JSONTag;
 import vn.edu.hcmuaf.nonglamannouncement.model.MemoryName;
+import vn.edu.hcmuaf.nonglamannouncement.model.NameOfResult;
 
 /*
 Xu ly hien thi cho trang thong bao
@@ -82,11 +85,10 @@ public class AnnounceFragment extends Fragment {
     private void announceListHandler() {
         try {
             listAnnouces = new ArrayList<>();
-            String nameOfResult = "announce_list";
-            CustomConnection.makeGETConnection(mainActivity, CustomConnection.URLPostfix.ANNOUNCE_ALL, nameOfResult);
+            CustomConnection.makeGETConnection(mainActivity, CustomConnection.URLPostfix.ANNOUNCE_ALL, NameOfResult.ANNOUNCE_DATA.toString());
             SharedPreferences sp = mainActivity.getSharedPreferences(MemoryName.TEMP_DATA.toString(), Context.MODE_PRIVATE);
-            String data = sp.getString(nameOfResult, "");
-            JSONArray jsonArray = new JSONObject(data).getJSONArray("announce");
+            String data = sp.getString(NameOfResult.ANNOUNCE_DATA.toString(), "");
+            JSONArray jsonArray = new JSONObject(data).getJSONArray(JSONTag.ANNOUNCE.toString());
             for (int i = 0; i < jsonArray.length(); i++) {
                 listAnnouces.add(new Announce(jsonArray.getJSONObject(i)));
             }
@@ -103,9 +105,9 @@ public class AnnounceFragment extends Fragment {
                     Announce announce = listAnnouces.get(position);
                     SharedPreferences sp = mainActivity.getSharedPreferences(MemoryName.TEMP_DATA.toString(), Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = sp.edit();
-                    editor.putString("header", announce.getHeader());
-                    editor.putString("content", announce.getContent());
-                    editor.putString("date", announce.getDate());
+                    editor.putString(AnnounceData.HEADER.toString(), announce.getHeader());
+                    editor.putString(AnnounceData.CONTENT.toString(), announce.getContent());
+                    editor.putString(AnnounceData.DATE.toString(), announce.getDate());
                     editor.apply();
                     startActivity(new Intent(mainActivity, AnnounceDetailActivity.class));
                 }
