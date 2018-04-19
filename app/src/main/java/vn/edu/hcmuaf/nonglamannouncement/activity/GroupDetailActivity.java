@@ -26,7 +26,7 @@ public class GroupDetailActivity extends AppCompatActivity {
 
         SharedPreferences sp = getSharedPreferences(MemoryName.TEMP_DATA.toString(), Context.MODE_PRIVATE);
 
-
+        //TODO
     }
 
     @Override

@@ -20,7 +20,6 @@ import vn.edu.hcmuaf.nonglamannouncement.dao.CustomConnection;
 import vn.edu.hcmuaf.nonglamannouncement.fragment.AnnounceFragment;
 import vn.edu.hcmuaf.nonglamannouncement.fragment.GroupFragment;
 import vn.edu.hcmuaf.nonglamannouncement.fragment.HelpFragment;
-import vn.edu.hcmuaf.nonglamannouncement.fragment.RegisterGroupFragment;
 import vn.edu.hcmuaf.nonglamannouncement.fragment.SettingFragment;
 import vn.edu.hcmuaf.nonglamannouncement.model.MemoryName;
 import vn.edu.hcmuaf.nonglamannouncement.model.NameOfResult;
@@ -32,6 +31,7 @@ public class MainActivity extends AppCompatActivity
     private SharedPreferences sp;
     private NavigationView navigationView;
     private FragmentManager fragmentManager;
+    private TextView tvHeader;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity
             navHeaderHandler();
 
             //Tao fragment va hien thi trang thong bao
-            TextView tvHeader = findViewById(R.id.toolbar_header);
+            tvHeader = findViewById(R.id.toolbar_header);
             tvHeader.setText(R.string.nav_home);
             fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.contentFrame, new AnnounceFragment()).commit();
@@ -123,14 +123,16 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_home) {
+            tvHeader.setText(R.string.nav_home);
             fragmentManager.beginTransaction().replace(R.id.contentFrame, new AnnounceFragment()).commit();
         } else if (id == R.id.nav_group) {
+            tvHeader.setText(R.string.nav_group);
             fragmentManager.beginTransaction().replace(R.id.contentFrame, new GroupFragment()).commit();
-        } else if (id == R.id.nav_register_group) {
-            fragmentManager.beginTransaction().replace(R.id.contentFrame, new RegisterGroupFragment()).commit();
         } else if (id == R.id.nav_setting) {
+            tvHeader.setText(R.string.nav_setting);
             fragmentManager.beginTransaction().replace(R.id.contentFrame, new SettingFragment()).commit();
         } else if (id == R.id.nav_help) {
+            tvHeader.setText(R.string.nav_help);
             fragmentManager.beginTransaction().replace(R.id.contentFrame, new HelpFragment()).commit();
         } else if (id == R.id.nav_logout) {
             // xoa du lieu o file data_login sau khi da dang xuat

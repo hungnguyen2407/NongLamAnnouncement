@@ -39,4 +39,7 @@
     <string name="error_connection">Đã xảy ra lỗi trong quá trình kết nối</string>
     <string name="login_user_id">MSSV</string>
     <string name="error_login">Đăng nhập thất bại</string>
+    <string name="nav_group">Nhóm</string>
+    <string name="nav_setting">Cài đặt</string>
+    <string name="nav_help">Trợ giúp</string>
 </resources>
