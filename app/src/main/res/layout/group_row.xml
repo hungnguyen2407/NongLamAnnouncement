@@ -17,7 +17,7 @@
         android:layout_marginTop="16dp"
         android:text="Tên nhóm"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/group_setting_btn"
+        app:layout_constraintEnd_toStartOf="@+id/group_join_btn"
         app:layout_constraintStart_toEndOf="@+id/group_img"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -35,7 +35,7 @@
         app:srcCompat="@drawable/logo_large" />
 
     <ImageButton
-        android:id="@+id/group_setting_btn"
+        android:id="@+id/group_join_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
@@ -45,6 +45,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_setting" />
+        app:srcCompat="@drawable/ic_register" />
 
 </android.support.constraint.ConstraintLayout>

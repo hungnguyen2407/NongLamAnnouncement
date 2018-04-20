@@ -3,7 +3,6 @@ package vn.edu.hcmuaf.nonglamannouncement.dao;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -22,7 +21,7 @@ import vn.edu.hcmuaf.nonglamannouncement.model.MemoryName;
 public class CustomConnection {
 
     public enum URLPostfix {
-        ANNOUNCE_RECENT("announce/recent"), GROUP("group"), LOGIN("user/login"), ANNOUNCE_ALL("announce/all"), FIND_NAME_BY_ID("findname");
+        ANNOUNCE_RECENT("announce/recent"), GROUP("group"), LOGIN("user/login"), ANNOUNCE_ALL("announce/all"), FIND_NAME_BY_ID("findname"), GROUP_JOIN("group/join");
 
         URLPostfix(String postfix) {
             this.postfix = postfix;

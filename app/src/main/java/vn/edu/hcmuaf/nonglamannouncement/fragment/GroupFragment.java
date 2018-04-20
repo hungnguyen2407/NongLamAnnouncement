@@ -39,6 +39,8 @@ public class GroupFragment extends Fragment {
         ArrayList<Group> listGroups = new ArrayList<>();
         SharedPreferences sp = mainActivity.getSharedPreferences(MemoryName.TEMP_DATA.toString(), Context.MODE_PRIVATE);
         listGroups.add(new Group(sp.getString(NameOfResult.USER_CLASS_ID.toString(), ""), sp.getString(NameOfResult.USER_CLASS_NAME.toString(), ""), sp.getString(NameOfResult.USER_FACULTY_ID.toString(), ""), 0));
-        listView.setAdapter(new GroupAdapter(mainActivity, R.layout.group_row, listGroups));
+        groupView.findViewById(R.id.group_join_btn);
+        listView.setAdapter(new GroupAdapter(mainActivity, mainActivity, R.layout.group_row, listGroups));
+
     }
 }
