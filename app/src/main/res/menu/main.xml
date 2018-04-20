@@ -2,14 +2,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/action_info"
+        android:id="@+id/action_search"
         android:orderInCategory="100"
-        android:title="@string/action_info"
+        android:title="@string/action_search"
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/action_group_join"
         android:orderInCategory="100"
-        android:title="@string/action_settings"
+        android:title="@string/action_group_join"
         app:showAsAction="never" />
 </menu>

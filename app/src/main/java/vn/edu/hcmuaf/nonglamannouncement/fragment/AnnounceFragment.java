@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -67,10 +68,37 @@ public class AnnounceFragment extends Fragment {
     @SuppressLint("NewApi")
     private void tabLayoutHandler() {
 //        Tao tab view
-//        String[] tabsList = {getString(R.string.announce_tabs_all), getString(R.string.announce_tabs_important), getString(R.string.announce_tabs_recent), getString(R.string.announce_tabs_faculty), getString(R.string.announce_tabs_subject), getString(R.string.announce_tabs_group)};
-        String[] tabsList = {getString(R.string.announce_tabs_all)};
+        String[] tabsList = {getString(R.string.announce_tabs_all), getString(R.string.announce_tabs_faculty), getString(R.string.announce_tabs_group)};
+//        String[] tabsList = {getString(R.string.announce_tabs_all)};
         TabLayout tabLayout = announceView.findViewById(R.id.announce_tablayout);
         tabLayout.setSelectedTabIndicatorColor(mainActivity.getColor(R.color.colorSecondary));
+        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                switch (tab.getPosition()) {
+                    case 0:
+                        Toast.makeText(mainActivity.getApplicationContext(), getString(R.string.announce_tabs_all), Toast.LENGTH_SHORT).show();
+                        break;
+                    case 1:
+                        Toast.makeText(mainActivity.getApplicationContext(), getString(R.string.announce_tabs_faculty), Toast.LENGTH_SHORT).show();
+                        break;
+                    case 2:
+                        Toast.makeText(mainActivity.getApplicationContext(), getString(R.string.announce_tabs_group), Toast.LENGTH_SHORT).show();
+                        break;
+
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
 //        Dong lap gan cac tab trong tablist vao tablayout
         for (int i = 0; i < tabsList.length; i++) {
             TextView tabCustom = (TextView) LayoutInflater.from(mainActivity).inflate(R.layout.custom_tab, null);

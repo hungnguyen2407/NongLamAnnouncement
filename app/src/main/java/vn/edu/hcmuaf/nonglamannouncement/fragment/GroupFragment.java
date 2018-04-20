@@ -12,6 +12,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 import vn.edu.hcmuaf.nonglamannouncement.R;
@@ -19,6 +23,7 @@ import vn.edu.hcmuaf.nonglamannouncement.adapter.GroupAdapter;
 import vn.edu.hcmuaf.nonglamannouncement.model.Group;
 import vn.edu.hcmuaf.nonglamannouncement.model.MemoryName;
 import vn.edu.hcmuaf.nonglamannouncement.model.NameOfResult;
+import vn.edu.hcmuaf.nonglamannouncement.model.ObjectTypes;
 
 public class GroupFragment extends Fragment {
     private Activity mainActivity;
@@ -36,11 +41,21 @@ public class GroupFragment extends Fragment {
     }
 
     private void listGroupHandler() {
-        ArrayList<Group> listGroups = new ArrayList<>();
-        SharedPreferences sp = mainActivity.getSharedPreferences(MemoryName.TEMP_DATA.toString(), Context.MODE_PRIVATE);
-        listGroups.add(new Group(sp.getString(NameOfResult.USER_CLASS_ID.toString(), ""), sp.getString(NameOfResult.USER_CLASS_NAME.toString(), ""), sp.getString(NameOfResult.USER_FACULTY_ID.toString(), ""), 0));
-        groupView.findViewById(R.id.group_join_btn);
-        listView.setAdapter(new GroupAdapter(mainActivity, mainActivity, R.layout.group_row, listGroups));
+        try {
+            ArrayList<Group> listGroups = new ArrayList<>();
+            SharedPreferences sp = mainActivity.getSharedPreferences(MemoryName.TEMP_DATA.toString(), Context.MODE_PRIVATE);
 
+            JSONArray jsonArray = new JSONObject(sp.getString(NameOfResult.GROUP_LIST.toString(), "")).getJSONArray(ObjectTypes.GROUP_LIST.toString());
+            JSONObject jsonObject = null;
+            for (int i = 0; i < jsonArray.length(); i++) {
+                jsonObject = jsonArray.getJSONObject(i);
+                listGroups.add(new Group(jsonObject.getString(ObjectTypes.GROUP.toString()), jsonObject.getString(ObjectTypes.GROUP_NAME.toString()), jsonObject.getString(ObjectTypes.GROUP_FACULTY.toString()), jsonObject.getInt(ObjectTypes.GROUP_MEM.toString())));
+            }
+//            listGroups.add(new Group(sp.getString(NameOfResult.USER_CLASS_ID.toString(), ""), sp.getString(NameOfResult.USER_CLASS_NAME.toString(), ""), sp.getString(NameOfResult.USER_FACULTY_ID.toString(), ""), 0));
+            groupView.findViewById(R.id.group_setting_btn);
+            listView.setAdapter(new GroupAdapter(mainActivity, mainActivity, R.layout.group_row, listGroups));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 }

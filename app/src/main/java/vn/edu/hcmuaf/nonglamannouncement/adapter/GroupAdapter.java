@@ -52,7 +52,7 @@ public class GroupAdapter extends BaseAdapter {
         if (view == null)
             view = inflater.inflate(R.layout.group_row, null);
         TextView tvGroupName = view.findViewById(R.id.group_tv_name);
-        final ImageButton imageButton = view.findViewById(R.id.group_join_btn);
+        final ImageButton imageButton = view.findViewById(R.id.group_setting_btn);
         final Group group = listGroups.get(position);
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override

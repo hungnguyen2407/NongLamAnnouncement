@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "64927634990",
+    "firebase_url": "https://nonglamannounce.firebaseio.com",
+    "project_id": "nonglamannounce",
+    "storage_bucket": "nonglamannounce.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:64927634990:android:2b7893c6234b0e2f",
+        "android_client_info": {
+          "package_name": "vn.edu.hcmuaf.nonglamannouncement"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "64927634990-jorfi6mqmg9sifvavqa965usqe0frqqa.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "vn.edu.hcmuaf.nonglamannouncement",
+            "certificate_hash": "ae8ad596e343d672a3b5b610ebc6531ea5049c5e"
+          }
+        },
+        {
+          "client_id": "64927634990-ba56n74c2go1pgju6jigl54gsnfvmlr3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBLRNB6MorRHxfk88ZrI7VaPuHSqzSdDjA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "64927634990-ba56n74c2go1pgju6jigl54gsnfvmlr3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

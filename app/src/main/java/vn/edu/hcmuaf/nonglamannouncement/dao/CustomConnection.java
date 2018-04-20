@@ -21,7 +21,7 @@ import vn.edu.hcmuaf.nonglamannouncement.model.MemoryName;
 public class CustomConnection {
 
     public enum URLPostfix {
-        ANNOUNCE_RECENT("announce/recent"), GROUP("group"), LOGIN("user/login"), ANNOUNCE_ALL("announce/all"), FIND_NAME_BY_ID("findname"), GROUP_JOIN("group/join");
+        ANNOUNCE_RECENT("announce/recent"), GROUP("group"), LOGIN("user/login"), ANNOUNCE_ALL("announce/all"), FIND_NAME_BY_ID("findname"), GROUP_JOIN("group/join"), GROUP_LIST("user/dsgroup");
 
         URLPostfix(String postfix) {
             this.postfix = postfix;
@@ -110,7 +110,6 @@ public class CustomConnection {
             }
         });
         queue.add(stringRequest);
-
 
     }
 }

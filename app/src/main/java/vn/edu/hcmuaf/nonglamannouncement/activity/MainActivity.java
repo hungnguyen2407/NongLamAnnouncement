@@ -32,12 +32,13 @@ public class MainActivity extends AppCompatActivity
     private NavigationView navigationView;
     private FragmentManager fragmentManager;
     private TextView tvHeader;
+    private Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = findViewById(R.id.main_toolbar);
-        setSupportActionBar(toolbar);
+        toolbar = findViewById(R.id.main_toolbar);
+        toolbar.inflateMenu(R.menu.main);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -46,13 +47,32 @@ public class MainActivity extends AppCompatActivity
 
         navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+//        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+
 
         sp = getSharedPreferences(MemoryName.TEMP_DATA.toString(), Context.MODE_PRIVATE);
-        loginSuccess = sp.getBoolean(NameOfResult.LOGIN_SUCCESS.toString(), true);
+//        db.collection(MemoryName.TEMP_DATA.toString())
+//                .get()
+//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                        if (task.isSuccessful()) {
+//                            for (DocumentSnapshot document : task.getResult()) {
+//                                Log.d("respond", document.getId() + " => " + document.getData());
+//                            }
+//                        } else {
+//                            Log.w("respond", "Error getting documents.", task.getException());
+//                        }
+//                    }
+//                });
+
+
+        loginSuccess = Boolean.valueOf(sp.getString(NameOfResult.LOGIN_SUCCESS.toString(), "false"));
 
         if (loginSuccess) {
             navHeaderHandler();
-
+            initHandle();
             //Tao fragment va hien thi trang thong bao
             tvHeader = findViewById(R.id.toolbar_header);
             tvHeader.setText(R.string.nav_home);
@@ -66,6 +86,11 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    private void initHandle() {
+
+        CustomConnection.makeGETConnectionWithParameter(this, CustomConnection.URLPostfix.GROUP_LIST, NameOfResult.GROUP_LIST.toString(), sp.getString(NameOfResult.USER_ID.toString(), ""));
+    }
+
     private void navHeaderHandler() {
         String id = sp.getString(NameOfResult.USER_ID.toString(), "14130047");
         CustomConnection.makeGETConnectionWithParameter(this, CustomConnection.URLPostfix.FIND_NAME_BY_ID, NameOfResult.USER_NAME.toString(), ObjectTypes.USER.toString(), id);
@@ -73,6 +98,8 @@ public class MainActivity extends AppCompatActivity
         TextView tvUserName = navigationView.getHeaderView(0).findViewById(R.id.nav_user_tv_name);
         tvUserName.setText(userName);
 
+        TextView tvUserEmail = navigationView.getHeaderView(0).findViewById(R.id.nav_user_tv_email);
+        tvUserEmail.setText(id + "@st.hcmuaf.edu.vn");
         String className = sp.getString(NameOfResult.USER_CLASS_ID.toString(), "DH14DTA");
         CustomConnection.makeGETConnectionWithParameter(this, CustomConnection.URLPostfix.FIND_NAME_BY_ID, NameOfResult.USER_CLASS_NAME.toString(), ObjectTypes.GROUP.toString(), className);
         String userClass = getSharedPreferences(MemoryName.TEMP_DATA.toString(), Context.MODE_PRIVATE).getString(NameOfResult.USER_CLASS_NAME.toString(), "");
@@ -106,9 +133,9 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+//        if (id == R.id.action_settings) {
+//            return true;
+//        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -136,7 +163,9 @@ public class MainActivity extends AppCompatActivity
             fragmentManager.beginTransaction().replace(R.id.contentFrame, new HelpFragment()).commit();
         } else if (id == R.id.nav_logout) {
             // xoa du lieu o file data_login sau khi da dang xuat
-            getSharedPreferences(MemoryName.TEMP_DATA.toString(), Context.MODE_PRIVATE).edit().clear();
+            SharedPreferences.Editor editor = sp.edit();
+            editor.putString(NameOfResult.LOGIN_SUCCESS.toString(), "false");
+            editor.commit();
             login();
         }
 
