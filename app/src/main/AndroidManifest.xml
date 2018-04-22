@@ -32,6 +32,13 @@
             android:name=".activity.AnnounceDetailActivity"
             android:label="@string/title_activity_announce_detail"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.GroupDetailActivity"
+            android:label="@string/title_activity_group_detail"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.PostAnnounceActivity"
+            android:label="@string/title_activity_post_announce"></activity>
     </application>
 
 </manifest>

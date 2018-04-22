@@ -51,7 +51,7 @@ public class AnnounceFragment extends Fragment {
         mainActivity = getActivity();
 
 //        Khoi tao view
-        announceView = inflater.inflate(R.layout.announcement_layout, container, false);
+        announceView = inflater.inflate(R.layout.fragment_announcement, container, false);
 
 //        Lay list view
         listView = announceView.findViewById(R.id.announce_list_view);

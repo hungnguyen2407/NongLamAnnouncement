@@ -12,7 +12,7 @@
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <android.support.v7.widget.Toolbar
-            android:id="@+id/group_detail_toolbar"
+            android:id="@+id/post_announce_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?android:attr/actionBarSize"
             android:background="@color/colorPrimary"
@@ -23,7 +23,7 @@
                 android:layout_height="match_parent">
 
                 <ImageButton
-                    android:id="@+id/group_detail_back_btn"
+                    android:id="@+id/post_announce_back_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
@@ -36,7 +36,7 @@
         </android.support.v7.widget.Toolbar>
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_group_detail" />
+    <include layout="@layout/content_post_announce" />
 
     <!--<android.support.design.widget.FloatingActionButton-->
     <!--android:id="@+id/fab"-->

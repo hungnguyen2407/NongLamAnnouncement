@@ -10,8 +10,8 @@
     <string name="nav_home">Trang chủ</string>
     <string name="action_settings">Cài đặt</string>
     <string name="title_activity_login">Đăng nhập</string>
-    <string name="action_search">Tìm kiếm</string>
-    <string name="action_group_join">Đăng kí nhóm</string>
+    <string name="menu_action_search">Tìm kiếm</string>
+    <string name="menu_action_group_join">Đăng kí nhóm</string>
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password (optional)</string>
@@ -43,4 +43,7 @@
     <string name="nav_setting">Cài đặt</string>
     <string name="nav_help">Trợ giúp</string>
     <string name="group_search">Mã nhóm</string>
+    <string name="title_activity_group_detail">GroupDetailActivity</string>
+    <string name="menu_action_post_announce">Đăng thông báo</string>
+    <string name="title_activity_post_announce">PostAnnounceActivity</string>
 </resources>

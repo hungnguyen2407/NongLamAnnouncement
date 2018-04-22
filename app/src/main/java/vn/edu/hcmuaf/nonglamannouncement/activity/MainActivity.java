@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         toolbar = findViewById(R.id.main_toolbar);
-        toolbar.inflateMenu(R.menu.main);
+        toolbar.inflateMenu(R.menu.menu_main);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -87,7 +87,6 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void initHandle() {
-
         CustomConnection.makeGETConnectionWithParameter(this, CustomConnection.URLPostfix.GROUP_LIST, NameOfResult.GROUP_LIST.toString(), sp.getString(NameOfResult.USER_ID.toString(), ""));
     }
 
@@ -132,10 +131,15 @@ public class MainActivity extends AppCompatActivity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-//        if (id == R.id.action_settings) {
-//            return true;
-//        }
+        switch (id) {
+            case R.id.menu_action_search:
+                break;
+            case R.id.menu_action_group_join:
+                break;
+            case R.id.menu_action_post_announce:
+                startActivity(new Intent(this, PostAnnounceActivity.class));
+                break;
+        }
 
         return super.onOptionsItemSelected(item);
     }

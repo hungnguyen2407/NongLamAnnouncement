@@ -34,7 +34,7 @@ public class GroupFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mainActivity = getActivity();
-        groupView = inflater.inflate(R.layout.group_layout, container, false);
+        groupView = inflater.inflate(R.layout.fragment_group, container, false);
         listView = groupView.findViewById(R.id.group_list_view);
         listGroupHandler();
         return groupView;
@@ -51,8 +51,7 @@ public class GroupFragment extends Fragment {
                 jsonObject = jsonArray.getJSONObject(i);
                 listGroups.add(new Group(jsonObject.getString(ObjectTypes.GROUP.toString()), jsonObject.getString(ObjectTypes.GROUP_NAME.toString()), jsonObject.getString(ObjectTypes.GROUP_FACULTY.toString()), jsonObject.getInt(ObjectTypes.GROUP_MEM.toString())));
             }
-//            listGroups.add(new Group(sp.getString(NameOfResult.USER_CLASS_ID.toString(), ""), sp.getString(NameOfResult.USER_CLASS_NAME.toString(), ""), sp.getString(NameOfResult.USER_FACULTY_ID.toString(), ""), 0));
-            groupView.findViewById(R.id.group_setting_btn);
+            listGroups.add(new Group(sp.getString(NameOfResult.USER_CLASS_ID.toString(), ""), sp.getString(NameOfResult.USER_CLASS_NAME.toString(), ""), sp.getString(NameOfResult.USER_FACULTY_ID.toString(), ""), 0));
             listView.setAdapter(new GroupAdapter(mainActivity, mainActivity, R.layout.group_row, listGroups));
         } catch (JSONException e) {
             e.printStackTrace();
