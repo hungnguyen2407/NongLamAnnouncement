@@ -38,7 +38,8 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.PostAnnounceActivity"
-            android:label="@string/title_activity_post_announce"></activity>
+            android:label="@string/title_activity_post_announce"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

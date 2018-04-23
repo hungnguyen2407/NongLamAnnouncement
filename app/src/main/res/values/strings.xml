@@ -46,4 +46,9 @@
     <string name="title_activity_group_detail">GroupDetailActivity</string>
     <string name="menu_action_post_announce">Đăng thông báo</string>
     <string name="title_activity_post_announce">PostAnnounceActivity</string>
+    <string name="hint_post_announce_header">Tiêu đề thông báo</string>
+    <string name="hint_post_announce_content">Nội dung thông báo</string>
+    <string name="hint_post_announce_class_id">Mã nhóm</string>
+    <string name="post_announce_send_btn">Xác nhận</string>
+    <string name="post_announce_reset_btn">Đặt lại</string>
 </resources>

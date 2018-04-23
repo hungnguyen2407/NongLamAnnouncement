@@ -1,5 +1,6 @@
 package vn.edu.hcmuaf.nonglamannouncement.activity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,8 +13,10 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import vn.edu.hcmuaf.nonglamannouncement.R;
 import vn.edu.hcmuaf.nonglamannouncement.dao.CustomConnection;
@@ -33,12 +36,15 @@ public class MainActivity extends AppCompatActivity
     private FragmentManager fragmentManager;
     private TextView tvHeader;
     private Toolbar toolbar;
+    private Activity mainActivity;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mainActivity = this;
         setContentView(R.layout.activity_main);
         toolbar = findViewById(R.id.main_toolbar);
-        toolbar.inflateMenu(R.menu.menu_main);
+        setSupportActionBar(toolbar);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -48,7 +54,6 @@ public class MainActivity extends AppCompatActivity
         navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 //        FirebaseFirestore db = FirebaseFirestore.getInstance();
-
 
 
         sp = getSharedPreferences(MemoryName.TEMP_DATA.toString(), Context.MODE_PRIVATE);
@@ -120,7 +125,8 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.menu_main, menu);
         return true;
     }
 
@@ -129,20 +135,21 @@ public class MainActivity extends AppCompatActivity
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        switch (id) {
-            case R.id.menu_action_search:
-                break;
+        switch (item.getItemId()) {
             case R.id.menu_action_group_join:
-                break;
+                Toast.makeText(getApplicationContext(), "Join", Toast.LENGTH_SHORT).show();
+                return true;
             case R.id.menu_action_post_announce:
                 startActivity(new Intent(this, PostAnnounceActivity.class));
-                break;
+                return true;
+            case R.id.menu_action_search:
+                Toast.makeText(getApplicationContext(), "Search", Toast.LENGTH_SHORT).show();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-
-        return super.onOptionsItemSelected(item);
     }
+
 
     /*
         Xử lý nav
