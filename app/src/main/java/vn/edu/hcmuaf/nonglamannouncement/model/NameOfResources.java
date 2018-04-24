@@ -13,7 +13,8 @@ public enum NameOfResources {
     GROUP_JOIN_MESSAGE("group_join_message"),
     GROUP_LIST("group_list"),
     POST_ANNOUNCE_MESSAGE("post_announce_message"),
-    USER_INFO("user_info");
+    USER_INFO("user_info"),
+    RESET_PASS_MESSAGE("reset_pass_message");
 
     NameOfResources(String name) {
         this.name = name;

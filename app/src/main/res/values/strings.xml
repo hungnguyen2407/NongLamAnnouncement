@@ -37,7 +37,7 @@
     <string name="title_activity_announce_detail">AnnounceDetailActivity</string>
     <string name="img_des">  </string>
     <string name="error_connection">Đã xảy ra lỗi trong quá trình kết nối</string>
-    <string name="login_user_id">MSSV</string>
+    <string name="login_user_id">Mã số</string>
     <string name="error_login">Đăng nhập thất bại</string>
     <string name="nav_group">Nhóm</string>
     <string name="nav_setting">Cài đặt</string>
@@ -51,4 +51,8 @@
     <string name="hint_post_announce_class_id">Mã nhóm</string>
     <string name="post_announce_send_btn">Xác nhận</string>
     <string name="post_announce_reset_btn">Đặt lại</string>
+    <string name="forget_pass_return_btn">Quay lại</string>
+    <string name="forget_pass_et_id">Mã số</string>
+    <string name="forget_pass_submit_btn">Khôi phục mật khẩu</string>
+    <string name="forget_pass_reset_success">Đã khôi phục mật khẩu thành công. Hãy kiểm tra hộp thư để lấy mật khẩu mới.</string>
 </resources>

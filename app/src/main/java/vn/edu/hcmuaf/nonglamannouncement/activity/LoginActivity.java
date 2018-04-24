@@ -26,8 +26,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -67,7 +65,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private UserLoginTask mAuthTask = null;
 
     // UI references.
-    private AutoCompleteTextView tvID;
+    private EditText etID;
     private EditText etPass;
     private View mProgressView;
     private View mLoginFormView;
@@ -79,11 +77,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         loginActivity = this;
         setContentView(R.layout.activity_login);
         // Set up the login form.
-        tvID = findViewById(R.id.login_id);
-        populateAutoComplete();
+        etID = findViewById(R.id.login_et_id);
         sp = getSharedPreferences(MemoryName.TEMP_DATA.toString(), Context.MODE_PRIVATE);
-        etPass = findViewById(R.id.password);
-        editPass = loginActivity.findViewById(R.id.password);
+        etPass = findViewById(R.id.login_et_pass);
+        editPass = loginActivity.findViewById(R.id.login_et_pass);
         etPass.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
@@ -95,8 +92,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
 
-        Button mEmailSignInButton = findViewById(R.id.sign_in_button);
-        mEmailSignInButton.setOnClickListener(new OnClickListener() {
+        Button loginSubmitBtn = findViewById(R.id.login_submit_btn);
+        loginSubmitBtn.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 attemptLogin();
@@ -106,8 +103,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
 
-        TextView forgetPass = findViewById(R.id.tv_forget_pass);
-        forgetPass.setOnClickListener(new OnClickListener() {
+        Button forgetPassBtn = findViewById(R.id.login_forget_pass_btn);
+        forgetPassBtn.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(loginActivity, ForgetPassActivity.class));
@@ -139,7 +136,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             return true;
         }
         if (shouldShowRequestPermissionRationale(READ_CONTACTS)) {
-            Snackbar.make(tvID, R.string.permission_rationale, Snackbar.LENGTH_INDEFINITE)
+            Snackbar.make(etID, R.string.permission_rationale, Snackbar.LENGTH_INDEFINITE)
                     .setAction(android.R.string.ok, new View.OnClickListener() {
                         @Override
                         @TargetApi(Build.VERSION_CODES.M)
@@ -178,10 +175,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
         closeKeyBoard();
         // Reset errors.
-        tvID.setError(null);
+        etID.setError(null);
         editPass.setError(null);
         // Store values at the time of the login attempt.
-        String id = tvID.getText().toString();
+        String id = etID.getText().toString();
         String password = etPass.getText().toString();
 
         boolean cancel = false;
@@ -195,8 +192,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
 
         if (TextUtils.isEmpty(id)) {
-            tvID.setError(getString(R.string.error_field_required));
-            focusView = tvID;
+            etID.setError(getString(R.string.error_field_required));
+            focusView = etID;
             cancel = true;
         }
 
@@ -295,11 +292,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     private void addEmailsToAutoComplete(List<String> emailAddressCollection) {
         //Create adapter to tell the AutoCompleteTextView what to show in its dropdown list.
-        ArrayAdapter<String> adapter =
-                new ArrayAdapter<>(LoginActivity.this,
-                        android.R.layout.simple_dropdown_item_1line, emailAddressCollection);
-
-        tvID.setAdapter(adapter);
+//        ArrayAdapter<String> adapter =
+//                new ArrayAdapter<>(LoginActivity.this,
+//                        android.R.layout.simple_dropdown_item_1line, emailAddressCollection);
+//
+//        etID.setAdapter(adapter);
     }
 
 
@@ -345,11 +342,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         @Override
         protected void onPostExecute(final Boolean success) {
 
-            showProgress(false);
+
             if (Boolean.valueOf(sp.getString(NameOfResources.LOGIN_SUCCESS.toString(), "false"))) {
                 Intent mainActivityIntent = new Intent(loginActivity, MainActivity.class);
                 mainActivityIntent.putExtra(NameOfResources.USER_ID.toString(), id);
-
+                showProgress(false);
                 startActivity(mainActivityIntent);
             } else {
                 Toast.makeText(LoginActivity.this, "Sai thông tin đăng nhập", Toast.LENGTH_SHORT).show();

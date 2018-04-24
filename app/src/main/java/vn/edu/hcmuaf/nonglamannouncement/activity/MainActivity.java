@@ -207,7 +207,7 @@ public class MainActivity extends AppCompatActivity
                         }
                     })
                     .setNegativeButton("Không", null).show();
-            logoutDialog.getButton(AlertDialog.BUTTON_POSITIVE).setBackgroundColor(Color.RED);
+            logoutDialog.getButton(AlertDialog.BUTTON_POSITIVE).setBackgroundColor(Color.GRAY);
             logoutDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setBackgroundColor(getResources().getColor(R.color.colorPrimary));
         }
 

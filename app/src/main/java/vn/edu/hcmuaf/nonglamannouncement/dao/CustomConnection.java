@@ -144,7 +144,8 @@ public class CustomConnection {
         GROUP_JOIN("group/join"),
         GROUP_LIST("user/dsgroup"),
         POST_ANNOUNCE("announce/add"),
-        USER_INFO("user/info");
+        USER_INFO("user/info"),
+        RESET_PASS("");
 
         URLPostfix(String postfix) {
             this.postfix = postfix;
