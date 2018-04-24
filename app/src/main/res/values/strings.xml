@@ -55,4 +55,6 @@
     <string name="forget_pass_et_id">Mã số</string>
     <string name="forget_pass_submit_btn">Khôi phục mật khẩu</string>
     <string name="forget_pass_reset_success">Đã khôi phục mật khẩu thành công. Hãy kiểm tra hộp thư để lấy mật khẩu mới.</string>
+    <string name="menu_action_delete_announce">Xoá thông báo</string>
+    <string name="menu_action_edit_announce">Sửa thông báo</string>
 </resources>

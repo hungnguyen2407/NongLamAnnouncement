@@ -22,7 +22,8 @@ public class AnnounceDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_announce_detail);
         Toolbar toolbar = findViewById(R.id.announce_detail_toolbar);
-        setSupportActionBar(toolbar);
+        if (hasPermission())
+            setSupportActionBar(toolbar);
         ImageButton btnBack = findViewById(R.id.announce_detail_back_btn);
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -39,6 +40,12 @@ public class AnnounceDetailActivity extends AppCompatActivity {
         tvContent.setText(sp.getString(AnnounceData.CONTENT.toString(), "Content"));
         TextView tvDate = findViewById(R.id.announce_detail_date);
         tvDate.setText(sp.getString(AnnounceData.DATE.toString(), "Date"));
+    }
+
+    //User have permission to edit the announce
+    private boolean hasPermission() {
+        //TODO
+        return true;
     }
 
     @Override
