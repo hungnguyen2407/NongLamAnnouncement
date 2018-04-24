@@ -26,7 +26,6 @@ public class CustomConnection {
     public static void makeGETConnection(final Activity activity, URLPostfix postfix, final String nameOfResources) {
         RequestQueue queue = Volley.newRequestQueue(activity.getApplicationContext());
         String url = URL + postfix.getPostfix();
-
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
@@ -66,29 +65,24 @@ public class CustomConnection {
 
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        // TODO: Handle error
 
                     }
                 });
     }
 
     public static void makeGETConnectionWithParameter(final Activity activity, URLPostfix postfix, final String nameOfResources, String... parameters) {
-
         RequestQueue queue = Volley.newRequestQueue(activity.getApplicationContext());
         String url = URL + postfix.getPostfix();
         for (String i : parameters) {
             url += "/" + i;
         }
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         SharedPreferences sp = activity.getSharedPreferences(MemoryName.TEMP_DATA.toString(), Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = sp.edit();
                         editor.putString(nameOfResources, response);
                         editor.apply();
-
-
                     }
                 }, new Response.ErrorListener() {
             @Override

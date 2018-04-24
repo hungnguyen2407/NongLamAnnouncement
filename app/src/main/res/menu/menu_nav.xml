@@ -15,7 +15,7 @@
             android:title="Nhóm" />
         <item
             android:id="@+id/nav_setting"
-            android:icon="@drawable/ic_setting"
+            android:icon="@drawable/ic_setting_black"
             android:title="Cài đặt" />
         <item
             android:id="@+id/nav_help"
