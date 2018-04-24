@@ -2,14 +2,17 @@ package vn.edu.hcmuaf.nonglamannouncement.activity;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -25,8 +28,7 @@ import vn.edu.hcmuaf.nonglamannouncement.fragment.GroupFragment;
 import vn.edu.hcmuaf.nonglamannouncement.fragment.HelpFragment;
 import vn.edu.hcmuaf.nonglamannouncement.fragment.SettingFragment;
 import vn.edu.hcmuaf.nonglamannouncement.model.MemoryName;
-import vn.edu.hcmuaf.nonglamannouncement.model.NameOfResult;
-import vn.edu.hcmuaf.nonglamannouncement.model.ObjectTypes;
+import vn.edu.hcmuaf.nonglamannouncement.model.NameOfResources;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -57,6 +59,11 @@ public class MainActivity extends AppCompatActivity
 
 
         sp = getSharedPreferences(MemoryName.TEMP_DATA.toString(), Context.MODE_PRIVATE);
+        String id = sp.getString(NameOfResources.USER_ID.toString(), getIntent().getStringExtra(NameOfResources.USER_ID.toString()));
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString(NameOfResources.USER_ID.toString(), id);
+        editor.commit();
+        editor = null;
 //        db.collection(MemoryName.TEMP_DATA.toString())
 //                .get()
 //                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -73,7 +80,7 @@ public class MainActivity extends AppCompatActivity
 //                });
 
 
-        loginSuccess = Boolean.valueOf(sp.getString(NameOfResult.LOGIN_SUCCESS.toString(), "false"));
+        loginSuccess = Boolean.valueOf(sp.getString(NameOfResources.LOGIN_SUCCESS.toString(), "false"));
 
         if (loginSuccess) {
             navHeaderHandler();
@@ -92,27 +99,39 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void initHandle() {
-        CustomConnection.makeGETConnectionWithParameter(this, CustomConnection.URLPostfix.GROUP_LIST, NameOfResult.GROUP_LIST.toString(), sp.getString(NameOfResult.USER_ID.toString(), ""));
+        CustomConnection.makeGETConnectionWithParameter(this, CustomConnection.URLPostfix.GROUP_LIST, NameOfResources.GROUP_LIST.toString(), sp.getString(NameOfResources.USER_ID.toString(), ""));
     }
 
     private void navHeaderHandler() {
-        String id = sp.getString(NameOfResult.USER_ID.toString(), "14130047");
-        CustomConnection.makeGETConnectionWithParameter(this, CustomConnection.URLPostfix.FIND_NAME_BY_ID, NameOfResult.USER_NAME.toString(), ObjectTypes.USER.toString(), id);
-        String userName = getSharedPreferences(MemoryName.TEMP_DATA.toString(), Context.MODE_PRIVATE).getString(NameOfResult.USER_NAME.toString(), "");
+        String id = sp.getString(NameOfResources.USER_ID.toString(), "");
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        String userName = getSharedPreferences(MemoryName.TEMP_DATA.toString(), Context.MODE_PRIVATE).getString(NameOfResources.USER_NAME.toString(), "");
         TextView tvUserName = navigationView.getHeaderView(0).findViewById(R.id.nav_user_tv_name);
         tvUserName.setText(userName);
 
         TextView tvUserEmail = navigationView.getHeaderView(0).findViewById(R.id.nav_user_tv_email);
         tvUserEmail.setText(id + "@st.hcmuaf.edu.vn");
-        String className = sp.getString(NameOfResult.USER_CLASS_ID.toString(), "DH14DTA");
-        CustomConnection.makeGETConnectionWithParameter(this, CustomConnection.URLPostfix.FIND_NAME_BY_ID, NameOfResult.USER_CLASS_NAME.toString(), ObjectTypes.GROUP.toString(), className);
-        String userClass = getSharedPreferences(MemoryName.TEMP_DATA.toString(), Context.MODE_PRIVATE).getString(NameOfResult.USER_CLASS_NAME.toString(), "");
+        String className = sp.getString(NameOfResources.USER_CLASS_ID.toString(), "");
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        String userClass = getSharedPreferences(MemoryName.TEMP_DATA.toString(), Context.MODE_PRIVATE).getString(NameOfResources.USER_CLASS_NAME.toString(), "");
         TextView tvUserClass = navigationView.getHeaderView(0).findViewById(R.id.nav_user_tv_class);
         tvUserClass.setText(userClass);
 
-        String faculty = sp.getString(NameOfResult.USER_FACULTY_ID.toString(), "CNTT");
-        CustomConnection.makeGETConnectionWithParameter(this, CustomConnection.URLPostfix.FIND_NAME_BY_ID, NameOfResult.USER_FACULTY_NAME.toString(), ObjectTypes.FACULTY.toString(), faculty);
-        String userFaculty = getSharedPreferences(MemoryName.TEMP_DATA.toString(), Context.MODE_PRIVATE).getString(NameOfResult.USER_FACULTY_NAME.toString(), "");
+        String faculty = sp.getString(NameOfResources.USER_FACULTY_ID.toString(), "");
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        String userFaculty = getSharedPreferences(MemoryName.TEMP_DATA.toString(), Context.MODE_PRIVATE).getString(NameOfResources.USER_FACULTY_NAME.toString(), "");
         TextView tvUserFaculty = navigationView.getHeaderView(0).findViewById(R.id.nav_user_tv_faculty);
         tvUserFaculty.setText(userFaculty);
     }
@@ -173,11 +192,23 @@ public class MainActivity extends AppCompatActivity
             tvHeader.setText(R.string.nav_help);
             fragmentManager.beginTransaction().replace(R.id.contentFrame, new HelpFragment()).commit();
         } else if (id == R.id.nav_logout) {
-            // xoa du lieu o file data_login sau khi da dang xuat
-            SharedPreferences.Editor editor = sp.edit();
-            editor.putString(NameOfResult.LOGIN_SUCCESS.toString(), "false");
-            editor.commit();
-            login();
+            AlertDialog logoutDialog = new AlertDialog.Builder(this)
+                    .setTitle("Xác nhận đăng xuất")
+                    .setMessage("Bạn chắc chắn muốn đăng xuất ? ")
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .setPositiveButton("Có", new DialogInterface.OnClickListener() {
+
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            // xoa du lieu o file data_login sau khi da dang xuat
+                            SharedPreferences.Editor editor = sp.edit();
+                            editor.putString(NameOfResources.LOGIN_SUCCESS.toString(), "false");
+                            editor.commit();
+                            login();
+                        }
+                    })
+                    .setNegativeButton("Không", null).show();
+            logoutDialog.getButton(AlertDialog.BUTTON_POSITIVE).setBackgroundColor(Color.RED);
+            logoutDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setBackgroundColor(getResources().getColor(R.color.colorPrimary));
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);

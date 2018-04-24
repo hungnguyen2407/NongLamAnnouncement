@@ -31,7 +31,7 @@ import vn.edu.hcmuaf.nonglamannouncement.model.Announce;
 import vn.edu.hcmuaf.nonglamannouncement.model.AnnounceData;
 import vn.edu.hcmuaf.nonglamannouncement.model.JSONTag;
 import vn.edu.hcmuaf.nonglamannouncement.model.MemoryName;
-import vn.edu.hcmuaf.nonglamannouncement.model.NameOfResult;
+import vn.edu.hcmuaf.nonglamannouncement.model.NameOfResources;
 
 /*
 Xu ly hien thi cho trang thong bao
@@ -113,9 +113,9 @@ public class AnnounceFragment extends Fragment {
     private void announceListHandler() {
         try {
             listAnnouces = new ArrayList<>();
-            CustomConnection.makeGETConnection(mainActivity, CustomConnection.URLPostfix.ANNOUNCE_ALL, NameOfResult.ANNOUNCE_DATA.toString());
+            CustomConnection.makeGETConnection(mainActivity, CustomConnection.URLPostfix.ANNOUNCE_ALL, NameOfResources.ANNOUNCE_DATA.toString());
             SharedPreferences sp = mainActivity.getSharedPreferences(MemoryName.TEMP_DATA.toString(), Context.MODE_PRIVATE);
-            String data = sp.getString(NameOfResult.ANNOUNCE_DATA.toString(), "");
+            String data = sp.getString(NameOfResources.ANNOUNCE_DATA.toString(), "");
             JSONArray jsonArray = new JSONObject(data).getJSONArray(JSONTag.ANNOUNCE.toString());
             for (int i = 0; i < jsonArray.length(); i++) {
                 listAnnouces.add(new Announce(jsonArray.getJSONObject(i)));

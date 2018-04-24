@@ -1,5 +1,8 @@
 package vn.edu.hcmuaf.nonglamannouncement.model;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class Group {
     private String groupId;
     private String groupName;
@@ -13,6 +16,17 @@ public class Group {
         this.memNum = memNum;
     }
 
+    public Group(JSONObject jsonObject) {
+        try {
+            this.groupId = jsonObject.getString(ObjectTypes.GROUP.toString());
+            this.groupName = jsonObject.getString(ObjectTypes.GROUP_NAME.toString());
+            this.facultyId = jsonObject.getString(ObjectTypes.FACULTY.toString());
+            this.memNum = jsonObject.getInt(ObjectTypes.GROUP_MEM.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
     public String getGroupId() {
         return groupId;
     }

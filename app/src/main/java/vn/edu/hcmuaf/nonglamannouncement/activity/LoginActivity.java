@@ -25,6 +25,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -37,7 +38,7 @@ import java.util.List;
 import vn.edu.hcmuaf.nonglamannouncement.R;
 import vn.edu.hcmuaf.nonglamannouncement.dao.CustomConnection;
 import vn.edu.hcmuaf.nonglamannouncement.model.MemoryName;
-import vn.edu.hcmuaf.nonglamannouncement.model.NameOfResult;
+import vn.edu.hcmuaf.nonglamannouncement.model.NameOfResources;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -114,6 +115,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         });
     }
 
+    private void closeKeyBoard() {
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+    }
+
     private void populateAutoComplete() {
         if (!mayRequestContacts()) {
             return;
@@ -167,7 +176,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         if (mAuthTask != null) {
             return;
         }
-
+        closeKeyBoard();
         // Reset errors.
         tvID.setError(null);
         editPass.setError(null);
@@ -320,9 +329,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            CustomConnection.makeGETConnectionWithParameter(loginActivity, CustomConnection.URLPostfix.LOGIN, NameOfResult.LOGIN_SUCCESS.toString(), id, password);
+            CustomConnection.makeGETConnectionWithParameter(loginActivity, CustomConnection.URLPostfix.LOGIN, NameOfResources.LOGIN_SUCCESS.toString(), id, password);
+
+            if (Boolean.valueOf(sp.getString(NameOfResources.LOGIN_SUCCESS.toString(), "false"))) {
+                CustomConnection.makeGETConnectionWithParameter(loginActivity, CustomConnection.URLPostfix.USER_INFO, NameOfResources.USER_INFO.toString(), id);
+            }
             try {
-                Thread.sleep(1000);
+                Thread.sleep(5000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -333,12 +346,16 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         protected void onPostExecute(final Boolean success) {
 
             showProgress(false);
-            if (Boolean.valueOf(sp.getString(NameOfResult.LOGIN_SUCCESS.toString(), "false"))) {
-                startActivity(new Intent(loginActivity, MainActivity.class));
+            if (Boolean.valueOf(sp.getString(NameOfResources.LOGIN_SUCCESS.toString(), "false"))) {
+                Intent mainActivityIntent = new Intent(loginActivity, MainActivity.class);
+                mainActivityIntent.putExtra(NameOfResources.USER_ID.toString(), id);
+
+                startActivity(mainActivityIntent);
             } else {
                 Toast.makeText(LoginActivity.this, "Sai thông tin đăng nhập", Toast.LENGTH_SHORT).show();
                 mAuthTask = null;
                 showProgress(false);
+
             }
 
 //            if (success) {
