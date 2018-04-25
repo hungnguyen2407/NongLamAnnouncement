@@ -18,10 +18,10 @@ public class Group {
 
     public Group(JSONObject jsonObject) {
         try {
-            this.groupId = jsonObject.getString(ObjectTypes.GROUP.toString());
-            this.groupName = jsonObject.getString(ObjectTypes.GROUP_NAME.toString());
-            this.facultyId = jsonObject.getString(ObjectTypes.FACULTY.toString());
-            this.memNum = jsonObject.getInt(ObjectTypes.GROUP_MEM.toString());
+            this.groupId = jsonObject.getString(JSONTags.GROUP.toString());
+            this.groupName = jsonObject.getString(JSONTags.GROUP_NAME.toString());
+            this.facultyId = jsonObject.getString(JSONTags.FACULTY.toString());
+            this.memNum = jsonObject.getInt(JSONTags.GROUP_MEM.toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }

@@ -18,7 +18,7 @@
     <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="error_invalid_email">This email address is invalid</string>
-    <string name="error_invalid_password"></string>
+    <string name="error_invalid_password">Mật khẩu không an toàn</string>
     <string name="error_incorrect_password">Mật khẩu không đúng</string>
     <string name="error_field_required">Thiếu thông tin</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email
@@ -57,4 +57,11 @@
     <string name="forget_pass_reset_success">Đã khôi phục mật khẩu thành công. Hãy kiểm tra hộp thư để lấy mật khẩu mới.</string>
     <string name="menu_action_delete_announce">Xoá thông báo</string>
     <string name="menu_action_edit_announce">Sửa thông báo</string>
+    <string name="setting_change_pass">Thay đổi mật khẩu</string>
+    <string name="title_activity_change_pass">ChangePassActivity</string>
+    <string name="change_pass_submit_btn">Đổi mật khẩu</string>
+    <string name="change_pass_old_pass">Mật khẩu cũ</string>
+    <string name="change_pass_new_pass">Mật khẩu mới</string>
+    <string name="change_pass_new_pass_repeat">Nhập lại mật khẩu</string>
+    <string name="error_not_match_password">Mật khẩu không giống</string>
 </resources>

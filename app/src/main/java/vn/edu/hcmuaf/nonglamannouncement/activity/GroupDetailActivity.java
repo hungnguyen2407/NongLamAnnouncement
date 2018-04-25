@@ -1,28 +1,44 @@
 package vn.edu.hcmuaf.nonglamannouncement.activity;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.ImageButton;
+import android.widget.TextView;
 
 import vn.edu.hcmuaf.nonglamannouncement.R;
+import vn.edu.hcmuaf.nonglamannouncement.model.MemoryName;
+import vn.edu.hcmuaf.nonglamannouncement.model.NameOfResources;
 
 public class GroupDetailActivity extends AppCompatActivity {
-
+    private Activity groupDetailActivity;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_detail);
-        Toolbar toolbar = findViewById(R.id.group_detail_toolbar);
-        setSupportActionBar(toolbar);
+        groupDetailActivity = this;
+        ImageButton btnReturn = findViewById(R.id.group_detail_back_btn);
+        btnReturn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+        groupDetailHandler();
+    }
 
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
+    private void groupDetailHandler() {
+        TextView tvName = findViewById(R.id.group_detail_tv_name);
+        TextView tvMemNum = findViewById(R.id.group_detail_mem_num);
+        SharedPreferences sp = getSharedPreferences(MemoryName.TEMP_DATA.toString(), Context.MODE_PRIVATE);
+        tvName.setText(sp.getString(NameOfResources.GROUP_NAME.toString(), ""));
+        tvMemNum.setText(sp.getString(NameOfResources.GROUP_MEM_NUM.toString(), ""));
+        sp.getString(NameOfResources.GROUP_ID.toString(), "");
+        sp.getString(NameOfResources.GROUP_FACULTY_ID.toString(), "");
+
     }
 
 }

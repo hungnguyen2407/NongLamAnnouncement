@@ -77,14 +77,14 @@ public class CustomConnection {
             url += "/" + i;
         }
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        SharedPreferences sp = activity.getSharedPreferences(MemoryName.TEMP_DATA.toString(), Context.MODE_PRIVATE);
-                        SharedPreferences.Editor editor = sp.edit();
-                        editor.putString(nameOfResources, response);
-                        editor.apply();
-                    }
-                }, new Response.ErrorListener() {
+            @Override
+            public void onResponse(String response) {
+                SharedPreferences sp = activity.getSharedPreferences(MemoryName.TEMP_DATA.toString(), Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sp.edit();
+                editor.putString(nameOfResources, response);
+                editor.apply();
+            }
+        }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(activity.getApplicationContext(), activity.getText(R.string.error_connection), Toast.LENGTH_LONG);
@@ -111,13 +111,32 @@ public class CustomConnection {
         });
     }
 
-    public static void makePOSTConnectionWithParamter(final Activity activity, URLPostfix postfix, final String nameOfResources, String... parameters) {
+    public static void makePOSTConnectionWithParameter(final Activity activity, URLPostfix postfix, final String nameOfResources, String... parameters) {
         RequestQueue queue = Volley.newRequestQueue(activity.getApplicationContext());
         String url = URL + postfix.getPostfix();
         for (String i : parameters) {
             url += "/" + i;
         }
         new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+    }
+
+    public static void makePUTConnectionWithParameter(final Activity activity, URLPostfix postfix, final String nameOfResources, String... parameters) {
+        RequestQueue queue = Volley.newRequestQueue(activity.getApplicationContext());
+        String url = URL + postfix.getPostfix();
+        for (String i : parameters) {
+            url += "/" + i;
+        }
+        new StringRequest(Request.Method.PUT, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
@@ -139,8 +158,8 @@ public class CustomConnection {
         GROUP_LIST("user/dsgroup"),
         POST_ANNOUNCE("announce/add"),
         USER_INFO("user/info"),
-        RESET_PASS("");
-
+        RESET_PASS(""),
+        CHANGE_PASS("user/changepass");
         URLPostfix(String postfix) {
             this.postfix = postfix;
         }

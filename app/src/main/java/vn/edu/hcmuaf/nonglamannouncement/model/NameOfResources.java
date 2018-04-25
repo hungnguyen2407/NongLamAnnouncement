@@ -14,7 +14,15 @@ public enum NameOfResources {
     GROUP_LIST("group_list"),
     POST_ANNOUNCE_MESSAGE("post_announce_message"),
     USER_INFO("user_info"),
-    RESET_PASS_MESSAGE("reset_pass_message");
+    RESET_PASS_MESSAGE("reset_pass_message"),
+    CHANGE_PASS_MESSAGE("change_pass_message"),
+    ANNOUNCE_HEADER("announce_header"),
+    ANNOUNCE_CONTENT("announce_content"),
+    ANNOUNCE_DATE("announce_date"),
+    GROUP_ID("group_id"),
+    GROUP_NAME("group_name"),
+    GROUP_MEM_NUM("group_mem_num"),
+    GROUP_FACULTY_ID("group_faculty_id");
 
     NameOfResources(String name) {
         this.name = name;

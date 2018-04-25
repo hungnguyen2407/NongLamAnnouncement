@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
@@ -15,11 +16,15 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import vn.edu.hcmuaf.nonglamannouncement.R;
 import vn.edu.hcmuaf.nonglamannouncement.dao.CustomConnection;
@@ -27,6 +32,7 @@ import vn.edu.hcmuaf.nonglamannouncement.fragment.AnnounceFragment;
 import vn.edu.hcmuaf.nonglamannouncement.fragment.GroupFragment;
 import vn.edu.hcmuaf.nonglamannouncement.fragment.HelpFragment;
 import vn.edu.hcmuaf.nonglamannouncement.fragment.SettingFragment;
+import vn.edu.hcmuaf.nonglamannouncement.model.JSONTags;
 import vn.edu.hcmuaf.nonglamannouncement.model.MemoryName;
 import vn.edu.hcmuaf.nonglamannouncement.model.NameOfResources;
 
@@ -39,6 +45,7 @@ public class MainActivity extends AppCompatActivity
     private TextView tvHeader;
     private Toolbar toolbar;
     private Activity mainActivity;
+    private String userID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,32 +59,9 @@ public class MainActivity extends AppCompatActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-
         navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-//        FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-
         sp = getSharedPreferences(MemoryName.TEMP_DATA.toString(), Context.MODE_PRIVATE);
-        String id = sp.getString(NameOfResources.USER_ID.toString(), getIntent().getStringExtra(NameOfResources.USER_ID.toString()));
-        SharedPreferences.Editor editor = sp.edit();
-        editor.putString(NameOfResources.USER_ID.toString(), id);
-        editor.commit();
-        editor = null;
-//        db.collection(MemoryName.TEMP_DATA.toString())
-//                .get()
-//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                        if (task.isSuccessful()) {
-//                            for (DocumentSnapshot document : task.getResult()) {
-//                                Log.d("respond", document.getId() + " => " + document.getData());
-//                            }
-//                        } else {
-//                            Log.w("respond", "Error getting documents.", task.getException());
-//                        }
-//                    }
-//                });
 
 
         loginSuccess = Boolean.valueOf(sp.getString(NameOfResources.LOGIN_SUCCESS.toString(), "false"));
@@ -99,41 +83,23 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void initHandle() {
+        userID = sp.getString(NameOfResources.USER_ID.toString(), "");
+        if (TextUtils.isEmpty(userID))
+            userID = sp.getString(NameOfResources.USER_ID.toString(), getIntent().getStringExtra(NameOfResources.USER_ID.toString()));
+
+        new GetUserInfoTask().execute();
         CustomConnection.makeGETConnectionWithParameter(this, CustomConnection.URLPostfix.GROUP_LIST, NameOfResources.GROUP_LIST.toString(), sp.getString(NameOfResources.USER_ID.toString(), ""));
     }
 
     private void navHeaderHandler() {
-        String id = sp.getString(NameOfResources.USER_ID.toString(), "");
         try {
-            Thread.sleep(500);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        String userName = getSharedPreferences(MemoryName.TEMP_DATA.toString(), Context.MODE_PRIVATE).getString(NameOfResources.USER_NAME.toString(), "");
-        TextView tvUserName = navigationView.getHeaderView(0).findViewById(R.id.nav_user_tv_name);
-        tvUserName.setText(userName);
+            JSONObject userInfoJSON = new JSONObject(sp.getString(NameOfResources.USER_INFO.toString(), ""));
+            TextView tvUserName = navigationView.findViewById(R.id.nav_user_tv_name);
+            tvUserName.setText(userInfoJSON.getString(JSONTags.USER_LNAME.toString()) + " " + userInfoJSON.getString(JSONTags.USER_FNAME.toString()));
 
-        TextView tvUserEmail = navigationView.getHeaderView(0).findViewById(R.id.nav_user_tv_email);
-        tvUserEmail.setText(id + "@st.hcmuaf.edu.vn");
-        String className = sp.getString(NameOfResources.USER_CLASS_ID.toString(), "");
-        try {
-            Thread.sleep(500);
-        } catch (InterruptedException e) {
+        } catch (JSONException e) {
             e.printStackTrace();
         }
-        String userClass = getSharedPreferences(MemoryName.TEMP_DATA.toString(), Context.MODE_PRIVATE).getString(NameOfResources.USER_CLASS_NAME.toString(), "");
-        TextView tvUserClass = navigationView.getHeaderView(0).findViewById(R.id.nav_user_tv_class);
-        tvUserClass.setText(userClass);
-
-        String faculty = sp.getString(NameOfResources.USER_FACULTY_ID.toString(), "");
-        try {
-            Thread.sleep(500);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        String userFaculty = getSharedPreferences(MemoryName.TEMP_DATA.toString(), Context.MODE_PRIVATE).getString(NameOfResources.USER_FACULTY_NAME.toString(), "");
-        TextView tvUserFaculty = navigationView.getHeaderView(0).findViewById(R.id.nav_user_tv_faculty);
-        tvUserFaculty.setText(userFaculty);
     }
 
 
@@ -202,6 +168,7 @@ public class MainActivity extends AppCompatActivity
                             // xoa du lieu o file data_login sau khi da dang xuat
                             SharedPreferences.Editor editor = sp.edit();
                             editor.putString(NameOfResources.LOGIN_SUCCESS.toString(), "false");
+                            editor.putString(NameOfResources.USER_ID.toString(), "");
                             editor.commit();
                             login();
                         }
@@ -222,4 +189,16 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+    private class GetUserInfoTask extends AsyncTask<Void, Void, Boolean> {
+
+        @Override
+        protected Boolean doInBackground(Void... voids) {
+
+            CustomConnection.makeGETConnectionWithParameter(mainActivity,
+                    CustomConnection.URLPostfix.USER_INFO,
+                    NameOfResources.USER_INFO.toString(),
+                    userID);
+            return null;
+        }
+    }
 }

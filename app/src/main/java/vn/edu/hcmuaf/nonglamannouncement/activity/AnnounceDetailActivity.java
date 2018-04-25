@@ -12,8 +12,8 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import vn.edu.hcmuaf.nonglamannouncement.R;
-import vn.edu.hcmuaf.nonglamannouncement.model.AnnounceData;
 import vn.edu.hcmuaf.nonglamannouncement.model.MemoryName;
+import vn.edu.hcmuaf.nonglamannouncement.model.NameOfResources;
 
 public class AnnounceDetailActivity extends AppCompatActivity {
 
@@ -35,11 +35,11 @@ public class AnnounceDetailActivity extends AppCompatActivity {
         SharedPreferences sp = getSharedPreferences(MemoryName.TEMP_DATA.toString(), Context.MODE_PRIVATE);
 
         TextView tvHeader = findViewById(R.id.announce_detail_header);
-        tvHeader.setText(sp.getString(AnnounceData.HEADER.toString(), "Header"));
+        tvHeader.setText(sp.getString(NameOfResources.ANNOUNCE_HEADER.toString(), "Header"));
         TextView tvContent = findViewById(R.id.announce_detail_content);
-        tvContent.setText(sp.getString(AnnounceData.CONTENT.toString(), "Content"));
+        tvContent.setText(sp.getString(NameOfResources.ANNOUNCE_CONTENT.toString(), "Content"));
         TextView tvDate = findViewById(R.id.announce_detail_date);
-        tvDate.setText(sp.getString(AnnounceData.DATE.toString(), "Date"));
+        tvDate.setText(sp.getString(NameOfResources.ANNOUNCE_DATE.toString(), "Date"));
     }
 
     //User have permission to edit the announce

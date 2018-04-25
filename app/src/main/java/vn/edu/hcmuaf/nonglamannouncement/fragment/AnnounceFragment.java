@@ -28,8 +28,7 @@ import vn.edu.hcmuaf.nonglamannouncement.activity.AnnounceDetailActivity;
 import vn.edu.hcmuaf.nonglamannouncement.adapter.AnnounceAdapter;
 import vn.edu.hcmuaf.nonglamannouncement.dao.CustomConnection;
 import vn.edu.hcmuaf.nonglamannouncement.model.Announce;
-import vn.edu.hcmuaf.nonglamannouncement.model.AnnounceData;
-import vn.edu.hcmuaf.nonglamannouncement.model.JSONTag;
+import vn.edu.hcmuaf.nonglamannouncement.model.JSONTags;
 import vn.edu.hcmuaf.nonglamannouncement.model.MemoryName;
 import vn.edu.hcmuaf.nonglamannouncement.model.NameOfResources;
 
@@ -116,7 +115,7 @@ public class AnnounceFragment extends Fragment {
             CustomConnection.makeGETConnection(mainActivity, CustomConnection.URLPostfix.ANNOUNCE_ALL, NameOfResources.ANNOUNCE_DATA.toString());
             SharedPreferences sp = mainActivity.getSharedPreferences(MemoryName.TEMP_DATA.toString(), Context.MODE_PRIVATE);
             String data = sp.getString(NameOfResources.ANNOUNCE_DATA.toString(), "");
-            JSONArray jsonArray = new JSONObject(data).getJSONArray(JSONTag.ANNOUNCE.toString());
+            JSONArray jsonArray = new JSONObject(data).getJSONArray(JSONTags.ANNOUNCE.toString());
             for (int i = 0; i < jsonArray.length(); i++) {
                 listAnnouces.add(new Announce(jsonArray.getJSONObject(i)));
             }
@@ -133,9 +132,9 @@ public class AnnounceFragment extends Fragment {
                     Announce announce = listAnnouces.get(position);
                     SharedPreferences sp = mainActivity.getSharedPreferences(MemoryName.TEMP_DATA.toString(), Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = sp.edit();
-                    editor.putString(AnnounceData.HEADER.toString(), announce.getHeader());
-                    editor.putString(AnnounceData.CONTENT.toString(), announce.getContent());
-                    editor.putString(AnnounceData.DATE.toString(), announce.getDate());
+                    editor.putString(NameOfResources.ANNOUNCE_HEADER.toString(), announce.getHeader());
+                    editor.putString(NameOfResources.ANNOUNCE_CONTENT.toString(), announce.getContent());
+                    editor.putString(NameOfResources.ANNOUNCE_DATE.toString(), announce.getDate());
                     editor.apply();
                     startActivity(new Intent(mainActivity, AnnounceDetailActivity.class));
                 }

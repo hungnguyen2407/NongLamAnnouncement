@@ -1,7 +1,5 @@
 package vn.edu.hcmuaf.nonglamannouncement.model;
 
-import android.util.Log;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -20,13 +18,13 @@ public class Announce implements Serializable {
     private String img;
     private String date;
 
-//    public Announce(String header, String group, String content, String img) {
-//        this.header = header;
-//        this.group = group;
-//        this.content = content;
-//        this.img = img;
-//        this.date = new Date(System.currentTimeMillis()).toString();
-//    }
+    public Announce(String header, String group, String content, String img) {
+        this.header = header;
+        this.group = group;
+        this.content = content;
+        this.img = img;
+        this.date = new Date(System.currentTimeMillis()).toString();
+    }
 
     public Announce(JSONObject announceJSON)
     {

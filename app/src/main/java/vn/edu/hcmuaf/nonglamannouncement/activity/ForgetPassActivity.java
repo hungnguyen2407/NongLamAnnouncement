@@ -33,6 +33,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import vn.edu.hcmuaf.nonglamannouncement.R;
+import vn.edu.hcmuaf.nonglamannouncement.dao.CustomConnection;
+import vn.edu.hcmuaf.nonglamannouncement.model.NameOfResources;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -293,7 +295,7 @@ public class ForgetPassActivity extends AppCompatActivity implements LoaderCallb
 
         @Override
         protected Boolean doInBackground(Void... params) {
-//            CustomConnection.makeGETConnectionWithParameter(forgetPassActivity, CustomConnection.URLPostfix.RESET_PASS, NameOfResources.RESET_PASS_MESSAGE.toString(), id);
+            CustomConnection.makeGETConnectionWithParameter(forgetPassActivity, CustomConnection.URLPostfix.RESET_PASS, NameOfResources.RESET_PASS_MESSAGE.toString(), id);
             try {
                 Thread.sleep(2000);
             } catch (InterruptedException e) {
