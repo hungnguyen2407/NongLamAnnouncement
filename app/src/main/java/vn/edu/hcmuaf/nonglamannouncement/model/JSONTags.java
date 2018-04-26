@@ -13,8 +13,8 @@ public enum JSONTags {
     USER_LNAME("lName"),
     USER_FNAME("fName"),
     USER_EMAIL("email"),
-    USER_FACULTY_ID("facultyID"),
-    USER_CLASS_ID("classID"),
+    USER_FACULTY_ID("faculty_id"),
+    USER_CLASS_ID("class_id"),
     USER_LEVEL("level");
 
     JSONTags(String type) {
