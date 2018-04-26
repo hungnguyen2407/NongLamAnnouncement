@@ -2,7 +2,7 @@ package vn.edu.hcmuaf.nonglamannouncement.model;
 
 public enum JSONTags {
 
-    USER("id"),
+    USER_ID("id"),
     FACULTY("faculty_id"),
     GROUP("class_id"),
     GROUP_LIST("infoGroupOfUser"),

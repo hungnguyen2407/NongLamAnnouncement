@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="vn.edu.hcmuaf.nonglamannouncement">
+    package="vn.edu.hcmuaf.nonglamannouncement"
+    android:screenOrientation="portrait">
 
     <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -49,7 +50,8 @@
         <activity
             android:name=".activity.ChangePassActivity"
             android:label="@string/title_activity_change_pass"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

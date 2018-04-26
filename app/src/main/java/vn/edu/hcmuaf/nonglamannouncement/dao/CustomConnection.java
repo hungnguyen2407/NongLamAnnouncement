@@ -17,13 +17,14 @@ import org.json.JSONObject;
 
 import vn.edu.hcmuaf.nonglamannouncement.R;
 import vn.edu.hcmuaf.nonglamannouncement.model.MemoryName;
+import vn.edu.hcmuaf.nonglamannouncement.model.NameOfResources;
 
 public class CustomConnection {
 
     //    private static final String URL = "http://192.168.1.3:8080/NongLamAnnounceService/webresources/";
     private static final String URL = "https://nlunoti.azurewebsites.net/NongLamAnnounceService/service/";
 
-    public static void makeGETConnection(final Activity activity, URLPostfix postfix, final String nameOfResources) {
+    public static void makeGETConnection(final Activity activity, URLPostfix postfix, final NameOfResources nameOfResources) {
         RequestQueue queue = Volley.newRequestQueue(activity.getApplicationContext());
         String url = URL + postfix.getPostfix();
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
@@ -32,7 +33,7 @@ public class CustomConnection {
                     public void onResponse(String response) {
                         SharedPreferences sp = activity.getSharedPreferences(MemoryName.TEMP_DATA.toString(), Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = sp.edit();
-                        editor.putString(nameOfResources, response);
+                        editor.putString(nameOfResources.toString(), response);
                         editor.apply();
 
 
@@ -70,7 +71,7 @@ public class CustomConnection {
                 });
     }
 
-    public static void makeGETConnectionWithParameter(final Activity activity, URLPostfix postfix, final String nameOfResources, String... parameters) {
+    public static void makeGETConnectionWithParameter(final Activity activity, URLPostfix postfix, final NameOfResources nameOfResources, String... parameters) {
         RequestQueue queue = Volley.newRequestQueue(activity.getApplicationContext());
         String url = URL + postfix.getPostfix();
         for (String i : parameters) {
@@ -81,7 +82,7 @@ public class CustomConnection {
             public void onResponse(String response) {
                 SharedPreferences sp = activity.getSharedPreferences(MemoryName.TEMP_DATA.toString(), Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sp.edit();
-                editor.putString(nameOfResources, response);
+                editor.putString(nameOfResources.toString(), response);
                 editor.apply();
             }
         }, new Response.ErrorListener() {
@@ -100,18 +101,21 @@ public class CustomConnection {
         new StringRequest(Request.Method.DELETE, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-
+                SharedPreferences sp = activity.getSharedPreferences(MemoryName.TEMP_DATA.toString(), Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sp.edit();
+                editor.putString(nameOfResources.toString(), response);
+                editor.apply();
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                Toast.makeText(activity.getApplicationContext(), activity.getText(R.string.error_connection), Toast.LENGTH_LONG);
             }
         });
 
     }
 
-    public static void makePOSTConnectionWithParameter(final Activity activity, URLPostfix postfix, final String nameOfResources, String... parameters) {
+    public static void makePOSTConnectionWithParameter(final Activity activity, URLPostfix postfix, final NameOfResources nameOfResources, String... parameters) {
         RequestQueue queue = Volley.newRequestQueue(activity.getApplicationContext());
         String url = URL + postfix.getPostfix();
         for (String i : parameters) {
@@ -120,18 +124,21 @@ public class CustomConnection {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-
+                SharedPreferences sp = activity.getSharedPreferences(MemoryName.TEMP_DATA.toString(), Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sp.edit();
+                editor.putString(nameOfResources.toString(), response);
+                editor.apply();
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                Toast.makeText(activity.getApplicationContext(), activity.getText(R.string.error_connection), Toast.LENGTH_LONG);
             }
         });
         queue.add(stringRequest);
     }
 
-    public static void makePUTConnectionWithParameter(final Activity activity, URLPostfix postfix, final String nameOfResources, String... parameters) {
+    public static void makePUTConnectionWithParameter(final Activity activity, URLPostfix postfix, final NameOfResources nameOfResources, String... parameters) {
         RequestQueue queue = Volley.newRequestQueue(activity.getApplicationContext());
         String url = URL + postfix.getPostfix();
         for (String i : parameters) {
@@ -140,12 +147,15 @@ public class CustomConnection {
         StringRequest stringRequest = new StringRequest(Request.Method.PUT, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-
+                SharedPreferences sp = activity.getSharedPreferences(MemoryName.TEMP_DATA.toString(), Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sp.edit();
+                editor.putString(nameOfResources.toString(), response);
+                editor.apply();
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                Toast.makeText(activity.getApplicationContext(), activity.getText(R.string.error_connection), Toast.LENGTH_LONG);
             }
         });
         queue.add(stringRequest);
@@ -163,6 +173,7 @@ public class CustomConnection {
         RESET_PASS("user/resetpass"),
         CHANGE_PASS("user/changepass"),
         ANNOUNCE_BY_USER_ID("announce/user");
+
         URLPostfix(String postfix) {
             this.postfix = postfix;
         }

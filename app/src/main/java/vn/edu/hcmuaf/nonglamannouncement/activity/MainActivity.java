@@ -28,6 +28,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import vn.edu.hcmuaf.nonglamannouncement.R;
+import vn.edu.hcmuaf.nonglamannouncement.dao.CustomConnection;
 import vn.edu.hcmuaf.nonglamannouncement.fragment.AnnounceFragment;
 import vn.edu.hcmuaf.nonglamannouncement.fragment.GroupFragment;
 import vn.edu.hcmuaf.nonglamannouncement.fragment.HelpFragment;
@@ -75,12 +76,19 @@ public class MainActivity extends AppCompatActivity
             tvHeader.setText(R.string.nav_home);
             fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.contentFrame, new AnnounceFragment()).commit();
-
+            groupListDataHandler();
 
         } else {
             //kiem tra dang nhap neu chua dang nhap quay ve man hinh login
             login();
         }
+    }
+
+    private void groupListDataHandler() {
+        CustomConnection.makeGETConnectionWithParameter(mainActivity,
+                CustomConnection.URLPostfix.GROUP_LIST,
+                NameOfResources.GROUP_LIST, userID);
+
     }
 
     private void initHandle() {
@@ -89,6 +97,8 @@ public class MainActivity extends AppCompatActivity
                 userInfoJSON = new JSONObject(sp.getString(NameOfResources.USER_INFO.toString(), ""));
             else
                 userInfoJSON = new JSONObject(this.getIntent().getStringExtra(NameOfResources.USER_INFO.toString()));
+
+            userID = userInfoJSON.getString(JSONTags.USER_ID.toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }
