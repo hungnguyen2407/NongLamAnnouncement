@@ -16,12 +16,15 @@ import vn.edu.hcmuaf.nonglamannouncement.model.MemoryName;
 import vn.edu.hcmuaf.nonglamannouncement.model.NameOfResources;
 
 public class AnnounceDetailActivity extends AppCompatActivity {
-
+    private SharedPreferences sp;
+    private String userLevel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_announce_detail);
         Toolbar toolbar = findViewById(R.id.announce_detail_toolbar);
+        sp = getSharedPreferences(MemoryName.TEMP_DATA.toString(), Context.MODE_PRIVATE);
+        sp.getString(NameOfResources.USER_LEVEL.toString(), "");
         if (hasPermission())
             setSupportActionBar(toolbar);
         ImageButton btnBack = findViewById(R.id.announce_detail_back_btn);
@@ -32,7 +35,6 @@ public class AnnounceDetailActivity extends AppCompatActivity {
             }
         });
 
-        SharedPreferences sp = getSharedPreferences(MemoryName.TEMP_DATA.toString(), Context.MODE_PRIVATE);
 
         TextView tvHeader = findViewById(R.id.announce_detail_header);
         tvHeader.setText(sp.getString(NameOfResources.ANNOUNCE_HEADER.toString(), "Header"));
@@ -44,7 +46,7 @@ public class AnnounceDetailActivity extends AppCompatActivity {
 
     //User have permission to edit the announce
     private boolean hasPermission() {
-        //TODO
+
         return true;
     }
 

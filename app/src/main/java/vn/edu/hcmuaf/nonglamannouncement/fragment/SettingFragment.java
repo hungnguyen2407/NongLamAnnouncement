@@ -1,5 +1,6 @@
 package vn.edu.hcmuaf.nonglamannouncement.fragment;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -16,12 +17,14 @@ import vn.edu.hcmuaf.nonglamannouncement.activity.ChangePassActivity;
 public class SettingFragment extends Fragment {
 
     private View settingView;
+    private Activity mainActivity;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        settingView = inflater.inflate(R.layout.fragment_setting, container);
+        settingView = inflater.inflate(R.layout.fragment_setting, container, false);
+        mainActivity = getActivity();
         settingViewHandler();
-        return super.onCreateView(inflater, container, savedInstanceState);
+        return settingView;
 
     }
 
@@ -30,8 +33,10 @@ public class SettingFragment extends Fragment {
         changePassBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent changePassIntent = new Intent(getActivity(), ChangePassActivity.class);
-                startActivity(new Intent(getActivity(), ChangePassActivity.class));
+//                SharedPreferences sp = mainActivity.getSharedPreferences(MemoryName.TEMP_DATA.toString(), Context.MODE_PRIVATE);
+//                SharedPreferences.Editor editor = sp.edit();
+//                editor.putString()
+                startActivity(new Intent(mainActivity, ChangePassActivity.class));
             }
         });
     }

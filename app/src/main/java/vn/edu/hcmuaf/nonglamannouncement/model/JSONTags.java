@@ -14,7 +14,8 @@ public enum JSONTags {
     USER_FNAME("fName"),
     USER_EMAIL("email"),
     USER_FACULTY_ID("facultyID"),
-    USER_CLASS_ID("classID");
+    USER_CLASS_ID("classID"),
+    USER_LEVEL("level");
 
     JSONTags(String type) {
         this.type = type;

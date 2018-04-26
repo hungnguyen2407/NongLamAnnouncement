@@ -22,7 +22,8 @@ public enum NameOfResources {
     GROUP_ID("group_id"),
     GROUP_NAME("group_name"),
     GROUP_MEM_NUM("group_mem_num"),
-    GROUP_FACULTY_ID("group_faculty_id");
+    GROUP_FACULTY_ID("group_faculty_id"),
+    USER_LEVEL("user_level");
 
     NameOfResources(String name) {
         this.name = name;

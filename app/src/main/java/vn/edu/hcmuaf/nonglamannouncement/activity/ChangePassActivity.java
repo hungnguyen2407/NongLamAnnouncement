@@ -1,12 +1,17 @@
 package vn.edu.hcmuaf.nonglamannouncement.activity;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -16,6 +21,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import vn.edu.hcmuaf.nonglamannouncement.R;
@@ -27,12 +33,18 @@ public class ChangePassActivity extends AppCompatActivity {
     private Activity changePassActivity;
     private String oldPass, newPass, newPassRepeat;
     private EditText etOldPass, etNewPass, etNewPassRepeat;
-
+    private String userID;
+    private ConstraintLayout changePassForm;
+    private ProgressBar progressBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_pass);
         changePassActivity = this;
+        changePassForm = findViewById(R.id.change_pass_form);
+        progressBar = findViewById(R.id.change_pass_progress_bar);
+        SharedPreferences sp = getSharedPreferences(MemoryName.TEMP_DATA.toString(), Context.MODE_PRIVATE);
+        userID = sp.getString(NameOfResources.USER_ID.toString(), "");
         changPassAcitivityHander();
     }
 
@@ -56,6 +68,7 @@ public class ChangePassActivity extends AppCompatActivity {
                         .setPositiveButton("Có", new DialogInterface.OnClickListener() {
 
                             public void onClick(DialogInterface dialog, int whichButton) {
+                                showProgress(true);
                                 checkValid();
                             }
                         })
@@ -108,6 +121,42 @@ public class ChangePassActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Shows the progress UI and hides the login form.
+     */
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
+    private void showProgress(final boolean show) {
+        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
+        // for very easy animations. If available, use these APIs to fade-in
+        // the progress spinner.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
+            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
+
+            changePassForm.setVisibility(show ? View.GONE : View.VISIBLE);
+            changePassForm.animate().setDuration(shortAnimTime).alpha(
+                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    changePassForm.setVisibility(show ? View.GONE : View.VISIBLE);
+                }
+            });
+
+            progressBar.setVisibility(show ? View.VISIBLE : View.GONE);
+            progressBar.animate().setDuration(shortAnimTime).alpha(
+                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    progressBar.setVisibility(show ? View.VISIBLE : View.GONE);
+                }
+            });
+        } else {
+            // The ViewPropertyAnimator APIs are not available, so simply show
+            // and hide the relevant UI components.
+            progressBar.setVisibility(show ? View.VISIBLE : View.GONE);
+            changePassForm.setVisibility(show ? View.GONE : View.VISIBLE);
+        }
+    }
+
     private class ChangePassTask extends AsyncTask<Void, Void, Boolean> {
 
         @Override
@@ -117,7 +166,7 @@ public class ChangePassActivity extends AppCompatActivity {
             CustomConnection.makePUTConnectionWithParameter(changePassActivity,
                     CustomConnection.URLPostfix.CHANGE_PASS,
                     NameOfResources.CHANGE_PASS_MESSAGE,
-                    sp.getString(NameOfResources.USER_ID.toString(), ""),
+                    userID,
                     oldPass, newPass);
             try {
                 Thread.sleep(3000);
@@ -131,6 +180,7 @@ public class ChangePassActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
+            showProgress(false);
             if (aBoolean)
                 Toast.makeText(getApplicationContext(), "Thay đổi mật khẩu thành công", Toast.LENGTH_LONG).show();
             else
@@ -139,6 +189,4 @@ public class ChangePassActivity extends AppCompatActivity {
 
         }
     }
-
-
 }

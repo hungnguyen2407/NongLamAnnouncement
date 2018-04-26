@@ -99,6 +99,12 @@ public class MainActivity extends AppCompatActivity
                 userInfoJSON = new JSONObject(this.getIntent().getStringExtra(NameOfResources.USER_INFO.toString()));
 
             userID = userInfoJSON.getString(JSONTags.USER_ID.toString());
+            SharedPreferences.Editor editor = sp.edit();
+            editor.putString(NameOfResources.USER_ID.toString(), userID);
+            editor.putString(NameOfResources.USER_LEVEL.toString(),
+                    userInfoJSON.getString(JSONTags.USER_LEVEL.toString()));
+            editor.commit();
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -148,9 +154,9 @@ public class MainActivity extends AppCompatActivity
             case R.id.menu_action_post_announce:
                 startActivity(new Intent(this, PostAnnounceActivity.class));
                 return true;
-            case R.id.menu_action_search:
-                Toast.makeText(getApplicationContext(), "Search", Toast.LENGTH_SHORT).show();
-                return true;
+//            case R.id.menu_action_search:
+//                Toast.makeText(getApplicationContext(), "Search", Toast.LENGTH_SHORT).show();
+//                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
