@@ -47,6 +47,8 @@ public class AnnounceFragment extends Fragment {
     private LayoutInflater inflater;
     private ViewGroup container;
     private SwipeRefreshLayout announceRefresher;
+    private int tabPosition;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -87,12 +89,15 @@ public class AnnounceFragment extends Fragment {
             public void onTabSelected(TabLayout.Tab tab) {
                 switch (tab.getPosition()) {
                     case 0:
+                        tabPosition = 0;
                         announceListHandler();
                         break;
                     case 1:
+                        tabPosition = 1;
                         filterByFaculty();
                         break;
                     case 2:
+                        tabPosition = 2;
                         filterByGroup();
                         break;
 
@@ -247,7 +252,20 @@ public class AnnounceFragment extends Fragment {
         @Override
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
-            announceListHandler();
+            switch (tabPosition) {
+                case 0:
+                    announceListHandler();
+                    break;
+                case 1:
+                    filterByFaculty();
+                    break;
+                case 2:
+                    filterByGroup();
+                    break;
+                default:
+                    announceListHandler();
+                    break;
+            }
             announceRefresher.setRefreshing(false);
         }
     }
