@@ -102,6 +102,10 @@ public class MainActivity extends AppCompatActivity
             editor.putString(NameOfResources.USER_ID.toString(), userID);
             editor.putString(NameOfResources.USER_LEVEL.toString(),
                     userInfoJSON.getString(JSONTags.USER_LEVEL.toString()));
+            editor.putString(NameOfResources.USER_FACULTY_ID.toString(),
+                    userInfoJSON.getString(JSONTags.USER_FACULTY_ID.toString()));
+            editor.putString(NameOfResources.USER_CLASS_ID.toString(),
+                    userInfoJSON.getString(JSONTags.USER_CLASS_ID.toString()));
             editor.commit();
 
         } catch (JSONException e) {
