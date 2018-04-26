@@ -4,10 +4,12 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +25,7 @@ import java.util.ArrayList;
 import vn.edu.hcmuaf.nonglamannouncement.R;
 import vn.edu.hcmuaf.nonglamannouncement.activity.GroupDetailActivity;
 import vn.edu.hcmuaf.nonglamannouncement.adapter.GroupAdapter;
+import vn.edu.hcmuaf.nonglamannouncement.dao.CustomConnection;
 import vn.edu.hcmuaf.nonglamannouncement.model.Group;
 import vn.edu.hcmuaf.nonglamannouncement.model.JSONTags;
 import vn.edu.hcmuaf.nonglamannouncement.model.MemoryName;
@@ -33,12 +36,21 @@ public class GroupFragment extends Fragment {
     private View groupView;
     private ListView listView;
     private SharedPreferences sp;
+    private SwipeRefreshLayout groupRefresher;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mainActivity = getActivity();
         groupView = inflater.inflate(R.layout.fragment_group, container, false);
         listView = groupView.findViewById(R.id.group_list_view);
+        groupRefresher = groupView.findViewById(R.id.group_refresher);
+        groupRefresher.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                new GetGroupInfoTask().execute();
+            }
+        });
         listGroupHandler();
         return groupView;
     }
@@ -54,7 +66,8 @@ public class GroupFragment extends Fragment {
                 jsonObject = jsonArray.getJSONObject(i);
                 listGroups.add(new Group(jsonObject));
             }
-            listView.setAdapter(new GroupAdapter(mainActivity, mainActivity, R.layout.group_row, listGroups));
+            GroupAdapter groupAdapter = new GroupAdapter(mainActivity, mainActivity, R.layout.group_row, listGroups);
+            listView.setAdapter(groupAdapter);
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -62,6 +75,7 @@ public class GroupFragment extends Fragment {
                     startActivity(new Intent(mainActivity, GroupDetailActivity.class));
                 }
             });
+            groupAdapter.notifyDataSetChanged();
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -74,5 +88,29 @@ public class GroupFragment extends Fragment {
         editor.putString(NameOfResources.GROUP_MEM_NUM.toString(), group.getMemNum() + "");
         editor.putString(NameOfResources.GROUP_FACULTY_ID.toString(), group.getFacultyId());
         editor.commit();
+    }
+
+    private class GetGroupInfoTask extends AsyncTask<Void, Void, Boolean> {
+
+        @Override
+        protected Boolean doInBackground(Void... voids) {
+            CustomConnection.makeGETConnectionWithParameter(mainActivity,
+                    CustomConnection.URLPostfix.GROUP_LIST,
+                    NameOfResources.GROUP_LIST, sp.getString(NameOfResources.USER_ID.toString(), ""));
+
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+            groupRefresher.setRefreshing(false);
+            listGroupHandler();
+        }
     }
 }
