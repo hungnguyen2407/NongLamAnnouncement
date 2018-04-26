@@ -80,7 +80,7 @@ public class AnnounceFragment extends Fragment {
     @SuppressLint("NewApi")
     private void tabLayoutHandler() {
 //        Tao tab view
-        String[] tabsList = {getString(R.string.announce_tabs_all), getString(R.string.announce_tabs_faculty), getString(R.string.announce_tabs_group)};
+        String[] tabsList = {getString(R.string.announce_tabs_all), getString(R.string.announce_tabs_faculty), getString(R.string.announce_tabs_class)};
 //        String[] tabsList = {getString(R.string.announce_tabs_all)};
         TabLayout tabLayout = announceView.findViewById(R.id.announce_tablayout);
         tabLayout.setSelectedTabIndicatorColor(mainActivity.getColor(R.color.colorSecondary));
@@ -123,32 +123,41 @@ public class AnnounceFragment extends Fragment {
     }
 
     private void filterByGroup() {
-        ArrayList<Announce> listAnnouncesByGroup = new ArrayList<>();
-        for (int i = 0; i < listAnnouces.size(); i++) {
-            if (sp.getString(NameOfResources.USER_CLASS_ID.toString(), "").equals(listAnnouces.get(i).getGroup()))
-                listAnnouncesByGroup.add(listAnnouces.get(i));
-        }
-        listView = announceView.findViewById(R.id.announce_list_view);
-        adapter = new AnnounceAdapter(mainActivity, R.layout.announce_row, listAnnouncesByGroup);
+        try {
+            ArrayList<Announce> listAnnouncesByClass = new ArrayList<>();
+            String data = sp.getString(NameOfResources.ANNOUNCE_DATA.toString(), "");
+            String userClassID = sp.getString(NameOfResources.USER_CLASS_ID.toString(), "");
+            Announce announce = null;
+            JSONArray jsonArray = new JSONObject(data).getJSONArray(JSONTags.ANNOUNCE.toString());
+            for (int i = 0; i < jsonArray.length(); i++) {
+                announce = new Announce(jsonArray.getJSONObject(i));
+                if (userClassID.equals(announce.getGroup()))
+                    listAnnouncesByClass.add(announce);
+            }
+            listView = announceView.findViewById(R.id.announce_list_view);
+            adapter = new AnnounceAdapter(mainActivity, R.layout.announce_row, listAnnouncesByClass);
 
 //        Truyen adapter vao listview
-        listView.setAdapter(adapter);
+            listView.setAdapter(adapter);
 
 //        Set su kien khi bam vao 1 thong bao trong listview
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Announce announce = listAnnouces.get(position);
-                SharedPreferences sp = mainActivity.getSharedPreferences(MemoryName.TEMP_DATA.toString(), Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sp.edit();
-                editor.putString(NameOfResources.ANNOUNCE_HEADER.toString(), announce.getHeader());
-                editor.putString(NameOfResources.ANNOUNCE_CONTENT.toString(), announce.getContent());
-                editor.putString(NameOfResources.ANNOUNCE_DATE.toString(), announce.getDate());
-                editor.apply();
-                startActivity(new Intent(mainActivity, AnnounceDetailActivity.class));
-            }
-        });
-        adapter.notifyDataSetChanged();
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Announce announce = listAnnouces.get(position);
+                    SharedPreferences sp = mainActivity.getSharedPreferences(MemoryName.TEMP_DATA.toString(), Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sp.edit();
+                    editor.putString(NameOfResources.ANNOUNCE_HEADER.toString(), announce.getHeader());
+                    editor.putString(NameOfResources.ANNOUNCE_CONTENT.toString(), announce.getContent());
+                    editor.putString(NameOfResources.ANNOUNCE_DATE.toString(), announce.getDate());
+                    editor.apply();
+                    startActivity(new Intent(mainActivity, AnnounceDetailActivity.class));
+                }
+            });
+            adapter.notifyDataSetChanged();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     private void filterByFaculty() {

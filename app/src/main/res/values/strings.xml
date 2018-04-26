@@ -83,4 +83,5 @@
     <string name="post_announce_success_message">Đăng thông báo thành công</string>
     <string name="post_announce_fail_message">Đăng thông báo thất bại</string>
     <string name="title_activity_set_member_level">SetMemberLevelActivity</string>
+    <string name="announce_tabs_class">Lớp</string>
 </resources>
