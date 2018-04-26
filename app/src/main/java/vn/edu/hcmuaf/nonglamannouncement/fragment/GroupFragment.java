@@ -54,7 +54,6 @@ public class GroupFragment extends Fragment {
                 jsonObject = jsonArray.getJSONObject(i);
                 listGroups.add(new Group(jsonObject));
             }
-            listGroups.add(new Group(sp.getString(NameOfResources.USER_CLASS_ID.toString(), ""), sp.getString(NameOfResources.USER_CLASS_NAME.toString(), ""), sp.getString(NameOfResources.USER_FACULTY_ID.toString(), ""), 0));
             listView.setAdapter(new GroupAdapter(mainActivity, mainActivity, R.layout.group_row, listGroups));
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override

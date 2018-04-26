@@ -85,10 +85,10 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void groupListDataHandler() {
-        CustomConnection.makeGETConnectionWithParameter(mainActivity,
-                CustomConnection.URLPostfix.GROUP_LIST,
-                NameOfResources.GROUP_LIST, userID);
-
+        if (TextUtils.isEmpty(sp.getString(NameOfResources.GROUP_LIST.toString(), "")))
+            CustomConnection.makeGETConnectionWithParameter(mainActivity,
+                    CustomConnection.URLPostfix.GROUP_LIST,
+                    NameOfResources.GROUP_LIST, userID);
     }
 
     private void initHandle() {
