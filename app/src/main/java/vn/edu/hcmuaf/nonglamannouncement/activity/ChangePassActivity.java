@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -95,7 +96,7 @@ public class ChangePassActivity extends AppCompatActivity {
         } else if (!newPass.equals(newPassRepeat)) {
             etNewPassRepeat.setError(getResources().getString(R.string.error_not_match_password));
         } else {
-            new ChangePassTask().equals(null);
+            new ChangePassTask().execute();
         }
     }
 
@@ -118,7 +119,13 @@ public class ChangePassActivity extends AppCompatActivity {
                     NameOfResources.CHANGE_PASS_MESSAGE.toString(),
                     sp.getString(NameOfResources.USER_ID.toString(), ""),
                     oldPass, newPass);
-            return null;
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            Log.d("response", sp.getString(NameOfResources.CHANGE_PASS_MESSAGE.toString(), "false"));
+            return Boolean.valueOf(sp.getString(NameOfResources.CHANGE_PASS_MESSAGE.toString(), "false"));
         }
 
         @Override

@@ -1,12 +1,12 @@
 package vn.edu.hcmuaf.nonglamannouncement.activity;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
@@ -20,6 +20,7 @@ import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,7 +28,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import vn.edu.hcmuaf.nonglamannouncement.R;
-import vn.edu.hcmuaf.nonglamannouncement.dao.CustomConnection;
 import vn.edu.hcmuaf.nonglamannouncement.fragment.AnnounceFragment;
 import vn.edu.hcmuaf.nonglamannouncement.fragment.GroupFragment;
 import vn.edu.hcmuaf.nonglamannouncement.fragment.HelpFragment;
@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity
     private Toolbar toolbar;
     private Activity mainActivity;
     private String userID;
+    private JSONObject userInfoJSON;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,8 +68,8 @@ public class MainActivity extends AppCompatActivity
         loginSuccess = Boolean.valueOf(sp.getString(NameOfResources.LOGIN_SUCCESS.toString(), "false"));
 
         if (loginSuccess) {
-            navHeaderHandler();
             initHandle();
+            navHeaderHandler();
             //Tao fragment va hien thi trang thong bao
             tvHeader = findViewById(R.id.toolbar_header);
             tvHeader.setText(R.string.nav_home);
@@ -83,20 +84,30 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void initHandle() {
-        userID = sp.getString(NameOfResources.USER_ID.toString(), "");
-        if (TextUtils.isEmpty(userID))
-            userID = sp.getString(NameOfResources.USER_ID.toString(), getIntent().getStringExtra(NameOfResources.USER_ID.toString()));
-
-        new GetUserInfoTask().execute();
-        CustomConnection.makeGETConnectionWithParameter(this, CustomConnection.URLPostfix.GROUP_LIST, NameOfResources.GROUP_LIST.toString(), sp.getString(NameOfResources.USER_ID.toString(), ""));
+        try {
+            if (TextUtils.isEmpty(this.getIntent().getStringExtra(NameOfResources.USER_INFO.toString())))
+                userInfoJSON = new JSONObject(sp.getString(NameOfResources.USER_INFO.toString(), ""));
+            else
+                userInfoJSON = new JSONObject(this.getIntent().getStringExtra(NameOfResources.USER_INFO.toString()));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
+    @SuppressLint("SetTextI18n")
     private void navHeaderHandler() {
         try {
-            JSONObject userInfoJSON = new JSONObject(sp.getString(NameOfResources.USER_INFO.toString(), ""));
-            TextView tvUserName = navigationView.findViewById(R.id.nav_user_tv_name);
-            tvUserName.setText(userInfoJSON.getString(JSONTags.USER_LNAME.toString()) + " " + userInfoJSON.getString(JSONTags.USER_FNAME.toString()));
-
+            if (userInfoJSON != null) {
+                View header = navigationView.getHeaderView(0);
+                TextView tvUserName = header.findViewById(R.id.nav_user_tv_name);
+                tvUserName.setText(userInfoJSON.getString(JSONTags.USER_LNAME.toString()) + " " + userInfoJSON.getString(JSONTags.USER_FNAME.toString()));
+                TextView tvUserEmail = header.findViewById(R.id.nav_user_tv_email);
+                tvUserEmail.setText(userInfoJSON.getString(JSONTags.USER_EMAIL.toString()));
+                TextView tvUserFaculty = header.findViewById(R.id.nav_user_tv_faculty);
+                tvUserFaculty.setText(userInfoJSON.getString(JSONTags.USER_FACULTY_ID.toString()));
+                TextView tvUserClass = header.findViewById(R.id.nav_user_tv_class);
+                tvUserClass.setText(userInfoJSON.getString(JSONTags.USER_CLASS_ID.toString()));
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -167,8 +178,7 @@ public class MainActivity extends AppCompatActivity
                         public void onClick(DialogInterface dialog, int whichButton) {
                             // xoa du lieu o file data_login sau khi da dang xuat
                             SharedPreferences.Editor editor = sp.edit();
-                            editor.putString(NameOfResources.LOGIN_SUCCESS.toString(), "false");
-                            editor.putString(NameOfResources.USER_ID.toString(), "");
+                            editor.clear();
                             editor.commit();
                             login();
                         }
@@ -189,16 +199,4 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    private class GetUserInfoTask extends AsyncTask<Void, Void, Boolean> {
-
-        @Override
-        protected Boolean doInBackground(Void... voids) {
-
-            CustomConnection.makeGETConnectionWithParameter(mainActivity,
-                    CustomConnection.URLPostfix.USER_INFO,
-                    NameOfResources.USER_INFO.toString(),
-                    userID);
-            return null;
-        }
-    }
 }

@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.CursorLoader;
 import android.content.DialogInterface;
 import android.content.Loader;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -34,6 +35,7 @@ import java.util.List;
 
 import vn.edu.hcmuaf.nonglamannouncement.R;
 import vn.edu.hcmuaf.nonglamannouncement.dao.CustomConnection;
+import vn.edu.hcmuaf.nonglamannouncement.model.MemoryName;
 import vn.edu.hcmuaf.nonglamannouncement.model.NameOfResources;
 
 import static android.Manifest.permission.READ_CONTACTS;
@@ -296,19 +298,20 @@ public class ForgetPassActivity extends AppCompatActivity implements LoaderCallb
         @Override
         protected Boolean doInBackground(Void... params) {
             CustomConnection.makeGETConnectionWithParameter(forgetPassActivity, CustomConnection.URLPostfix.RESET_PASS, NameOfResources.RESET_PASS_MESSAGE.toString(), id);
+            SharedPreferences sp = getSharedPreferences(MemoryName.TEMP_DATA.toString(), Context.MODE_PRIVATE);
+            Boolean status = Boolean.valueOf(sp.getString(NameOfResources.RESET_PASS_MESSAGE.toString(), ""));
             try {
-                Thread.sleep(2000);
+                Thread.sleep(5000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            return true;
+            return status;
         }
 
         @Override
         protected void onPostExecute(final Boolean success) {
             mAuthTask = null;
             showProgress(false);
-
             if (success) {
                 Toast.makeText(getApplicationContext(), getString(R.string.forget_pass_reset_success), Toast.LENGTH_LONG).show();
             } else {

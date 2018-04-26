@@ -30,6 +30,7 @@ public class SettingFragment extends Fragment {
         changePassBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent changePassIntent = new Intent(getActivity(), ChangePassActivity.class);
                 startActivity(new Intent(getActivity(), ChangePassActivity.class));
             }
         });

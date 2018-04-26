@@ -12,6 +12,7 @@ import android.content.Loader;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -45,7 +46,6 @@ import static android.Manifest.permission.READ_CONTACTS;
  */
 public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
     private String id = "";
-    private EditText editUser, editPass;
     private SharedPreferences sp;
     /**
      * Id to identity READ_CONTACTS permission request.
@@ -78,9 +78,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         setContentView(R.layout.activity_login);
         // Set up the login form.
         etID = findViewById(R.id.login_et_id);
+        etID.getBackground().setColorFilter(getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.SRC_IN);
+
         sp = getSharedPreferences(MemoryName.TEMP_DATA.toString(), Context.MODE_PRIVATE);
         etPass = findViewById(R.id.login_et_pass);
-        editPass = loginActivity.findViewById(R.id.login_et_pass);
+        etPass.getBackground().setColorFilter(getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.SRC_IN);
         etPass.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
@@ -176,7 +178,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         closeKeyBoard();
         // Reset errors.
         etID.setError(null);
-        editPass.setError(null);
+        etPass.setError(null);
         // Store values at the time of the login attempt.
         String id = etID.getText().toString();
         String password = etPass.getText().toString();
@@ -186,8 +188,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         // Check for a valid password, if the user entered one.
         if (TextUtils.isEmpty(password)) {
-            editPass.setError(getString(R.string.error_field_required));
-            focusView = editPass;
+            etPass.setError(getString(R.string.error_field_required));
+            focusView = etPass;
             cancel = true;
         }
 
@@ -327,32 +329,41 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         @Override
         protected Boolean doInBackground(Void... params) {
             CustomConnection.makeGETConnectionWithParameter(loginActivity, CustomConnection.URLPostfix.LOGIN, NameOfResources.LOGIN_SUCCESS.toString(), id, password);
-
-            if (Boolean.valueOf(sp.getString(NameOfResources.LOGIN_SUCCESS.toString(), "false"))) {
-                CustomConnection.makeGETConnectionWithParameter(loginActivity, CustomConnection.URLPostfix.USER_INFO, NameOfResources.USER_INFO.toString(), id);
-            }
             try {
-                Thread.sleep(5000);
+                Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            return true;
+            if (Boolean.valueOf(sp.getString(NameOfResources.LOGIN_SUCCESS.toString(), "false"))) {
+                CustomConnection.makeGETConnectionWithParameter(loginActivity, CustomConnection.URLPostfix.USER_INFO, NameOfResources.USER_INFO.toString(), id);
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                CustomConnection.makeGETConnectionWithParameter(loginActivity, CustomConnection.URLPostfix.ANNOUNCE_BY_USER_ID, NameOfResources.ANNOUNCE_DATA.toString(), id);
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                return true;
+            } else
+                return false;
         }
 
         @Override
         protected void onPostExecute(final Boolean success) {
-
-
             if (Boolean.valueOf(sp.getString(NameOfResources.LOGIN_SUCCESS.toString(), "false"))) {
                 Intent mainActivityIntent = new Intent(loginActivity, MainActivity.class);
-                mainActivityIntent.putExtra(NameOfResources.USER_ID.toString(), id);
+                mainActivityIntent.putExtra(NameOfResources.USER_INFO.toString(), sp.getString(NameOfResources.USER_INFO.toString(), ""));
+                mainActivityIntent.putExtra(NameOfResources.ANNOUNCE_DATA.toString(), sp.getString(NameOfResources.ANNOUNCE_DATA.toString(), ""));
                 showProgress(false);
                 startActivity(mainActivityIntent);
             } else {
                 Toast.makeText(LoginActivity.this, "Sai thông tin đăng nhập", Toast.LENGTH_SHORT).show();
                 mAuthTask = null;
                 showProgress(false);
-
             }
 
 //            if (success) {

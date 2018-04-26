@@ -21,7 +21,7 @@ import vn.edu.hcmuaf.nonglamannouncement.model.MemoryName;
 public class CustomConnection {
 
     //    private static final String URL = "http://192.168.1.3:8080/NongLamAnnounceService/webresources/";
-    private static final String URL = "http://nguyentuesdd.ddns.net:8080/NongLamAnnounceService/service/";
+    private static final String URL = "https://nlunoti.azurewebsites.net/NongLamAnnounceService/service/";
 
     public static void makeGETConnection(final Activity activity, URLPostfix postfix, final String nameOfResources) {
         RequestQueue queue = Volley.newRequestQueue(activity.getApplicationContext());
@@ -92,7 +92,6 @@ public class CustomConnection {
         });
         queue.add(stringRequest);
 
-        Volley.newRequestQueue(activity.getApplicationContext());
     }
 
     public static void makeDELETEConnection(final Activity activity, URLPostfix postfix, final String nameOfResources) {
@@ -109,6 +108,7 @@ public class CustomConnection {
 
             }
         });
+
     }
 
     public static void makePOSTConnectionWithParameter(final Activity activity, URLPostfix postfix, final String nameOfResources, String... parameters) {
@@ -117,7 +117,7 @@ public class CustomConnection {
         for (String i : parameters) {
             url += "/" + i;
         }
-        new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
@@ -128,6 +128,7 @@ public class CustomConnection {
 
             }
         });
+        queue.add(stringRequest);
     }
 
     public static void makePUTConnectionWithParameter(final Activity activity, URLPostfix postfix, final String nameOfResources, String... parameters) {
@@ -136,7 +137,7 @@ public class CustomConnection {
         for (String i : parameters) {
             url += "/" + i;
         }
-        new StringRequest(Request.Method.PUT, url, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.PUT, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
@@ -147,6 +148,7 @@ public class CustomConnection {
 
             }
         });
+        queue.add(stringRequest);
     }
 
     public enum URLPostfix {
@@ -158,8 +160,9 @@ public class CustomConnection {
         GROUP_LIST("user/dsgroup"),
         POST_ANNOUNCE("announce/add"),
         USER_INFO("user/info"),
-        RESET_PASS(""),
-        CHANGE_PASS("user/changepass");
+        RESET_PASS("user/resetpass"),
+        CHANGE_PASS("user/changepass"),
+        ANNOUNCE_BY_USER_ID("announce/user");
         URLPostfix(String postfix) {
             this.postfix = postfix;
         }

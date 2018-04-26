@@ -15,7 +15,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -26,7 +25,6 @@ import java.util.ArrayList;
 import vn.edu.hcmuaf.nonglamannouncement.R;
 import vn.edu.hcmuaf.nonglamannouncement.activity.AnnounceDetailActivity;
 import vn.edu.hcmuaf.nonglamannouncement.adapter.AnnounceAdapter;
-import vn.edu.hcmuaf.nonglamannouncement.dao.CustomConnection;
 import vn.edu.hcmuaf.nonglamannouncement.model.Announce;
 import vn.edu.hcmuaf.nonglamannouncement.model.JSONTags;
 import vn.edu.hcmuaf.nonglamannouncement.model.MemoryName;
@@ -42,24 +40,27 @@ public class AnnounceFragment extends Fragment {
     private ListView listView;
     private AnnounceAdapter adapter;
     private ArrayList<Announce> listAnnouces;
-
+    private SharedPreferences sp;
+    private LayoutInflater inflater;
+    private ViewGroup container;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
 //        Lay activity
         mainActivity = getActivity();
-
+        this.inflater = inflater;
+        this.container = container;
 //        Khoi tao view
         announceView = inflater.inflate(R.layout.fragment_announcement, container, false);
+        sp = mainActivity.getSharedPreferences(MemoryName.TEMP_DATA.toString(), Context.MODE_PRIVATE);
 
 //        Lay list view
         listView = announceView.findViewById(R.id.announce_list_view);
 
-//        Xu ly hien thi tab
+        //        Xu ly hien thi tab
         tabLayoutHandler();
 //        Xu ly hien thi thong bao
         announceListHandler();
-
 //        Tra view cho activity hien thi
         return announceView;
     }
@@ -67,8 +68,8 @@ public class AnnounceFragment extends Fragment {
     @SuppressLint("NewApi")
     private void tabLayoutHandler() {
 //        Tao tab view
-        String[] tabsList = {getString(R.string.announce_tabs_all), getString(R.string.announce_tabs_faculty), getString(R.string.announce_tabs_group)};
-//        String[] tabsList = {getString(R.string.announce_tabs_all)};
+//        String[] tabsList = {getString(R.string.announce_tabs_all), getString(R.string.announce_tabs_faculty), getString(R.string.announce_tabs_group)};
+        String[] tabsList = {getString(R.string.announce_tabs_all)};
         TabLayout tabLayout = announceView.findViewById(R.id.announce_tablayout);
         tabLayout.setSelectedTabIndicatorColor(mainActivity.getColor(R.color.colorSecondary));
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -76,13 +77,13 @@ public class AnnounceFragment extends Fragment {
             public void onTabSelected(TabLayout.Tab tab) {
                 switch (tab.getPosition()) {
                     case 0:
-                        Toast.makeText(mainActivity.getApplicationContext(), getString(R.string.announce_tabs_all), Toast.LENGTH_SHORT).show();
+                        announceListHandler();
                         break;
                     case 1:
-                        Toast.makeText(mainActivity.getApplicationContext(), getString(R.string.announce_tabs_faculty), Toast.LENGTH_SHORT).show();
+                        filterByFaculty();
                         break;
                     case 2:
-                        Toast.makeText(mainActivity.getApplicationContext(), getString(R.string.announce_tabs_group), Toast.LENGTH_SHORT).show();
+                        filterByGroup();
                         break;
 
                 }
@@ -106,14 +107,70 @@ public class AnnounceFragment extends Fragment {
         }
     }
 
+    private void filterByGroup() {
+        announceView = inflater.inflate(R.layout.fragment_announcement, container, false);
+        ArrayList<Announce> listAnnouncesByGroup = new ArrayList<>();
+        for (int i = 0; i < listAnnouces.size(); i++) {
+            if (sp.getString(NameOfResources.USER_CLASS_ID.toString(), "").equals(listAnnouces.get(i).getGroup()))
+                listAnnouncesByGroup.add(listAnnouces.get(i));
+        }
+        listView = announceView.findViewById(R.id.announce_list_view);
+        adapter = new AnnounceAdapter(mainActivity, R.layout.announce_row, listAnnouces);
+
+//        Truyen adapter vao listview
+        listView.setAdapter(adapter);
+
+//        Set su kien khi bam vao 1 thong bao trong listview
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Announce announce = listAnnouces.get(position);
+                SharedPreferences sp = mainActivity.getSharedPreferences(MemoryName.TEMP_DATA.toString(), Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sp.edit();
+                editor.putString(NameOfResources.ANNOUNCE_HEADER.toString(), announce.getHeader());
+                editor.putString(NameOfResources.ANNOUNCE_CONTENT.toString(), announce.getContent());
+                editor.putString(NameOfResources.ANNOUNCE_DATE.toString(), announce.getDate());
+                editor.apply();
+                startActivity(new Intent(mainActivity, AnnounceDetailActivity.class));
+            }
+        });
+
+    }
+
+    private void filterByFaculty() {
+        ArrayList<Announce> listAnnouncesByFaculty = new ArrayList<>();
+        for (int i = 0; i < listAnnouces.size(); i++) {
+            if (sp.getString(NameOfResources.USER_FACULTY_ID.toString(), "").equals(listAnnouces.get(i).getGroup()))
+                listAnnouncesByFaculty.add(listAnnouces.get(i));
+        }
+        adapter = new AnnounceAdapter(mainActivity, R.layout.announce_row, listAnnouces);
+
+//        Truyen adapter vao listview
+        listView.setAdapter(adapter);
+
+//        Set su kien khi bam vao 1 thong bao trong listview
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Announce announce = listAnnouces.get(position);
+                SharedPreferences sp = mainActivity.getSharedPreferences(MemoryName.TEMP_DATA.toString(), Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sp.edit();
+                editor.putString(NameOfResources.ANNOUNCE_HEADER.toString(), announce.getHeader());
+                editor.putString(NameOfResources.ANNOUNCE_CONTENT.toString(), announce.getContent());
+                editor.putString(NameOfResources.ANNOUNCE_DATE.toString(), announce.getDate());
+                editor.apply();
+                startActivity(new Intent(mainActivity, AnnounceDetailActivity.class));
+            }
+        });
+
+    }
+
     /*
     Gan danh sach cac item vao list view
      */
     private void announceListHandler() {
         try {
             listAnnouces = new ArrayList<>();
-            CustomConnection.makeGETConnection(mainActivity, CustomConnection.URLPostfix.ANNOUNCE_ALL, NameOfResources.ANNOUNCE_DATA.toString());
-            SharedPreferences sp = mainActivity.getSharedPreferences(MemoryName.TEMP_DATA.toString(), Context.MODE_PRIVATE);
             String data = sp.getString(NameOfResources.ANNOUNCE_DATA.toString(), "");
             JSONArray jsonArray = new JSONObject(data).getJSONArray(JSONTags.ANNOUNCE.toString());
             for (int i = 0; i < jsonArray.length(); i++) {
@@ -145,4 +202,7 @@ public class AnnounceFragment extends Fragment {
 
     }
 
+    public void setAnnounceView(View announceView) {
+        this.announceView = announceView;
+    }
 }

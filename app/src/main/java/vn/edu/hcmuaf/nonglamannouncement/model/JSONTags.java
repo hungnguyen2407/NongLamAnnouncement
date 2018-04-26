@@ -9,7 +9,12 @@ public enum JSONTags {
     GROUP_NAME("class_name"),
     GROUP_FACULTY("class_faculty"),
     GROUP_MEM("class_mem_num"),
-    ANNOUNCE("announce"), USER_LNAME("lName"), USER_FNAME("fName");
+    ANNOUNCE("announce"),
+    USER_LNAME("lName"),
+    USER_FNAME("fName"),
+    USER_EMAIL("email"),
+    USER_FACULTY_ID("facultyID"),
+    USER_CLASS_ID("classID");
 
     JSONTags(String type) {
         this.type = type;
