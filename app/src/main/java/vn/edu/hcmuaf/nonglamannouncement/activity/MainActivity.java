@@ -22,7 +22,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -149,7 +148,7 @@ public class MainActivity extends AppCompatActivity
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
             case R.id.menu_action_group_join:
-                Toast.makeText(getApplicationContext(), "Join", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(this, GroupJoinActivity.class));
                 return true;
             case R.id.menu_action_post_announce:
                 startActivity(new Intent(this, PostAnnounceActivity.class));

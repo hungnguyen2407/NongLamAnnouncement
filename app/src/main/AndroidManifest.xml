@@ -52,6 +52,10 @@
             android:label="@string/title_activity_change_pass"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.GroupJoinActivity"
+            android:label="@string/title_activity_group_join"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

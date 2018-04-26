@@ -18,6 +18,7 @@ import vn.edu.hcmuaf.nonglamannouncement.model.NameOfResources;
 public class AnnounceDetailActivity extends AppCompatActivity {
     private SharedPreferences sp;
     private String userLevel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,8 +47,7 @@ public class AnnounceDetailActivity extends AppCompatActivity {
 
     //User have permission to edit the announce
     private boolean hasPermission() {
-
-        return true;
+        return Integer.valueOf(sp.getString(NameOfResources.USER_LEVEL.toString(), "")) < 4;
     }
 
     @Override
@@ -58,7 +58,7 @@ public class AnnounceDetailActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.menu_main, menu);
+        menuInflater.inflate(R.menu.menu_announce_detail, menu);
         return true;
     }
 }

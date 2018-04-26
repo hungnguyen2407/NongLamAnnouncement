@@ -64,4 +64,18 @@
     <string name="change_pass_new_pass">Mật khẩu mới</string>
     <string name="change_pass_new_pass_repeat">Nhập lại mật khẩu</string>
     <string name="error_not_match_password">Mật khẩu không giống</string>
+    <string name="title_activity_group_join">GroupJoinActivity</string>
+    <string name="group_join_submit_btn">Vào nhóm</string>
+    <string name="group_join_success_message">Đăng kí vào nhóm thành công</string>
+    <string name="group_join_fail_message">Đăng kí vào nhóm thất bại</string>
+    <string name="change_pass_success_message">Thay đổi mật khẩu thành công</string>
+    <string name="change_pass_fail_message">Thay đổi mật khẩu thất bại</string>
+    <string name="alert_change_pass">Xác nhận thay đổi mật khẩu</string>
+    <string name="alert_change_pass_detail">Bạn chắc chắn muốn thay đổi mật khẩu ?</string>
+    <string name="dialog_answer_yes">Có</string>
+    <string name="dialog_answer_no">Không</string>
+    <string name="default_resource"></string>
+    <string name="alert_group_join">Xác nhận muốn vào nhóm</string>
+    <string name="alert_group_join_detail">Bạn chắc chắn muốn vào nhóm ?</string>
+    <string name="group_join_hint_group_id">Mã nhóm</string>
 </resources>

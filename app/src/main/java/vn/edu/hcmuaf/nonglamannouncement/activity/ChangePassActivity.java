@@ -15,7 +15,6 @@ import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -44,7 +43,8 @@ public class ChangePassActivity extends AppCompatActivity {
         changePassForm = findViewById(R.id.change_pass_form);
         progressBar = findViewById(R.id.change_pass_progress_bar);
         SharedPreferences sp = getSharedPreferences(MemoryName.TEMP_DATA.toString(), Context.MODE_PRIVATE);
-        userID = sp.getString(NameOfResources.USER_ID.toString(), "");
+        userID = sp.getString(NameOfResources.USER_ID.toString(),
+                getResources().getText(R.string.default_resource).toString());
         changPassAcitivityHander();
     }
 
@@ -62,17 +62,17 @@ public class ChangePassActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 AlertDialog logoutDialog = new AlertDialog.Builder(changePassActivity)
-                        .setTitle("Xác nhận thay đổi mật khẩu")
-                        .setMessage("Bạn chắc chắn muốn thay đổi mật khẩu ? ")
+                        .setTitle(getResources().getText(R.string.alert_change_pass))
+                        .setMessage(getResources().getText(R.string.alert_change_pass_detail))
                         .setIcon(android.R.drawable.ic_dialog_alert)
-                        .setPositiveButton("Có", new DialogInterface.OnClickListener() {
+                        .setPositiveButton(getResources().getText(R.string.dialog_answer_yes), new DialogInterface.OnClickListener() {
 
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 showProgress(true);
                                 checkValid();
                             }
                         })
-                        .setNegativeButton("Không", null).show();
+                        .setNegativeButton(getResources().getText(R.string.dialog_answer_no), null).show();
                 logoutDialog.getButton(AlertDialog.BUTTON_POSITIVE).setBackgroundColor(Color.GRAY);
                 logoutDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setBackgroundColor(getResources().getColor(R.color.colorPrimary));
             }
@@ -105,7 +105,7 @@ public class ChangePassActivity extends AppCompatActivity {
             etNewPass.setError(getResources().getString(R.string.error_field_required));
         } else if (newPass.length() <= 4) {
             etNewPass.setError(getResources().getString(R.string.error_invalid_password));
-            Toast.makeText(getApplicationContext(), "Mật khẩu cần dài hơn 4 kí tự", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), getResources().getText(R.string.error_invalid_password), Toast.LENGTH_LONG).show();
         } else if (!newPass.equals(newPassRepeat)) {
             etNewPassRepeat.setError(getResources().getString(R.string.error_not_match_password));
         } else {
@@ -173,7 +173,6 @@ public class ChangePassActivity extends AppCompatActivity {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            Log.d("response", sp.getString(NameOfResources.CHANGE_PASS_MESSAGE.toString(), "false"));
             return Boolean.valueOf(sp.getString(NameOfResources.CHANGE_PASS_MESSAGE.toString(), "false"));
         }
 
@@ -182,9 +181,9 @@ public class ChangePassActivity extends AppCompatActivity {
             super.onPostExecute(aBoolean);
             showProgress(false);
             if (aBoolean)
-                Toast.makeText(getApplicationContext(), "Thay đổi mật khẩu thành công", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), getResources().getText(R.string.change_pass_success_message), Toast.LENGTH_LONG).show();
             else
-                Toast.makeText(getApplicationContext(), "Thay đổi mật khẩu thất bại", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), getResources().getText(R.string.change_pass_fail_message), Toast.LENGTH_LONG).show();
 
 
         }
