@@ -74,7 +74,6 @@
                 android:layout_marginRight="24dp"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="32dp"
-                android:text="TextView"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"

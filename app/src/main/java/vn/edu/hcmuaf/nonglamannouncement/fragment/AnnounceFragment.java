@@ -5,10 +5,12 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +27,7 @@ import java.util.ArrayList;
 import vn.edu.hcmuaf.nonglamannouncement.R;
 import vn.edu.hcmuaf.nonglamannouncement.activity.AnnounceDetailActivity;
 import vn.edu.hcmuaf.nonglamannouncement.adapter.AnnounceAdapter;
+import vn.edu.hcmuaf.nonglamannouncement.dao.CustomConnection;
 import vn.edu.hcmuaf.nonglamannouncement.model.Announce;
 import vn.edu.hcmuaf.nonglamannouncement.model.JSONTags;
 import vn.edu.hcmuaf.nonglamannouncement.model.MemoryName;
@@ -43,6 +46,7 @@ public class AnnounceFragment extends Fragment {
     private SharedPreferences sp;
     private LayoutInflater inflater;
     private ViewGroup container;
+    private SwipeRefreshLayout announceRefresher;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -56,7 +60,13 @@ public class AnnounceFragment extends Fragment {
 
 //        Lay list view
         listView = announceView.findViewById(R.id.announce_list_view);
-
+        announceRefresher = announceView.findViewById(R.id.announce_refresher);
+        announceRefresher.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                new GetAnnounceTask().execute();
+            }
+        });
         //        Xu ly hien thi tab
         tabLayoutHandler();
 //        Xu ly hien thi thong bao
@@ -196,6 +206,7 @@ public class AnnounceFragment extends Fragment {
                     startActivity(new Intent(mainActivity, AnnounceDetailActivity.class));
                 }
             });
+            adapter.notifyDataSetChanged();
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -205,4 +216,28 @@ public class AnnounceFragment extends Fragment {
     public void setAnnounceView(View announceView) {
         this.announceView = announceView;
     }
+
+    private class GetAnnounceTask extends AsyncTask<Void, Void, Boolean> {
+
+        @Override
+        protected Boolean doInBackground(Void... voids) {
+            CustomConnection.makeGETConnectionWithParameter(mainActivity,
+                    CustomConnection.URLPostfix.ANNOUNCE_BY_USER_ID,
+                    NameOfResources.ANNOUNCE_DATA, sp.getString(NameOfResources.USER_ID.toString(), ""));
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+            announceListHandler();
+            announceRefresher.setRefreshing(false);
+        }
+    }
+
 }

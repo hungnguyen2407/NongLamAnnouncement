@@ -35,7 +35,7 @@ public class GroupDetailActivity extends AppCompatActivity {
         TextView tvMemNum = findViewById(R.id.group_detail_mem_num);
         SharedPreferences sp = getSharedPreferences(MemoryName.TEMP_DATA.toString(), Context.MODE_PRIVATE);
         tvName.setText(sp.getString(NameOfResources.GROUP_NAME.toString(), ""));
-        tvMemNum.setText(sp.getString(NameOfResources.GROUP_MEM_NUM.toString(), ""));
+        tvMemNum.setText("Số thành viên " + sp.getString(NameOfResources.GROUP_MEM_NUM.toString(), ""));
         sp.getString(NameOfResources.GROUP_ID.toString(), "");
         sp.getString(NameOfResources.GROUP_FACULTY_ID.toString(), "");
 
