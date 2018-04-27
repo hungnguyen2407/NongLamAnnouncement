@@ -47,7 +47,7 @@ public class AnnounceDetailActivity extends AppCompatActivity {
 
     //User have permission to edit the announce
     private boolean hasPermission() {
-        return Integer.valueOf(sp.getString(NameOfResources.USER_LEVEL.toString(), "")) < 4;
+        return Integer.valueOf(sp.getString(NameOfResources.USER_LEVEL.toString(), "4")) < 4;
     }
 
     @Override
