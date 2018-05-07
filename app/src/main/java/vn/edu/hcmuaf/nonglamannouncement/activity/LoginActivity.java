@@ -328,35 +328,38 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            CustomConnection.makeGETConnectionWithParameter(loginActivity,
+
+            if (CustomConnection.makeGETConnectionWithParameter(loginActivity,
                     CustomConnection.URLPostfix.LOGIN,
                     NameOfResources.LOGIN_SUCCESS,
-                    id, password);
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+                    id, password)) {
+                try {
+                    Thread.sleep(3000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                if (Boolean.valueOf(sp.getString(NameOfResources.LOGIN_SUCCESS.toString(), "false"))) {
+                    CustomConnection.makeGETConnectionWithParameter(loginActivity,
+                            CustomConnection.URLPostfix.USER_INFO,
+                            NameOfResources.USER_INFO, id);
+                    try {
+                        Thread.sleep(3000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    CustomConnection.makeGETConnectionWithParameter(loginActivity,
+                            CustomConnection.URLPostfix.ANNOUNCE_BY_USER_ID,
+                            NameOfResources.ANNOUNCE_DATA, id);
+                    try {
+                        Thread.sleep(3000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    return true;
+                } else
+                    return false;
             }
-            if (Boolean.valueOf(sp.getString(NameOfResources.LOGIN_SUCCESS.toString(), "false"))) {
-                CustomConnection.makeGETConnectionWithParameter(loginActivity,
-                        CustomConnection.URLPostfix.USER_INFO,
-                        NameOfResources.USER_INFO, id);
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                CustomConnection.makeGETConnectionWithParameter(loginActivity,
-                        CustomConnection.URLPostfix.ANNOUNCE_BY_USER_ID,
-                        NameOfResources.ANNOUNCE_DATA, id);
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                return true;
-            } else
-                return false;
+            return false;
         }
 
         @Override
