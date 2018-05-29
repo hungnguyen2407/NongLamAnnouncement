@@ -19,170 +19,178 @@ import vn.edu.hcmuaf.nonglamannouncement.R;
 import vn.edu.hcmuaf.nonglamannouncement.model.MemoryName;
 import vn.edu.hcmuaf.nonglamannouncement.model.NameOfResources;
 
+/**
+ * This class is used to make connection to webservice
+ * There are 4 kind of connection: GET, POST, PUT and DELETE
+ * Choose the type of connection base on the rule of webservice
+ */
 public class CustomConnection {
 
-    //    private static final String URL = "http://192.168.1.3:8080/NongLamAnnounceService/webresources/";
-    private static final String URL = "https://nlunoti.azurewebsites.net/NongLamAnnounceService/service/";
+	private static final String URL = "https://nlunoti.azurewebsites.net/NongLamAnnounceService/service/";
 
-    public static void makeGETConnection(final Activity activity, URLPostfix postfix, final NameOfResources nameOfResources) {
-        RequestQueue queue = Volley.newRequestQueue(activity.getApplicationContext());
-        String url = URL + postfix.getPostfix();
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        SharedPreferences sp = activity.getSharedPreferences(MemoryName.TEMP_DATA.toString(), Context.MODE_PRIVATE);
-                        SharedPreferences.Editor editor = sp.edit();
-                        editor.putString(nameOfResources.toString(), response);
-                        editor.apply();
-
-
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(activity.getApplicationContext(), activity.getText(R.string.error_connection), Toast.LENGTH_LONG);
-            }
-        });
-        queue.add(stringRequest);
+	public static boolean makeGETConnection(final Activity activity, URLSuffix postfix, final NameOfResources nameOfResources) {
+		RequestQueue queue = Volley.newRequestQueue(activity.getApplicationContext());
+		String url = URL + postfix.getSuffix();
+		StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+				new Response.Listener<String>() {
+					@Override
+					public void onResponse(String response) {
+						SharedPreferences sp = activity.getSharedPreferences(MemoryName.TEMP_DATA.toString(), Context.MODE_PRIVATE);
+						SharedPreferences.Editor editor = sp.edit();
+						editor.putString(nameOfResources.toString(), response);
+						editor.apply();
 
 
-    }
+					}
+				}, new Response.ErrorListener() {
+			@Override
+			public void onErrorResponse(VolleyError error) {
+				Toast.makeText(activity.getApplicationContext(), activity.getText(R.string.error_connection), Toast.LENGTH_LONG);
+			}
+		});
+		queue.add(stringRequest);
+		return true;
+	}
 
-    public static void jsonGETConnection(final Activity activity, URLPostfix postfix, final String nameOfResources) {
-        String url = URL + postfix.getPostfix();
+	public static void jsonGETConnection(final Activity activity, URLSuffix postfix, final String nameOfResources) {
+		String url = URL + postfix.getSuffix();
 
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
-                (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+		JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
+				(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
 
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        SharedPreferences sp = activity.getSharedPreferences(MemoryName.TEMP_DATA.toString(), Context.MODE_PRIVATE);
-                        SharedPreferences.Editor editor = sp.edit();
-                        editor.putString(nameOfResources, response.toString());
-                        editor.apply();
-                    }
-                }, new Response.ErrorListener() {
+					@Override
+					public void onResponse(JSONObject response) {
+						SharedPreferences sp = activity.getSharedPreferences(MemoryName.TEMP_DATA.toString(), Context.MODE_PRIVATE);
+						SharedPreferences.Editor editor = sp.edit();
+						editor.putString(nameOfResources, response.toString());
+						editor.apply();
+					}
+				}, new Response.ErrorListener() {
 
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
+					@Override
+					public void onErrorResponse(VolleyError error) {
 
-                    }
-                });
-    }
+					}
+				});
+	}
 
-    public static void makeGETConnectionWithParameter(final Activity activity, URLPostfix postfix, final NameOfResources nameOfResources, String... parameters) {
-        RequestQueue queue = Volley.newRequestQueue(activity.getApplicationContext());
-        String url = URL + postfix.getPostfix();
-        for (String i : parameters) {
-            url += "/" + i;
-        }
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                SharedPreferences sp = activity.getSharedPreferences(MemoryName.TEMP_DATA.toString(), Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sp.edit();
-                editor.putString(nameOfResources.toString(), response);
-                editor.apply();
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(activity.getApplicationContext(), activity.getText(R.string.error_connection), Toast.LENGTH_LONG);
-            }
-        });
-        queue.add(stringRequest);
+	public static boolean makeGETConnectionWithParameter(final Activity activity, URLSuffix postfix, final NameOfResources nameOfResources, String... parameters) {
+		RequestQueue queue = Volley.newRequestQueue(activity.getApplicationContext());
+		String url = URL + postfix.getSuffix();
+		for (String i : parameters) {
+			url += "/" + i;
+		}
+		StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+			@Override
+			public void onResponse(String response) {
+				SharedPreferences sp = activity.getSharedPreferences(MemoryName.TEMP_DATA.toString(), Context.MODE_PRIVATE);
+				SharedPreferences.Editor editor = sp.edit();
+				editor.putString(nameOfResources.toString(), response);
+				editor.apply();
+			}
+		}, new Response.ErrorListener() {
+			@Override
+			public void onErrorResponse(VolleyError error) {
+				Toast.makeText(activity.getApplicationContext(), activity.getText(R.string.error_connection), Toast.LENGTH_LONG);
+			}
+		});
+		queue.add(stringRequest);
+		return true;
+	}
 
-    }
+	public static void makeDELETEConnection(final Activity activity, URLSuffix postfix, final String nameOfResources) {
+		RequestQueue queue = Volley.newRequestQueue(activity.getApplicationContext());
+		String url = URL + postfix.getSuffix();
+		new StringRequest(Request.Method.DELETE, url, new Response.Listener<String>() {
+			@Override
+			public void onResponse(String response) {
+				SharedPreferences sp = activity.getSharedPreferences(MemoryName.TEMP_DATA.toString(), Context.MODE_PRIVATE);
+				SharedPreferences.Editor editor = sp.edit();
+				editor.putString(nameOfResources.toString(), response);
+				editor.apply();
+			}
+		}, new Response.ErrorListener() {
+			@Override
+			public void onErrorResponse(VolleyError error) {
+				Toast.makeText(activity.getApplicationContext(), activity.getText(R.string.error_connection), Toast.LENGTH_LONG);
+			}
+		});
 
-    public static void makeDELETEConnection(final Activity activity, URLPostfix postfix, final String nameOfResources) {
-        RequestQueue queue = Volley.newRequestQueue(activity.getApplicationContext());
-        String url = URL + postfix.getPostfix();
-        new StringRequest(Request.Method.DELETE, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                SharedPreferences sp = activity.getSharedPreferences(MemoryName.TEMP_DATA.toString(), Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sp.edit();
-                editor.putString(nameOfResources.toString(), response);
-                editor.apply();
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(activity.getApplicationContext(), activity.getText(R.string.error_connection), Toast.LENGTH_LONG);
-            }
-        });
+	}
 
-    }
+	public static boolean makePOSTConnectionWithParameter(final Activity activity, URLSuffix postfix, final NameOfResources nameOfResources, String... parameters) {
+		RequestQueue queue = Volley.newRequestQueue(activity.getApplicationContext());
+		String url = URL + postfix.getSuffix();
+		for (String i : parameters) {
+			url += "/" + i;
+		}
+		StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+			@Override
+			public void onResponse(String response) {
+				SharedPreferences sp = activity.getSharedPreferences(MemoryName.TEMP_DATA.toString(), Context.MODE_PRIVATE);
+				SharedPreferences.Editor editor = sp.edit();
+				editor.putString(nameOfResources.toString(), response);
+				editor.apply();
+			}
+		}, new Response.ErrorListener() {
+			@Override
+			public void onErrorResponse(VolleyError error) {
+				Toast.makeText(activity.getApplicationContext(), activity.getText(R.string.error_connection), Toast.LENGTH_LONG);
+			}
+		});
+		queue.add(stringRequest);
+		return true;
+	}
 
-    public static void makePOSTConnectionWithParameter(final Activity activity, URLPostfix postfix, final NameOfResources nameOfResources, String... parameters) {
-        RequestQueue queue = Volley.newRequestQueue(activity.getApplicationContext());
-        String url = URL + postfix.getPostfix();
-        for (String i : parameters) {
-            url += "/" + i;
-        }
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                SharedPreferences sp = activity.getSharedPreferences(MemoryName.TEMP_DATA.toString(), Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sp.edit();
-                editor.putString(nameOfResources.toString(), response);
-                editor.apply();
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(activity.getApplicationContext(), activity.getText(R.string.error_connection), Toast.LENGTH_LONG);
-            }
-        });
-        queue.add(stringRequest);
-    }
+	public static void makePUTConnectionWithParameter(final Activity activity, URLSuffix postfix, final NameOfResources nameOfResources, String... parameters) {
+		RequestQueue queue = Volley.newRequestQueue(activity.getApplicationContext());
+		String url = URL + postfix.getSuffix();
+		for (String i : parameters) {
+			url += "/" + i;
+		}
+		StringRequest stringRequest = new StringRequest(Request.Method.PUT, url, new Response.Listener<String>() {
+			@Override
+			public void onResponse(String response) {
+				SharedPreferences sp = activity.getSharedPreferences(MemoryName.TEMP_DATA.toString(), Context.MODE_PRIVATE);
+				SharedPreferences.Editor editor = sp.edit();
+				editor.putString(nameOfResources.toString(), response);
+				editor.apply();
+			}
+		}, new Response.ErrorListener() {
+			@Override
+			public void onErrorResponse(VolleyError error) {
+				Toast.makeText(activity.getApplicationContext(), activity.getText(R.string.error_connection), Toast.LENGTH_LONG);
+			}
+		});
+		queue.add(stringRequest);
+	}
 
-    public static void makePUTConnectionWithParameter(final Activity activity, URLPostfix postfix, final NameOfResources nameOfResources, String... parameters) {
-        RequestQueue queue = Volley.newRequestQueue(activity.getApplicationContext());
-        String url = URL + postfix.getPostfix();
-        for (String i : parameters) {
-            url += "/" + i;
-        }
-        StringRequest stringRequest = new StringRequest(Request.Method.PUT, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                SharedPreferences sp = activity.getSharedPreferences(MemoryName.TEMP_DATA.toString(), Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sp.edit();
-                editor.putString(nameOfResources.toString(), response);
-                editor.apply();
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(activity.getApplicationContext(), activity.getText(R.string.error_connection), Toast.LENGTH_LONG);
-            }
-        });
-        queue.add(stringRequest);
-    }
+	/**
+	 * This enum contain suffix of url for calling service from webservice
+	 * Pattern for name of URL Suffix is type of connection + service name + behavior and using '_' for spacing
+	 */
+	public enum URLSuffix {
+		GET_ANNOUNCE_RECENT("announce/recent"),
+		GET_USER_LOGIN("user/login"),
+		GET_ANNOUNCE_ALL("announce/all"),
+		GET_NAME_BY_ID("findname"),
+		POST_JOIN_GROUP("group/join"),
+		GET_GROUP_LIST("user/dsgroup"),
+		POST_ANNOUNCE_POST("announce/add"),
+		GET_USER_INFO("user/info"),
+		GET_PASSWORD_RESET("user/resetpass"),
+		PUT_PASSWORD_CHANGE("user/changepass"),
+		GET_ANNOUNCE_GET_BY_USER_ID("announce/user");
 
-    public enum URLPostfix {
-        ANNOUNCE_RECENT("announce/recent"),
-        GROUP("group"), LOGIN("user/login"),
-        ANNOUNCE_ALL("announce/all"),
-        FIND_NAME_BY_ID("findname"),
-        GROUP_JOIN("group/join"),
-        GROUP_LIST("user/dsgroup"),
-        POST_ANNOUNCE("announce/add"),
-        USER_INFO("user/info"),
-        RESET_PASS("user/resetpass"),
-        CHANGE_PASS("user/changepass"),
-        ANNOUNCE_BY_USER_ID("announce/user");
+		URLSuffix(String suffix) {
+			this.suffix = suffix;
+		}
 
-        URLPostfix(String postfix) {
-            this.postfix = postfix;
-        }
+		private String suffix;
 
-        private String postfix;
-
-        public String getPostfix() {
-            return postfix;
-        }
-    }
+		public String getSuffix() {
+			return suffix;
+		}
+	}
 }
 
