@@ -28,9 +28,9 @@ public class CustomConnection {
 
 	private static final String URL = "https://nlunoti.azurewebsites.net/NongLamAnnounceService/service/";
 
-	public static boolean makeGETConnection(final Activity activity, URLSuffix postfix, final NameOfResources nameOfResources) {
+	public static boolean makeGETConnection(final Activity activity, URLSuffix suffix, final NameOfResources nameOfResources) {
 		RequestQueue queue = Volley.newRequestQueue(activity.getApplicationContext());
-		String url = URL + postfix.getSuffix();
+		String url = URL + suffix.getSuffix();
 		StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
 				new Response.Listener<String>() {
 					@Override
@@ -52,8 +52,8 @@ public class CustomConnection {
 		return true;
 	}
 
-	public static void jsonGETConnection(final Activity activity, URLSuffix postfix, final String nameOfResources) {
-		String url = URL + postfix.getSuffix();
+	public static void jsonGETConnection(final Activity activity, URLSuffix suffix, final String nameOfResources) {
+		String url = URL + suffix.getSuffix();
 
 		JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
 				(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
@@ -74,9 +74,9 @@ public class CustomConnection {
 				});
 	}
 
-	public static boolean makeGETConnectionWithParameter(final Activity activity, URLSuffix postfix, final NameOfResources nameOfResources, String... parameters) {
+	public static boolean makeGETConnectionWithParameter(final Activity activity, URLSuffix suffix, final NameOfResources nameOfResources, String... parameters) {
 		RequestQueue queue = Volley.newRequestQueue(activity.getApplicationContext());
-		String url = URL + postfix.getSuffix();
+		String url = URL + suffix.getSuffix();
 		for (String i : parameters) {
 			url += "/" + i;
 		}
@@ -98,9 +98,9 @@ public class CustomConnection {
 		return true;
 	}
 
-	public static void makeDELETEConnection(final Activity activity, URLSuffix postfix, final String nameOfResources) {
+	public static void makeDELETEConnection(final Activity activity, URLSuffix suffix, final String nameOfResources) {
 		RequestQueue queue = Volley.newRequestQueue(activity.getApplicationContext());
-		String url = URL + postfix.getSuffix();
+		String url = URL + suffix.getSuffix();
 		new StringRequest(Request.Method.DELETE, url, new Response.Listener<String>() {
 			@Override
 			public void onResponse(String response) {
@@ -118,9 +118,9 @@ public class CustomConnection {
 
 	}
 
-	public static boolean makePOSTConnectionWithParameter(final Activity activity, URLSuffix postfix, final NameOfResources nameOfResources, String... parameters) {
+	public static boolean makePOSTConnectionWithParameter(final Activity activity, URLSuffix suffix, final NameOfResources nameOfResources, String... parameters) {
 		RequestQueue queue = Volley.newRequestQueue(activity.getApplicationContext());
-		String url = URL + postfix.getSuffix();
+		String url = URL + suffix.getSuffix();
 		for (String i : parameters) {
 			url += "/" + i;
 		}
@@ -142,9 +142,9 @@ public class CustomConnection {
 		return true;
 	}
 
-	public static void makePUTConnectionWithParameter(final Activity activity, URLSuffix postfix, final NameOfResources nameOfResources, String... parameters) {
+	public static void makePUTConnectionWithParameter(final Activity activity, URLSuffix suffix, final NameOfResources nameOfResources, String... parameters) {
 		RequestQueue queue = Volley.newRequestQueue(activity.getApplicationContext());
-		String url = URL + postfix.getSuffix();
+		String url = URL + suffix.getSuffix();
 		for (String i : parameters) {
 			url += "/" + i;
 		}
