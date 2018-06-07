@@ -95,7 +95,7 @@ public class GroupFragment extends Fragment {
         @Override
         protected Boolean doInBackground(Void... voids) {
             CustomConnection.makeGETConnectionWithParameter(mainActivity,
-                    CustomConnection.URLPostfix.GROUP_LIST,
+                    CustomConnection.URLSuffix.GET_GROUP_LIST,
                     NameOfResources.GROUP_LIST, sp.getString(NameOfResources.USER_ID.toString(), ""));
 
             try {
