@@ -298,7 +298,7 @@ public class ForgetPassActivity extends AppCompatActivity implements LoaderCallb
         @Override
         protected Boolean doInBackground(Void... params) {
             CustomConnection.makeGETConnectionWithParameter(forgetPassActivity,
-                    CustomConnection.URLPostfix.RESET_PASS,
+                    CustomConnection.URLSuffix.GET_PASSWORD_RESET,
                     NameOfResources.RESET_PASS_MESSAGE, id);
             SharedPreferences sp = getSharedPreferences(MemoryName.TEMP_DATA.toString(), Context.MODE_PRIVATE);
             Boolean status = Boolean.valueOf(sp.getString(NameOfResources.RESET_PASS_MESSAGE.toString(), ""));

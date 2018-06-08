@@ -132,7 +132,7 @@ public class GroupJoinActivity extends AppCompatActivity {
         @Override
         protected Boolean doInBackground(Void... voids) {
             CustomConnection.makePOSTConnectionWithParameter(groupJoinActivity,
-                    CustomConnection.URLPostfix.GROUP_JOIN,
+                    CustomConnection.URLSuffix.POST_JOIN_GROUP,
                     NameOfResources.GROUP_JOIN_MESSAGE,
                     groupID, userID);
             try {

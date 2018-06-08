@@ -18,7 +18,7 @@ public class AnnounceAdapter extends BaseAdapter {
     private ArrayList<Announce> listAnnounces;
     private LayoutInflater inflater;
     public AnnounceAdapter(Context context, int resource, List<Announce> listAnnounce) {
-        this.listAnnounces = (ArrayList) listAnnounce;
+        this.listAnnounces = (ArrayList<Announce>) listAnnounce;
         inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }

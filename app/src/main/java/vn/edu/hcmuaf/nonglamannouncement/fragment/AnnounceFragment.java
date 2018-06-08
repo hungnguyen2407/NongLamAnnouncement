@@ -248,7 +248,7 @@ public class AnnounceFragment extends Fragment {
         @Override
         protected Boolean doInBackground(Void... voids) {
             CustomConnection.makeGETConnectionWithParameter(mainActivity,
-                    CustomConnection.URLPostfix.ANNOUNCE_BY_USER_ID,
+                    CustomConnection.URLSuffix.GET_ANNOUNCE_GET_BY_USER_ID,
                     NameOfResources.ANNOUNCE_DATA, sp.getString(NameOfResources.USER_ID.toString(), ""));
             try {
                 Thread.sleep(3000);

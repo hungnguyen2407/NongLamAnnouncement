@@ -193,7 +193,7 @@ public class PostAnnounceActivity extends AppCompatActivity {
         protected Boolean doInBackground(Void... voids) {
             SharedPreferences sp = getSharedPreferences(MemoryName.TEMP_DATA.toString(), Context.MODE_PRIVATE);
             CustomConnection.makePOSTConnectionWithParameter(postAnnounceActivity,
-                    CustomConnection.URLPostfix.POST_ANNOUNCE,
+                    CustomConnection.URLSuffix.POST_ANNOUNCE_POST,
                     NameOfResources.POST_ANNOUNCE_MESSAGE,
                     sp.getString(NameOfResources.USER_ID.toString(), ""),
                     editTextHeader.getText().toString(), editTextContent.getText().toString(),

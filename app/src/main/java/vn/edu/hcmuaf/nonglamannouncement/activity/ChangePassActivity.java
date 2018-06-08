@@ -164,7 +164,7 @@ public class ChangePassActivity extends AppCompatActivity {
 
             SharedPreferences sp = getSharedPreferences(MemoryName.TEMP_DATA.toString(), Context.MODE_PRIVATE);
             CustomConnection.makePUTConnectionWithParameter(changePassActivity,
-                    CustomConnection.URLPostfix.CHANGE_PASS,
+                    CustomConnection.URLSuffix.PUT_PASSWORD_CHANGE,
                     NameOfResources.CHANGE_PASS_MESSAGE,
                     userID,
                     oldPass, newPass);

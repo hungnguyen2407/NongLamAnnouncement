@@ -279,7 +279,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         protected Boolean doInBackground(Void... params) {
 
             if (CustomConnection.makeGETConnectionWithParameter(loginActivity,
-                    CustomConnection.URLPostfix.LOGIN,
+                    CustomConnection.URLSuffix.GET_USER_LOGIN,
                     NameOfResources.LOGIN_SUCCESS,
                     id, password)) {
                 try {
@@ -289,7 +289,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 }
                 if (Boolean.valueOf(sp.getString(NameOfResources.LOGIN_SUCCESS.toString(), "false"))) {
                     CustomConnection.makeGETConnectionWithParameter(loginActivity,
-                            CustomConnection.URLPostfix.USER_INFO,
+                            CustomConnection.URLSuffix.GET_USER_INFO,
                             NameOfResources.USER_INFO, id);
                     try {
                         Thread.sleep(3000);
@@ -297,7 +297,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                         e.printStackTrace();
                     }
                     CustomConnection.makeGETConnectionWithParameter(loginActivity,
-                            CustomConnection.URLPostfix.ANNOUNCE_BY_USER_ID,
+                            CustomConnection.URLSuffix.GET_ANNOUNCE_GET_BY_USER_ID,
                             NameOfResources.ANNOUNCE_DATA, id);
                     try {
                         Thread.sleep(3000);
