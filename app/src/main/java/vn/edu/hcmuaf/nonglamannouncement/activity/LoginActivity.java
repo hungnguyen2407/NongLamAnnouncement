@@ -283,7 +283,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     NameOfResources.LOGIN_SUCCESS,
                     id, password)) {
                 try {
-                    Thread.sleep(3000);
+                    Thread.sleep(10000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -292,7 +292,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                             CustomConnection.URLSuffix.GET_USER_INFO,
                             NameOfResources.USER_INFO, id);
                     try {
-                        Thread.sleep(3000);
+                        Thread.sleep(10000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -300,7 +300,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                             CustomConnection.URLSuffix.GET_ANNOUNCE_GET_BY_USER_ID,
                             NameOfResources.ANNOUNCE_DATA, id);
                     try {
-                        Thread.sleep(3000);
+                        Thread.sleep(10000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }

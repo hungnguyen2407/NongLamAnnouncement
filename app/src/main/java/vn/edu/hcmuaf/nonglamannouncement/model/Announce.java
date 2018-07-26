@@ -8,10 +8,11 @@ import java.sql.Date;
 
 /**
  * @author Nguyen Hung
- * @version 1.0
+ * @version 1.1
  * Cai dat cac thuoc tinh va phuong thuc cua thong bao
  */
 public class Announce implements Serializable {
+    private int id;
     private String header;
     private String group;
     private String content;
@@ -29,6 +30,7 @@ public class Announce implements Serializable {
     public Announce(JSONObject announceJSON)
     {
         try {
+            id = announceJSON.getInt("postId");
             header = announceJSON.getString("title");
             group = announceJSON.getString("classId");
             content = announceJSON.getString("content");
@@ -38,6 +40,10 @@ public class Announce implements Serializable {
         {
             e.printStackTrace();
         }
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getHeader() {

@@ -189,20 +189,19 @@ public class MainActivity extends AppCompatActivity
             fragmentManager.beginTransaction().replace(R.id.contentFrame, new HelpFragment()).commit();
         } else if (id == R.id.nav_logout) {
             AlertDialog logoutDialog = new AlertDialog.Builder(this)
-                    .setTitle("Xác nhận đăng xuất")
-                    .setMessage("Bạn chắc chắn muốn đăng xuất ? ")
+                    .setTitle(getString(R.string.logout_confirm))
+                    .setMessage(getString(R.string.logout_confirm_quiz))
                     .setIcon(android.R.drawable.ic_dialog_alert)
-                    .setPositiveButton("Có", new DialogInterface.OnClickListener() {
+                    .setPositiveButton(getString(R.string.dialog_answer_yes), new DialogInterface.OnClickListener() {
 
                         public void onClick(DialogInterface dialog, int whichButton) {
-                            // xoa du lieu o file data_login sau khi da dang xuat
                             SharedPreferences.Editor editor = sp.edit();
                             editor.clear();
                             editor.commit();
                             login();
                         }
                     })
-                    .setNegativeButton("Không", null).show();
+                    .setNegativeButton(getString(R.string.dialog_answer_no), null).show();
             logoutDialog.getButton(AlertDialog.BUTTON_POSITIVE).setBackgroundColor(Color.GRAY);
             logoutDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setBackgroundColor(getResources().getColor(R.color.colorPrimary));
         }

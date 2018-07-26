@@ -19,12 +19,13 @@ public enum NameOfResources {
     ANNOUNCE_HEADER("announce_header"),
     ANNOUNCE_CONTENT("announce_content"),
     ANNOUNCE_DATE("announce_date"),
+    ANNOUNCE_ID("announce_id"),
     GROUP_ID("group_id"),
     GROUP_NAME("group_name"),
     GROUP_MEM_NUM("group_mem_num"),
     GROUP_FACULTY_ID("group_faculty_id"),
+    DELETE_ANNOUNCE_MESSAGE("delete_announce_message"),
     USER_LEVEL("user_level");
-
     NameOfResources(String name) {
         this.name = name;
     }

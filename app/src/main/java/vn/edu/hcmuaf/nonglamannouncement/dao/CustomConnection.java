@@ -98,10 +98,34 @@ public class CustomConnection {
 		return true;
 	}
 
-	public static void makeDELETEConnection(final Activity activity, URLSuffix suffix, final String nameOfResources) {
+    public static boolean makeDELETEConnection(final Activity activity, URLSuffix suffix, final String nameOfResources) {
+        RequestQueue queue = Volley.newRequestQueue(activity.getApplicationContext());
+        String url = URL + suffix.getSuffix();
+        StringRequest stringRequest = new StringRequest(Request.Method.DELETE, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                SharedPreferences sp = activity.getSharedPreferences(MemoryName.TEMP_DATA.toString(), Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sp.edit();
+                editor.putString(nameOfResources.toString(), response);
+                editor.apply();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(activity.getApplicationContext(), activity.getText(R.string.error_connection), Toast.LENGTH_LONG);
+            }
+        });
+        queue.add(stringRequest);
+        return true;
+    }
+
+    public static boolean makeDELETEConnectionWithParameter(final Activity activity, URLSuffix suffix, final NameOfResources nameOfResources, String... parameters) {
 		RequestQueue queue = Volley.newRequestQueue(activity.getApplicationContext());
 		String url = URL + suffix.getSuffix();
-		new StringRequest(Request.Method.DELETE, url, new Response.Listener<String>() {
+        for (String i : parameters) {
+            url += "/" + i;
+        }
+        StringRequest stringRequest = new StringRequest(Request.Method.DELETE, url, new Response.Listener<String>() {
 			@Override
 			public void onResponse(String response) {
 				SharedPreferences sp = activity.getSharedPreferences(MemoryName.TEMP_DATA.toString(), Context.MODE_PRIVATE);
@@ -115,7 +139,8 @@ public class CustomConnection {
 				Toast.makeText(activity.getApplicationContext(), activity.getText(R.string.error_connection), Toast.LENGTH_LONG);
 			}
 		});
-
+        queue.add(stringRequest);
+        return true;
 	}
 
 	public static boolean makePOSTConnectionWithParameter(final Activity activity, URLSuffix suffix, final NameOfResources nameOfResources, String... parameters) {
@@ -180,8 +205,8 @@ public class CustomConnection {
 		GET_USER_INFO("user/info"),
 		GET_PASSWORD_RESET("user/resetpass"),
 		PUT_PASSWORD_CHANGE("user/changepass"),
-		GET_ANNOUNCE_GET_BY_USER_ID("announce/user");
-
+        GET_ANNOUNCE_GET_BY_USER_ID("announce/user"),
+        DELETE_ANNOUNCE_DELETED("announce/del");
 		URLSuffix(String suffix) {
 			this.suffix = suffix;
 		}

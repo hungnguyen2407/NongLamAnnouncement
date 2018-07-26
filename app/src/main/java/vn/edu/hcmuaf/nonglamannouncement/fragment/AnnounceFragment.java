@@ -225,6 +225,7 @@ public class AnnounceFragment extends Fragment {
                     Announce announce = listAnnouces.get(position);
                     SharedPreferences sp = mainActivity.getSharedPreferences(MemoryName.TEMP_DATA.toString(), Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = sp.edit();
+                    editor.putInt(NameOfResources.ANNOUNCE_ID.toString(), announce.getId());
                     editor.putString(NameOfResources.ANNOUNCE_HEADER.toString(), announce.getHeader());
                     editor.putString(NameOfResources.ANNOUNCE_CONTENT.toString(), announce.getContent());
                     editor.putString(NameOfResources.ANNOUNCE_DATE.toString(), announce.getDate());
