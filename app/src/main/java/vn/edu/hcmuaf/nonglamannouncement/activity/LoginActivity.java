@@ -20,6 +20,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -289,6 +290,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+                Log.d("Login Status", sp.getString(NameOfResources.LOGIN_SUCCESS.toString(), "false"));
                 if (Boolean.valueOf(sp.getString(NameOfResources.LOGIN_SUCCESS.toString(), "false"))) {
                     CustomConnection.makeGETConnectionWithParameter(loginActivity,
                             CustomConnection.URLSuffix.GET_USER_INFO,
@@ -315,7 +317,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         @Override
         protected void onPostExecute(final Boolean success) {
-            if (Boolean.valueOf(sp.getString(NameOfResources.LOGIN_SUCCESS.toString(), "false"))) {
+            if (Boolean.parseBoolean(sp.getString(NameOfResources.LOGIN_SUCCESS.toString(), "false"))) {
                 Intent mainActivityIntent = new Intent(loginActivity, MainActivity.class);
                 mainActivityIntent.putExtra(NameOfResources.USER_INFO.toString(), sp.getString(NameOfResources.USER_INFO.toString(), ""));
                 mainActivityIntent.putExtra(NameOfResources.ANNOUNCE_DATA.toString(), sp.getString(NameOfResources.ANNOUNCE_DATA.toString(), ""));

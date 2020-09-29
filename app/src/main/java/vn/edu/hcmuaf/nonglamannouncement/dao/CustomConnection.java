@@ -3,8 +3,10 @@ package vn.edu.hcmuaf.nonglamannouncement.dao;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -14,6 +16,9 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import vn.edu.hcmuaf.nonglamannouncement.R;
 import vn.edu.hcmuaf.nonglamannouncement.model.MemoryName;
@@ -80,6 +85,7 @@ public class CustomConnection {
 		for (String i : parameters) {
 			url += "/" + i;
 		}
+		Log.d("URL", url);
 		StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
 			@Override
 			public void onResponse(String response) {
@@ -190,6 +196,27 @@ public class CustomConnection {
 		queue.add(stringRequest);
 	}
 
+	public static void makePUTConnection(final Context context, String api, Map<String, String> params){
+		RequestQueue queue = Volley.newRequestQueue(context);
+		String url = URL + api;
+		StringRequest stringRequest = new StringRequest(Request.Method.PUT, url, new Response.Listener<String>() {
+			@Override
+			public void onResponse(String response) {
+
+			}
+		}, new Response.ErrorListener() {
+			@Override
+			public void onErrorResponse(VolleyError error) {
+				Toast.makeText(context, context.getText(R.string.error_connection), Toast.LENGTH_LONG);
+			}
+		}) {
+			@Override
+			protected Map<String, String> getParams() throws AuthFailureError {
+				return params;
+			}
+		};
+		queue.add(stringRequest);
+	}
 	/**
 	 * This enum contain suffix of url for calling service from webservice
 	 * Pattern for name of URL Suffix is type of connection + service name + behavior and using '_' for spacing
